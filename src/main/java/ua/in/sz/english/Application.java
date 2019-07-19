@@ -1,15 +1,11 @@
 package ua.in.sz.english;
 
-import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
-import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.owasp.esapi.ESAPI;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 @Slf4j
 public class Application {
@@ -32,39 +28,6 @@ public class Application {
             }
         } catch (IOException e) {
             log.error("Can't parse book", e);
-        }
-    }
-
-    private static class PdfReaderClosable extends PdfReader implements AutoCloseable {
-        PdfReaderClosable(String filename) throws IOException {
-            super(filename);
-        }
-    }
-
-    private static class PageRange implements Iterable<Integer> {
-        final int from;
-        final int to;
-
-        PageRange(int from, int to) {
-            this.from = from;
-            this.to = to;
-        }
-
-        @Override
-        public Iterator<Integer> iterator() {
-            return new Iterator<Integer>() {
-                int current = from;
-
-                @Override
-                public boolean hasNext() {
-                    return current <= to;
-                }
-
-                @Override
-                public Integer next() {
-                    return current++;
-                }
-            };
         }
     }
 }

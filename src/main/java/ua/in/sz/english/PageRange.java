@@ -1,15 +1,13 @@
 package ua.in.sz.english;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Iterator;
 
+@RequiredArgsConstructor(staticName = "of")
 class PageRange implements Iterable<Integer> {
     private final int from;
     private final int to;
-
-    PageRange(int from, int to) {
-        this.from = from;
-        this.to = to;
-    }
 
     @Override
     public Iterator<Integer> iterator() {

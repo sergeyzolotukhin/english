@@ -1,11 +1,11 @@
 package ua.in.sz.english;
 
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 public class Application {
@@ -14,20 +14,15 @@ public class Application {
             "e:/_book/_development/_book/domain-driven-design-distilled.pdf";
 
     public static void main(String[] args) {
-        try (PdfReaderClosable reader = new PdfReaderClosable(PATH)) {
-            PageRange pages = new PageRange(9, 119);
+        ExecutorService producerPool = Executors.newFixedThreadPool(1);
+        ExecutorService consumerPool = Executors.newFixedThreadPool(1);
 
-            for (Integer page : pages) {
-                String text = PdfTextExtractor.getTextFromPage(reader, page, new SimpleTextExtractionStrategy());
+        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(100);
+        producerPool.submit(new PageProducer(PATH, queue));
+        consumerPool.submit(new PageConsumer(queue));
 
-                log.info(" Page:{}", page);
-
-                log.info(StringUtils.repeat('=', 80));
-                log.info("{}", text);
-                log.info(StringUtils.repeat('=', 80));
-            }
-        } catch (IOException e) {
-            log.error("Can't parse book", e);
-        }
+        producerPool.shutdown();
+        consumerPool.shutdown();
     }
+
 }

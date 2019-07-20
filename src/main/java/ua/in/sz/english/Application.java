@@ -75,17 +75,4 @@ public class Application {
         producerPool.shutdown();
         consumerPool.shutdown();
     }
-
-    private static void pdfToText() {
-        ExecutorService producerPool = Executors.newFixedThreadPool(1);
-        ExecutorService consumerPool = Executors.newFixedThreadPool(1);
-
-        BlockingQueue<PdfPageDto> queue = new ArrayBlockingQueue<>(100);
-        producerPool.submit(new PdfPageProducer(queue));
-        consumerPool.submit(new PdfPageConsumer(queue));
-
-        producerPool.shutdown();
-        consumerPool.shutdown();
-    }
-
 }

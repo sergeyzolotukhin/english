@@ -1,11 +1,11 @@
-package ua.in.sz.english;
+package ua.in.sz.english.parser.pdf;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.Iterator;
 
 @RequiredArgsConstructor(staticName = "of")
-class PageRange implements Iterable<Integer> {
+class PdfPageRange implements Iterable<Integer> {
     private final int from;
     private final int to;
 

@@ -1,11 +1,10 @@
-package ua.in.sz.english;
+package ua.in.sz.english.parser.pdf;
 
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 @Data
-class PageDto {
-    static final int LAST_PAGE = 1;
+public class PdfPageDto {
+    static final int LAST = 1;
 
     private final String bookTitle;
     private final int pageNo;

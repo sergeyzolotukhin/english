@@ -1,4 +1,4 @@
-package ua.in.sz.english;
+package ua.in.sz.english.parser.pdf;
 
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
@@ -11,26 +11,26 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PageProducer implements Runnable {
+public class PdfPageProducer implements Runnable {
     private final String path;
-    private final BlockingQueue<PageDto> queue;
+    private final BlockingQueue<PdfPageDto> queue;
 
     @Override
     public void run() {
         log.info("Parse book: {}", path);
 
-        try (PdfReaderClosable reader = new PdfReaderClosable(path)) {
-            for (Integer page : PageRange.of(9, 119)) {
+        try (PdfPageReader reader = new PdfPageReader(path)) {
+            for (Integer page : PdfPageRange.of(9, 119)) {
                 String text = PdfTextExtractor.getTextFromPage(reader, page, new SimpleTextExtractionStrategy());
 
                 if (log.isTraceEnabled()) {
                     log.trace("Send page: {}", page);
                 }
 
-                queue.put(new PageDto(path, page, text));
+                queue.put(new PdfPageDto(path, page, text));
             }
 
-            queue.put(new PageDto(path, PageDto.LAST_PAGE, StringUtils.EMPTY));
+            queue.put(new PdfPageDto(path, PdfPageDto.LAST, StringUtils.EMPTY));
         } catch (IOException | InterruptedException e) {
             log.error("Can't parse book", e);
         }

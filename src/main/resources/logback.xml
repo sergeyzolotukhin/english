@@ -6,6 +6,7 @@
     </appender>
 
 <!--    <logger name="ua.in.sz.english" level="TRACE"/>-->
+    <logger name="ua.in.sz.english.tokenizer.sentence.SentenceConsumer" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

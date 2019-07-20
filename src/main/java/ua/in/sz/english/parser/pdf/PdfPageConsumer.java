@@ -1,4 +1,4 @@
-package ua.in.sz.english;
+package ua.in.sz.english.parser.pdf;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +11,9 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PageConsumer implements Runnable {
+public class PdfPageConsumer implements Runnable {
     private final String path;
-    private final BlockingQueue<PageDto> queue;
+    private final BlockingQueue<PdfPageDto> queue;
 
     @Override
     public void run() {
@@ -26,9 +26,9 @@ public class PageConsumer implements Runnable {
 
     private void doConsume(BufferedWriter writer) throws InterruptedException, IOException {
         while (true) {
-            PageDto page = queue.take();
+            PdfPageDto page = queue.take();
 
-            if (PageDto.LAST_PAGE == page.getPageNo()) {
+            if (PdfPageDto.LAST == page.getPageNo()) {
                 log.info("End process book: {}", page.getBookTitle());
                 break;
             }

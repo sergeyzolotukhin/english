@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import ua.in.sz.english.service.parser.pdf.PdfPageConsumer;
-import ua.in.sz.english.service.parser.pdf.PdfPageDto;
-import ua.in.sz.english.service.parser.pdf.PdfPageProducer;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceConsumer;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceDto;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceNormalizer;
@@ -24,24 +21,6 @@ import java.util.concurrent.BlockingQueue;
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-    public BlockingQueue<PdfPageDto> pageQueue() {
-        return new ArrayBlockingQueue<>(100);
-    }
-
-    @Bean
-    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-    public PdfPageProducer pageProducer(BlockingQueue<PdfPageDto> queue){
-        return new PdfPageProducer(queue);
-    }
-
-    @Bean
-    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-    public PdfPageConsumer pageConsumer(BlockingQueue<PdfPageDto> queue){
-        return new PdfPageConsumer(queue);
     }
 
     @Bean

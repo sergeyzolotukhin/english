@@ -2,7 +2,6 @@ package ua.in.sz.english;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ua.in.sz.english.service.parser.pdf.PdfPageConsumer;
 import ua.in.sz.english.service.parser.pdf.PdfPageDto;
@@ -26,7 +25,6 @@ public class Application {
     private static final String SENTENCE_BOOK_PATH = "K:/projects/english/work/sentence.log";
 
     public static void main(String[] args) {
-        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         SpringApplication.run(Application.class, args);
 //        pdfToText();
 //        textToSentence();

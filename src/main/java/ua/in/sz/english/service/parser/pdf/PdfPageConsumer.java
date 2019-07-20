@@ -2,9 +2,6 @@ package ua.in.sz.english.service.parser.pdf;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

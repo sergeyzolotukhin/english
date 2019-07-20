@@ -1,6 +1,7 @@
 package ua.in.sz.english.service.tokenizer.sentence;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
@@ -14,13 +15,15 @@ import java.util.concurrent.BlockingQueue;
 import java.util.function.Function;
 
 @Slf4j
+@Setter
 @RequiredArgsConstructor
 public class SentenceProducer implements Runnable {
     private static final String NLP_MODEL_PATH = "k:/projects/english/src/main/resources/en-sent.bin";
 
     private final BlockingQueue<SentenceDto> queue;
-    private final Function<String, String> normalizer;
     private final String path;
+
+    private Function<String, String> normalizer = new DefaultSentenceNormalizer();
 
     @Override
     public void run() {

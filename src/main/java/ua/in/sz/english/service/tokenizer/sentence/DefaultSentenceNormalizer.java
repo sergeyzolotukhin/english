@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Function;
 
-public class SentenceNormalizer implements Function<String, String> {
+public class DefaultSentenceNormalizer implements Function<String, String> {
     private static final String NOT_ALNUM = "[^a-zA-Z0-9.\\-; ]+";
 
     @Override

@@ -7,7 +7,6 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceConsumer;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceDto;
-import ua.in.sz.english.service.tokenizer.sentence.SentenceNormalizer;
 import ua.in.sz.english.service.tokenizer.sentence.SentenceProducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -30,8 +29,7 @@ public class SentenceParserService {
 
     public void processSentence() {
         BlockingQueue<SentenceDto> queue = new ArrayBlockingQueue<>(100);
-        SentenceNormalizer normalizer = new SentenceNormalizer();
-        SentenceProducer producer = new SentenceProducer(queue, normalizer, pagePath);
+        SentenceProducer producer = new SentenceProducer(queue, pagePath);
         SentenceConsumer consumer = new SentenceConsumer(queue, sentencePath);
 
         parserTaskExecutor.execute(producer);

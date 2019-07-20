@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,13 +19,20 @@ import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SentenceProducer implements Runnable {
     private static final String NLP_MODEL_PATH = "k:/projects/english/src/main/resources/en-sent.bin";
 
-    @Value("${page.path}")
-    private String path;
     private final BlockingQueue<SentenceDto> queue;
-    private final Function<String, String> normalizer;
+    private final String path;
+
+    private Function<String, String> normalizer;
+
+    @Autowired
+    public void setNormalizer(Function<String, String> normalizer) {
+        this.normalizer = normalizer;
+    }
 
     @Override
     public void run() {

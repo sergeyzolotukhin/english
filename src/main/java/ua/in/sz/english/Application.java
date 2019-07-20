@@ -18,12 +18,11 @@ import java.util.function.Function;
 @Slf4j
 public class Application {
     private static final String PDF_BOOK_PATH = "e:/_book/_development/_book/domain-driven-design-distilled.pdf";
-    private static final String TEXT_BOOK_PATH = "K:/projects/english/book.log";
-    private static final String SENTENCE_BOOK_PATH = "K:/projects/english/sentence.log";
+    private static final String TEXT_BOOK_PATH = "K:/projects/english/work/book.log";
+    private static final String SENTENCE_BOOK_PATH = "K:/projects/english/work/sentence.log";
 
     public static void main(String[] args) {
 //        pdfToText();
-
         textToSentence();
     }
 

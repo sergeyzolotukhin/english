@@ -1,4 +1,4 @@
-package ua.in.sz.english.parser.pdf;
+package ua.in.sz.english.service.parser.pdf;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

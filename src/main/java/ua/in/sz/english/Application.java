@@ -1,13 +1,15 @@
 package ua.in.sz.english;
 
 import lombok.extern.slf4j.Slf4j;
-import ua.in.sz.english.parser.pdf.PdfPageConsumer;
-import ua.in.sz.english.parser.pdf.PdfPageDto;
-import ua.in.sz.english.parser.pdf.PdfPageProducer;
-import ua.in.sz.english.tokenizer.sentence.SentenceConsumer;
-import ua.in.sz.english.tokenizer.sentence.SentenceDto;
-import ua.in.sz.english.tokenizer.sentence.SentenceNormalizer;
-import ua.in.sz.english.tokenizer.sentence.SentenceProducer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ua.in.sz.english.service.parser.pdf.PdfPageConsumer;
+import ua.in.sz.english.service.parser.pdf.PdfPageDto;
+import ua.in.sz.english.service.parser.pdf.PdfPageProducer;
+import ua.in.sz.english.service.tokenizer.sentence.SentenceConsumer;
+import ua.in.sz.english.service.tokenizer.sentence.SentenceDto;
+import ua.in.sz.english.service.tokenizer.sentence.SentenceNormalizer;
+import ua.in.sz.english.service.tokenizer.sentence.SentenceProducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -16,14 +18,16 @@ import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 @Slf4j
+@SpringBootApplication
 public class Application {
     private static final String PDF_BOOK_PATH = "e:/_book/_development/_book/domain-driven-design-distilled.pdf";
     private static final String TEXT_BOOK_PATH = "K:/projects/english/work/book.log";
     private static final String SENTENCE_BOOK_PATH = "K:/projects/english/work/sentence.log";
 
     public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
 //        pdfToText();
-        textToSentence();
+//        textToSentence();
     }
 
     private static void textToSentence() {

@@ -1,4 +1,4 @@
-package ua.in.sz.english.search;
+package ua.in.sz.english.service.search;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;

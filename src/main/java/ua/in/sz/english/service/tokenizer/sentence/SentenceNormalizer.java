@@ -1,4 +1,4 @@
-package ua.in.sz.english.tokenizer.sentence;
+package ua.in.sz.english.service.tokenizer.sentence;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -18,21 +18,12 @@ import ua.in.sz.english.service.tokenizer.sentence.SentenceProducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Function;
 
 @Slf4j
 @SpringBootApplication
 public class Application {
-    private static final String PDF_BOOK_PATH = "e:/_book/_development/_book/domain-driven-design-distilled.pdf";
-    private static final String TEXT_BOOK_PATH = "K:/projects/english/work/book.log";
-    private static final String SENTENCE_BOOK_PATH = "K:/projects/english/work/sentence.log";
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-//        pdfToText();
-//        textToSentence();
     }
 
     @Bean
@@ -54,6 +45,30 @@ public class Application {
     }
 
     @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public BlockingQueue<SentenceDto> sentenceQueue() {
+        return new ArrayBlockingQueue<>(100);
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public SentenceProducer sentenceProducer(BlockingQueue<SentenceDto> queue, SentenceNormalizer normalizer){
+        return new SentenceProducer(queue, normalizer);
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public SentenceConsumer sentenceConsumer(BlockingQueue<SentenceDto> queue){
+        return new SentenceConsumer(queue);
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public SentenceNormalizer sentenceNormalizer() {
+        return new SentenceNormalizer();
+    }
+
+    @Bean
     public TaskExecutor parserTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
@@ -61,18 +76,5 @@ public class Application {
         executor.setThreadNamePrefix("page-parser-");
         executor.initialize();
         return executor;
-    }
-
-    private static void textToSentence() {
-        ExecutorService producerPool = Executors.newFixedThreadPool(1);
-        ExecutorService consumerPool = Executors.newFixedThreadPool(1);
-
-        Function<String, String> normalizer = new SentenceNormalizer();
-        BlockingQueue<SentenceDto> queue = new ArrayBlockingQueue<>(100);
-        producerPool.submit(new SentenceProducer(TEXT_BOOK_PATH, queue, normalizer));
-        consumerPool.submit(new SentenceConsumer(SENTENCE_BOOK_PATH, queue));
-
-        producerPool.shutdown();
-        consumerPool.shutdown();
     }
 }

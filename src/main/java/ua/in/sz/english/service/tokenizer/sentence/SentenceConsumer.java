@@ -2,6 +2,7 @@ package ua.in.sz.english.service.tokenizer.sentence;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +13,8 @@ import java.util.concurrent.BlockingQueue;
 @Slf4j
 @RequiredArgsConstructor
 public class SentenceConsumer implements Runnable {
-    private final String path;
+    @Value("${sentence.path}")
+    private String path;
     private final BlockingQueue<SentenceDto> queue;
 
     @Override

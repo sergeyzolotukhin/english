@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,7 +19,8 @@ import java.util.function.Function;
 public class SentenceProducer implements Runnable {
     private static final String NLP_MODEL_PATH = "k:/projects/english/src/main/resources/en-sent.bin";
 
-    private final String path;
+    @Value("${page.path}")
+    private String path;
     private final BlockingQueue<SentenceDto> queue;
     private final Function<String, String> normalizer;
 

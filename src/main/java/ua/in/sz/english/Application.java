@@ -6,18 +6,21 @@ import ua.in.sz.english.parser.pdf.PdfPageDto;
 import ua.in.sz.english.parser.pdf.PdfPageProducer;
 import ua.in.sz.english.tokenizer.sentence.SentenceConsumer;
 import ua.in.sz.english.tokenizer.sentence.SentenceDto;
+import ua.in.sz.english.tokenizer.sentence.SentenceNormalizer;
 import ua.in.sz.english.tokenizer.sentence.SentenceProducer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
 
 @Slf4j
 public class Application {
     private static final String PDF_BOOK_PATH = "e:/_book/_development/_book/domain-driven-design-distilled.pdf";
     private static final String TEXT_BOOK_PATH = "K:/projects/english/book.log";
-    
+    private static final String SENTENCE_BOOK_PATH = "K:/projects/english/sentence.log";
+
     public static void main(String[] args) {
 //        pdfToText();
 
@@ -28,9 +31,10 @@ public class Application {
         ExecutorService producerPool = Executors.newFixedThreadPool(1);
         ExecutorService consumerPool = Executors.newFixedThreadPool(1);
 
+        Function<String, String> normalizer = new SentenceNormalizer();
         BlockingQueue<SentenceDto> queue = new ArrayBlockingQueue<>(100);
-        producerPool.submit(new SentenceProducer(TEXT_BOOK_PATH, queue));
-        consumerPool.submit(new SentenceConsumer("", queue));
+        producerPool.submit(new SentenceProducer(TEXT_BOOK_PATH, queue, normalizer));
+        consumerPool.submit(new SentenceConsumer(SENTENCE_BOOK_PATH, queue));
 
         producerPool.shutdown();
         consumerPool.shutdown();

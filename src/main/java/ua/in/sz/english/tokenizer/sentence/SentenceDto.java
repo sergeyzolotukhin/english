@@ -6,5 +6,6 @@ import lombok.Data;
 public class SentenceDto {
     public static final String LAST = "last sentence";
 
-    private final String sentence;
+    private final String bookTitle;
+    private final String text;
 }

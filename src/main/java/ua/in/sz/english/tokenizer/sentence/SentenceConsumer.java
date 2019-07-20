@@ -3,6 +3,10 @@ package ua.in.sz.english.tokenizer.sentence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.BlockingQueue;
 
 @Slf4j
@@ -13,21 +17,28 @@ public class SentenceConsumer implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                SentenceDto sentence = queue.take();
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path))) {
+            doConsume(writer);
+        } catch (InterruptedException | IOException e) {
+            log.error("Interrupted", e);
+        }
+    }
 
-                if (SentenceDto.LAST.equals(sentence.getSentence())) {
-                    log.info("End process sentences");
-                    break;
-                }
+    private void doConsume(BufferedWriter writer) throws InterruptedException, IOException {
+        while (true) {
+            SentenceDto sentence = queue.take();
 
-                if (log.isTraceEnabled()) {
-                    log.trace("Sentence: {}", sentence.getSentence());
-                }
+            if (SentenceDto.LAST.equals(sentence.getText())) {
+                log.info("End parse text book: {}", path);
+                break;
             }
-        } catch (InterruptedException e) {
-            log.error("Can't process sentences", e);
+
+            writer.write(sentence.getText());
+            writer.newLine();
+
+            if (log.isTraceEnabled()) {
+                log.trace("Sentence: {}", sentence.getText());
+            }
         }
     }
 }

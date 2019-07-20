@@ -17,7 +17,7 @@ public class PdfPageProducer implements Runnable {
 
     @Override
     public void run() {
-        log.info("Parse book: {}", path);
+        log.info("Parse pdf book: {}", path);
 
         try (PdfPageReader reader = new PdfPageReader(path)) {
             for (Integer page : PdfPageRange.of(9, 119)) {

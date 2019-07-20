@@ -29,7 +29,7 @@ public class PdfPageConsumer implements Runnable {
             PdfPageDto page = queue.take();
 
             if (PdfPageDto.LAST == page.getPageNo()) {
-                log.info("End process book: {}", page.getBookTitle());
+                log.info("End parse pdf book: {}", page.getBookTitle());
                 break;
             }
 

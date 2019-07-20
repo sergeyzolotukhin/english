@@ -1,6 +1,5 @@
 package ua.in.sz.english.service.parser;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import ua.in.sz.english.service.parser.pdf.PdfPageConsumer;
 import ua.in.sz.english.service.parser.pdf.PdfPageDto;
 import ua.in.sz.english.service.parser.pdf.PdfPageProducer;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.BlockingQueue;
 
 @Slf4j
@@ -34,8 +32,7 @@ public class BookParserService {
         this.parserTaskExecutor = parserTaskExecutor;
     }
 
-    @PostConstruct
-    private void postConstruct() {
+    public void parseBook() {
         BlockingQueue<PdfPageDto> queue = pageQueueProvider.getObject();
         PdfPageProducer producer = pageProducerProvider.getObject(queue);
         PdfPageConsumer consumer = pageConsumerProvider.getObject(queue);

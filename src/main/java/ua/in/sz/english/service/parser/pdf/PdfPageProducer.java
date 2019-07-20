@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
@@ -12,7 +13,9 @@ import java.util.concurrent.BlockingQueue;
 @Slf4j
 @RequiredArgsConstructor
 public class PdfPageProducer implements Runnable {
-    private final String path;
+    @Value("${book.path}")
+    private String path;
+
     private final BlockingQueue<PdfPageDto> queue;
 
     @Override

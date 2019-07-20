@@ -2,6 +2,7 @@ package ua.in.sz.english.service.parser.pdf;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +13,8 @@ import java.util.concurrent.BlockingQueue;
 @Slf4j
 @RequiredArgsConstructor
 public class PdfPageConsumer implements Runnable {
-    private final String path;
+    @Value("${page.path}")
+    private String path;
     private final BlockingQueue<PdfPageDto> queue;
 
     @Override

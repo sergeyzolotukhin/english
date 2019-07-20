@@ -1,8 +1,13 @@
 package ua.in.sz.english;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import ua.in.sz.english.service.parser.pdf.PdfPageConsumer;
 import ua.in.sz.english.service.parser.pdf.PdfPageDto;
 import ua.in.sz.english.service.parser.pdf.PdfPageProducer;
@@ -30,6 +35,34 @@ public class Application {
 //        textToSentence();
     }
 
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public BlockingQueue<PdfPageDto> pageQueue() {
+        return new ArrayBlockingQueue<>(100);
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public PdfPageProducer pageProducer(BlockingQueue<PdfPageDto> queue){
+        return new PdfPageProducer(queue);
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public PdfPageConsumer pageConsumer(BlockingQueue<PdfPageDto> queue){
+        return new PdfPageConsumer(queue);
+    }
+
+    @Bean
+    public TaskExecutor parserTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(4);
+        executor.setMaxPoolSize(4);
+        executor.setThreadNamePrefix("page-parser-");
+        executor.initialize();
+        return executor;
+    }
+
     private static void textToSentence() {
         ExecutorService producerPool = Executors.newFixedThreadPool(1);
         ExecutorService consumerPool = Executors.newFixedThreadPool(1);
@@ -48,8 +81,8 @@ public class Application {
         ExecutorService consumerPool = Executors.newFixedThreadPool(1);
 
         BlockingQueue<PdfPageDto> queue = new ArrayBlockingQueue<>(100);
-        producerPool.submit(new PdfPageProducer(PDF_BOOK_PATH, queue));
-        consumerPool.submit(new PdfPageConsumer(TEXT_BOOK_PATH, queue));
+        producerPool.submit(new PdfPageProducer(queue));
+        consumerPool.submit(new PdfPageConsumer(queue));
 
         producerPool.shutdown();
         consumerPool.shutdown();

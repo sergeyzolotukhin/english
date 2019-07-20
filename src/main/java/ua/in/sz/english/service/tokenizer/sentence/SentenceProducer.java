@@ -19,20 +19,12 @@ import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SentenceProducer implements Runnable {
     private static final String NLP_MODEL_PATH = "k:/projects/english/src/main/resources/en-sent.bin";
 
     private final BlockingQueue<SentenceDto> queue;
+    private final Function<String, String> normalizer;
     private final String path;
-
-    private Function<String, String> normalizer;
-
-    @Autowired
-    public void setNormalizer(Function<String, String> normalizer) {
-        this.normalizer = normalizer;
-    }
 
     @Override
     public void run() {

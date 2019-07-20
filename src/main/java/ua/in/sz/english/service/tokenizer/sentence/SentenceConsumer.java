@@ -2,9 +2,6 @@ package ua.in.sz.english.service.tokenizer.sentence;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,8 +11,6 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SentenceConsumer implements Runnable {
     private final BlockingQueue<SentenceDto> queue;
     private final String path;

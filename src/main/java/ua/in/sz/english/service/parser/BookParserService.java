@@ -21,25 +21,17 @@ public class BookParserService {
     @Value("${page.path}")
     private String pagePath;
 
-    private final ObjectProvider<PdfPageProducer> pageProducerProvider;
-    private final ObjectProvider<PdfPageConsumer> pageConsumerProvider;
     private final TaskExecutor parserTaskExecutor;
 
     @Autowired
-    public BookParserService(
-            ObjectProvider<PdfPageProducer> pageProducerProvider,
-            ObjectProvider<PdfPageConsumer> pageConsumerProvider,
-            TaskExecutor parserTaskExecutor) {
-
-        this.pageProducerProvider = pageProducerProvider;
-        this.pageConsumerProvider = pageConsumerProvider;
+    public BookParserService(TaskExecutor parserTaskExecutor) {
         this.parserTaskExecutor = parserTaskExecutor;
     }
 
     public void parseBook() {
         BlockingQueue<PdfPageDto> queue = new ArrayBlockingQueue<>(100);
-        PdfPageProducer producer = pageProducerProvider.getObject(queue, bookPath);
-        PdfPageConsumer consumer = pageConsumerProvider.getObject(queue, pagePath);
+        PdfPageProducer producer = new PdfPageProducer(queue, bookPath);
+        PdfPageConsumer consumer = new PdfPageConsumer(queue, pagePath);
 
         parserTaskExecutor.execute(producer);
         parserTaskExecutor.execute(consumer);

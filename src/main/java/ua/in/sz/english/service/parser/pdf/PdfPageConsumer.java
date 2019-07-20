@@ -14,8 +14,6 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class PdfPageConsumer implements Runnable {
     private final BlockingQueue<PdfPageDto> queue;
     private final String path;

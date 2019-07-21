@@ -12,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PdfBookParser implements Runnable {
+public class BookParser implements Runnable {
     private final BlockingQueue<PageDto> queue;
     private final String path;
 

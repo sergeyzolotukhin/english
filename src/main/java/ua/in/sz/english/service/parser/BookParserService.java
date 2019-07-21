@@ -8,7 +8,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import ua.in.sz.english.service.parser.book.PageDto;
 import ua.in.sz.english.service.parser.book.TextWriter;
-import ua.in.sz.english.service.parser.book.PdfBookParser;
+import ua.in.sz.english.service.parser.book.BookParser;
 import ua.in.sz.english.service.parser.text.SentenceDto;
 import ua.in.sz.english.service.parser.text.SentenceWriter;
 import ua.in.sz.english.service.parser.text.TextParser;
@@ -37,7 +37,7 @@ public class BookParserService {
 
     public void parseBook() {
         BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(100);
-        PdfBookParser bookParser = new PdfBookParser(queue, bookPath);
+        BookParser bookParser = new BookParser(queue, bookPath);
         TextWriter textWriter = new TextWriter(queue, textPath);
 
         parserTaskExecutor.execute(bookParser);

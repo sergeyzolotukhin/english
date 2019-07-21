@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.tokenizer.sentence;
+package ua.in.sz.english.service.parser.text;
 
 import lombok.Data;
 

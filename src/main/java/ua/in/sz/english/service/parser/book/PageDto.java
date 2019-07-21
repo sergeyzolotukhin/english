@@ -1,10 +1,10 @@
-package ua.in.sz.english.service.parser.pdf;
+package ua.in.sz.english.service.parser.book;
 
 import lombok.Data;
 
 @Data
-public class PdfPageDto {
-    static final int LAST = 1;
+public class PageDto {
+    static final int LAST = -1;
 
     private final String bookTitle;
     private final int pageNo;

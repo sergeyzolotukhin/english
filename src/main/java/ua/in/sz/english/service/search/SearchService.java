@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 @Slf4j
-public class SearchApplication {
+public class SearchService {
     private static final String INDEX_PATH = "K:/projects/english/index";
 
     private static final String FIELD_SENTENCE = "path";

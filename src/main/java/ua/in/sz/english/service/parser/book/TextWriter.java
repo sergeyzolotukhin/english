@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.tokenizer.sentence;
+package ua.in.sz.english.service.parser.book;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,8 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SentenceConsumer implements Runnable {
-    private final BlockingQueue<SentenceDto> queue;
+public class TextWriter implements Runnable {
+    private final BlockingQueue<PageDto> queue;
     private final String path;
 
     @Override
@@ -26,18 +26,17 @@ public class SentenceConsumer implements Runnable {
 
     private void doConsume(BufferedWriter writer) throws InterruptedException, IOException {
         while (true) {
-            SentenceDto sentence = queue.take();
+            PageDto page = queue.take();
 
-            if (SentenceDto.LAST.equals(sentence.getText())) {
-                log.info("End parse text book: {}", path);
+            if (PageDto.LAST == page.getPageNo()) {
+                log.info("End parse book book: {}", page.getBookTitle());
                 break;
             }
 
-            writer.write(sentence.getText());
-            writer.newLine();
+            writer.write(page.getText());
 
             if (log.isTraceEnabled()) {
-                log.trace("Sentence: {}", sentence.getText());
+                log.trace("Receive page: {}", page.getPageNo());
             }
         }
     }

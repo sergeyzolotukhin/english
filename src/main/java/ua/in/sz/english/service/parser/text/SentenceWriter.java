@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.parser.pdf;
+package ua.in.sz.english.service.parser.text;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,8 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PdfPageConsumer implements Runnable {
-    private final BlockingQueue<PdfPageDto> queue;
+public class SentenceWriter implements Runnable {
+    private final BlockingQueue<SentenceDto> queue;
     private final String path;
 
     @Override
@@ -26,17 +26,18 @@ public class PdfPageConsumer implements Runnable {
 
     private void doConsume(BufferedWriter writer) throws InterruptedException, IOException {
         while (true) {
-            PdfPageDto page = queue.take();
+            SentenceDto sentence = queue.take();
 
-            if (PdfPageDto.LAST == page.getPageNo()) {
-                log.info("End parse pdf book: {}", page.getBookTitle());
+            if (SentenceDto.LAST.equals(sentence.getText())) {
+                log.info("End parse text book: {}", path);
                 break;
             }
 
-            writer.write(page.getText());
+            writer.write(sentence.getText());
+            writer.newLine();
 
             if (log.isTraceEnabled()) {
-                log.trace("Receive page: {}", page.getPageNo());
+                log.trace("Sentence: {}", sentence.getText());
             }
         }
     }

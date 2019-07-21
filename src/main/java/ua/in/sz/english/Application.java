@@ -19,7 +19,7 @@ public class Application {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);
-        executor.setThreadNamePrefix("page-parser-");
+        executor.setThreadNamePrefix("parser-");
         executor.initialize();
         return executor;
     }

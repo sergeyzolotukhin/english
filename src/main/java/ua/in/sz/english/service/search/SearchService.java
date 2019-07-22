@@ -22,6 +22,9 @@ import ua.in.sz.english.service.search.index.SentenceIndexWriter;
 import ua.in.sz.english.service.search.index.SentenceReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -50,20 +53,37 @@ public class SearchService {
         parserTaskExecutor.execute(textWriter);
     }
 
-    public void search(String query) throws IOException, ParseException {
-        Directory index = IndexUtil.createDirectory(indexPath);
-        IndexReader reader = DirectoryReader.open(index);
-        IndexSearcher searcher = new IndexSearcher(reader);
+    public List<String> search(String query) {
+        try (
+                Directory directory = IndexUtil.createDirectory(indexPath);
+                IndexReader reader = createReader(directory);
+                StandardAnalyzer analyzer = IndexUtil.createAnalyzer();
+        ) {
+            List<String> result = new ArrayList<>();
 
-        StandardAnalyzer analyzer = IndexUtil.createAnalyzer();
-        Query q = new QueryParser(IndexUtil.FIELD_SENTENCE, analyzer).parse(query);
+            IndexSearcher searcher = createSearcher(reader);
+            Query q = new QueryParser(IndexUtil.FIELD_SENTENCE, analyzer).parse(query);
 
-        TopDocs search = searcher.search(q, 20);
-        ScoreDoc[] scoreDocs = search.scoreDocs;
+            TopDocs search = searcher.search(q, 20);
 
-        for (ScoreDoc doc : scoreDocs) {
-            Document document = searcher.doc(doc.doc);
-            log.info("Search result: {}", document.get(IndexUtil.FIELD_SENTENCE));
+            for (ScoreDoc doc : search.scoreDocs) {
+                Document document = searcher.doc(doc.doc);
+                String sentence = document.get(IndexUtil.FIELD_SENTENCE);
+                result.add(sentence);
+            }
+
+            return result;
+        } catch (IOException | ParseException e) {
+            log.error("Can't search", e);
+            return Collections.emptyList();
         }
+    }
+
+    private IndexSearcher createSearcher(IndexReader reader) {
+        return new IndexSearcher(reader);
+    }
+
+    private DirectoryReader createReader(Directory index) throws IOException {
+        return DirectoryReader.open(index);
     }
 }

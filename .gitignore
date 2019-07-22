@@ -24,4 +24,8 @@ hs_err_pid*
 work/*
 index/*
 books/*
+backend/work/
+
+# JS dependencies
+frontend/node_modules/
 

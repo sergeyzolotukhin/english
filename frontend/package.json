@@ -9,11 +9,15 @@
     "nib": "^1.1.0"
   },
   "devDependencies": {
+    "cross-env": "^1.0.7",
+    "html-webpack-plugin": "^2.15.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
   "scripts": {
+    "bundle": "cross-env NODE_ENV=production webpack -p --optimize-dedupe",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

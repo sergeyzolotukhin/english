@@ -1,9 +1,8 @@
-package ua.in.sz.english.service.search;
+package ua.in.sz.english.service.index;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -16,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
-import ua.in.sz.english.service.search.index.IndexDto;
-import ua.in.sz.english.service.search.index.IndexUtil;
-import ua.in.sz.english.service.search.index.SentenceIndexWriter;
-import ua.in.sz.english.service.search.index.SentenceReader;
+import ua.in.sz.english.service.index.build.SentenceIndexDto;
+import ua.in.sz.english.service.index.build.SentenceIndexWriter;
+import ua.in.sz.english.service.index.build.SentenceReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,60 +28,52 @@ import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @Service
-public class SearchService {
+public class SentenceIndexService {
 
     @Value("${sentence.path}")
     private String sentencePath;
     @Value("${index.path}")
     private String indexPath;
 
-    private final TaskExecutor parserTaskExecutor;
+    private final TaskExecutor asyncTaskExecutor;
 
     @Autowired
-    public SearchService(TaskExecutor parserTaskExecutor) {
-        this.parserTaskExecutor = parserTaskExecutor;
+    public SentenceIndexService(TaskExecutor asyncTaskExecutor) {
+        this.asyncTaskExecutor = asyncTaskExecutor;
     }
 
     public void indexing() {
-        BlockingQueue<IndexDto> queue = new ArrayBlockingQueue<>(100);
-        SentenceReader bookParser = new SentenceReader(queue, sentencePath);
-        SentenceIndexWriter textWriter = new SentenceIndexWriter(queue, indexPath);
+        BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(100);
+        SentenceReader reader = new SentenceReader(queue, sentencePath);
+        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
 
-        parserTaskExecutor.execute(bookParser);
-        parserTaskExecutor.execute(textWriter);
+        asyncTaskExecutor.execute(reader);
+        asyncTaskExecutor.execute(writer);
     }
 
     public List<String> search(String query) {
         try (
-                Directory directory = IndexUtil.createDirectory(indexPath);
-                IndexReader reader = createReader(directory);
-                StandardAnalyzer analyzer = IndexUtil.createAnalyzer();
+                Directory directory = IndexFactory.createDirectory(indexPath);
+                IndexReader reader = IndexFactory.createReader(directory);
+                StandardAnalyzer analyzer = IndexFactory.createAnalyzer();
         ) {
             List<String> result = new ArrayList<>();
 
-            IndexSearcher searcher = createSearcher(reader);
-            Query q = new QueryParser(IndexUtil.FIELD_SENTENCE, analyzer).parse(query);
+            IndexSearcher searcher = IndexFactory.createSearcher(reader);
+            Query q = new QueryParser(IndexConstant.FIELD_SENTENCE, analyzer).parse(query);
 
             TopDocs search = searcher.search(q, 20);
 
             for (ScoreDoc doc : search.scoreDocs) {
                 Document document = searcher.doc(doc.doc);
-                String sentence = document.get(IndexUtil.FIELD_SENTENCE);
+                String sentence = document.get(IndexConstant.FIELD_SENTENCE);
                 result.add(sentence);
             }
 
             return result;
         } catch (IOException | ParseException e) {
-            log.error("Can't search", e);
+            log.error("Can't build", e);
             return Collections.emptyList();
         }
-    }
-
-    private IndexSearcher createSearcher(IndexReader reader) {
-        return new IndexSearcher(reader);
-    }
-
-    private DirectoryReader createReader(Directory index) throws IOException {
-        return DirectoryReader.open(index);
     }
 }

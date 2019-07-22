@@ -1,9 +1,9 @@
-package ua.in.sz.english.service.search.index;
+package ua.in.sz.english.service.index.build;
 
 import lombok.Data;
 
 @Data
-public class IndexDto {
+public class SentenceIndexDto {
     public static final String LAST = "last sentence";
 
     private final String bookTitle;

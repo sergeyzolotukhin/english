@@ -28,11 +28,11 @@ public class BookParserService {
     @Value("classpath:en-sent.bin")
     private Resource sentenceModel;
 
-    private final TaskExecutor parserTaskExecutor;
+    private final TaskExecutor asyncTaskExecutor;
 
     @Autowired
-    public BookParserService(TaskExecutor parserTaskExecutor) {
-        this.parserTaskExecutor = parserTaskExecutor;
+    public BookParserService(TaskExecutor asyncTaskExecutor) {
+        this.asyncTaskExecutor = asyncTaskExecutor;
     }
 
     public void parseBook() {
@@ -40,8 +40,8 @@ public class BookParserService {
         BookParser bookParser = new BookParser(queue, bookPath);
         TextWriter textWriter = new TextWriter(queue, textPath);
 
-        parserTaskExecutor.execute(bookParser);
-        parserTaskExecutor.execute(textWriter);
+        asyncTaskExecutor.execute(bookParser);
+        asyncTaskExecutor.execute(textWriter);
     }
 
     public void parseText() {
@@ -49,7 +49,7 @@ public class BookParserService {
         TextParser producer = new TextParser(queue, sentenceModel, textPath);
         SentenceWriter consumer = new SentenceWriter(queue, sentencePath);
 
-        parserTaskExecutor.execute(producer);
-        parserTaskExecutor.execute(consumer);
+        asyncTaskExecutor.execute(producer);
+        asyncTaskExecutor.execute(consumer);
     }
 }

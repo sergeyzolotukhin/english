@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.in.sz.english.service.parser.BookParserService;
-import ua.in.sz.english.service.search.SearchService;
+import ua.in.sz.english.service.index.SentenceIndexService;
 
 @Slf4j
 @RestController
-public class SearchController {
+public class MainController {
     private final BookParserService bookParserService;
-    private final SearchService searchService;
+    private final SentenceIndexService sentenceIndexService;
 
     @Autowired
-    public SearchController(BookParserService bookParserService,
-                            SearchService searchService) {
+    public MainController(BookParserService bookParserService,
+                          SentenceIndexService sentenceIndexService) {
         this.bookParserService = bookParserService;
-        this.searchService = searchService;
+        this.sentenceIndexService = sentenceIndexService;
     }
 
     @RequestMapping("/")
@@ -38,11 +38,11 @@ public class SearchController {
 
     @RequestMapping("/index")
     public void indexing() {
-        searchService.indexing();
+        sentenceIndexService.indexing();
     }
 
     @RequestMapping("/search")
     public String search(@RequestParam("q") String query) {
-        return String.join("<br/>", searchService.search(query));
+        return String.join("<br/>", sentenceIndexService.search(query));
     }
 }

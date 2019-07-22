@@ -15,7 +15,7 @@ public class Application {
     }
 
     @Bean
-    public TaskExecutor parserTaskExecutor() {
+    public TaskExecutor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);

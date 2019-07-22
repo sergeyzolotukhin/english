@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.search.index;
+package ua.in.sz.english.service.index.build;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
 @Setter
 @RequiredArgsConstructor
 public class SentenceReader implements Runnable {
-    private final BlockingQueue<IndexDto> queue;
+    private final BlockingQueue<SentenceIndexDto> queue;
     private final String path;
 
     @Override
@@ -23,14 +23,14 @@ public class SentenceReader implements Runnable {
 
         try {
             for (String sentence : Files.readAllLines(Paths.get(path))) {
-                queue.put(new IndexDto(path, sentence));
+                queue.put(new SentenceIndexDto(path, sentence));
 
                 if (log.isTraceEnabled()) {
                     log.trace("Sentence: {}", sentence);
                 }
             }
 
-            queue.put(new IndexDto(path, SentenceDto.LAST));
+            queue.put(new SentenceIndexDto(path, SentenceDto.LAST));
         } catch (IOException | InterruptedException e) {
             log.error("Can't sentence read", e);
         }

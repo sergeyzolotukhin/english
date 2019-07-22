@@ -27,21 +27,18 @@ public class SearchController {
     }
 
     @RequestMapping("/book")
-    public String parseBook() {
+    public void parseBook() {
         bookParserService.parseBook();
-        return "OK";
     }
 
     @RequestMapping("/sentence")
-    public String processSentence() {
+    public void processSentence() {
         bookParserService.parseText();
-        return "OK";
     }
 
     @RequestMapping("/index")
-    public String indexing() {
+    public void indexing() {
         searchService.indexing();
-        return "OK";
     }
 
     @RequestMapping("/search")

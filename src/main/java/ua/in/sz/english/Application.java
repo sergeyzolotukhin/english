@@ -19,7 +19,7 @@ public class Application {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);
-        executor.setThreadNamePrefix("parser-");
+        executor.setThreadNamePrefix("async-worker-");
         executor.initialize();
         return executor;
     }

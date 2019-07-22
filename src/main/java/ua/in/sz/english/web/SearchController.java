@@ -5,15 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.in.sz.english.service.parser.BookParserService;
+import ua.in.sz.english.service.search.SearchService;
 
 @Slf4j
 @RestController
 public class SearchController {
     private final BookParserService bookParserService;
+    private final SearchService searchService;
 
     @Autowired
-    public SearchController(BookParserService bookParserService) {
+    public SearchController(BookParserService bookParserService,
+                            SearchService searchService) {
         this.bookParserService = bookParserService;
+        this.searchService = searchService;
     }
 
     @RequestMapping("/")
@@ -30,6 +34,12 @@ public class SearchController {
     @RequestMapping("/sentence")
     public String processSentence() {
         bookParserService.parseText();
+        return "OK";
+    }
+
+    @RequestMapping("/index")
+    public String indexing() {
+        searchService.indexing();
         return "OK";
     }
 }

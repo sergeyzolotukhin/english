@@ -42,7 +42,8 @@ public class MainController {
     }
 
     @RequestMapping("/search")
-    public String search(@RequestParam("q") String query) {
-        return String.join("<br/>", sentenceIndexService.search(query));
+    public String search(@RequestParam("q") String query,
+                         @RequestParam(value = "l", required = false, defaultValue = "20") int limit) {
+        return String.join("<br/>", sentenceIndexService.search(query, limit));
     }
 }

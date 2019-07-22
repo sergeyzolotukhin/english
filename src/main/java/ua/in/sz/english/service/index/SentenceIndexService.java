@@ -34,6 +34,8 @@ public class SentenceIndexService {
     private String sentencePath;
     @Value("${index.path}")
     private String indexPath;
+    @Value("${parser.queue.capacity:20}")
+    private int queueCapacity;
 
     private final TaskExecutor asyncTaskExecutor;
 
@@ -43,7 +45,7 @@ public class SentenceIndexService {
     }
 
     public void indexing() {
-        BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(100);
+        BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
         SentenceReader reader = new SentenceReader(queue, sentencePath);
         SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
 
@@ -51,7 +53,7 @@ public class SentenceIndexService {
         asyncTaskExecutor.execute(writer);
     }
 
-    public List<String> search(String query) {
+    public List<String> search(String queryString, int limit) {
         try (
                 Directory directory = IndexFactory.createDirectory(indexPath);
                 IndexReader reader = IndexFactory.createReader(directory);
@@ -60,9 +62,9 @@ public class SentenceIndexService {
             List<String> result = new ArrayList<>();
 
             IndexSearcher searcher = IndexFactory.createSearcher(reader);
-            Query q = new QueryParser(IndexConstant.FIELD_SENTENCE, analyzer).parse(query);
+            Query query = new QueryParser(IndexConstant.FIELD_SENTENCE, analyzer).parse(queryString);
 
-            TopDocs search = searcher.search(q, 20);
+            TopDocs search = searcher.search(query, limit);
 
             for (ScoreDoc doc : search.scoreDocs) {
                 Document document = searcher.doc(doc.doc);

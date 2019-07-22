@@ -27,6 +27,8 @@ public class BookParserService {
     private String sentencePath;
     @Value("classpath:en-sent.bin")
     private Resource sentenceModel;
+    @Value("${parser.queue.capacity:20}")
+    private int queueCapacity;
 
     private final TaskExecutor asyncTaskExecutor;
 
@@ -36,20 +38,20 @@ public class BookParserService {
     }
 
     public void parseBook() {
-        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(100);
-        BookParser bookParser = new BookParser(queue, bookPath);
-        TextWriter textWriter = new TextWriter(queue, textPath);
+        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+        BookParser parser = new BookParser(queue, bookPath);
+        TextWriter writer = new TextWriter(queue, textPath);
 
-        asyncTaskExecutor.execute(bookParser);
-        asyncTaskExecutor.execute(textWriter);
+        asyncTaskExecutor.execute(parser);
+        asyncTaskExecutor.execute(writer);
     }
 
     public void parseText() {
-        BlockingQueue<SentenceDto> queue = new ArrayBlockingQueue<>(100);
-        TextParser producer = new TextParser(queue, sentenceModel, textPath);
-        SentenceWriter consumer = new SentenceWriter(queue, sentencePath);
+        BlockingQueue<SentenceDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+        TextParser parser = new TextParser(queue, sentenceModel, textPath);
+        SentenceWriter writer = new SentenceWriter(queue, sentencePath);
 
-        asyncTaskExecutor.execute(producer);
-        asyncTaskExecutor.execute(consumer);
+        asyncTaskExecutor.execute(parser);
+        asyncTaskExecutor.execute(writer);
     }
 }

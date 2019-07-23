@@ -28,4 +28,5 @@ backend/work/
 
 # JS dependencies
 frontend/node_modules/
+frontend/dist/
 

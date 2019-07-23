@@ -1,20 +1,11 @@
 plugins {
-    id "com.moowork.node" version "1.1.1"
+  id "com.moowork.node" version "1.1.1"
 }
 
-apply plugin: 'idea'
 apply plugin: 'base'
 version '0.0.1'
 
 buildDir = 'dist'
-
-idea {
-    module {
-        ["node_modules"].each {
-            excludeDirs << file("$buildDir/$it")
-        }
-    }
-}
 
 node {
     version = '10.16.0'
@@ -22,18 +13,18 @@ node {
 }
 
 task bundle(type: YarnTask) {
-//    inputs.dir(new File('assets'))
-    inputs.dir(new File('src'))
-    outputs.dir(new File('dist'))
-    args = ['run', 'bundle']
+  inputs.dir(new File('assets'))
+  inputs.dir(new File('src'))
+  outputs.dir(new File('dist'))
+  args = ['run', 'bundle']
 }
 
 task start(type: YarnTask) {
-    args = ['start']
+  args = ['start']
 }
 
 task test(type: YarnTask) {
-    args = ['test']
+  args = ['test']
 }
 
 check.dependsOn(test)

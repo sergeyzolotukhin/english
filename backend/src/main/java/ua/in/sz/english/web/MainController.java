@@ -2,11 +2,16 @@ package ua.in.sz.english.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.in.sz.english.service.parser.BookParserService;
 import ua.in.sz.english.service.index.SentenceIndexService;
+import ua.in.sz.english.service.parser.BookParserService;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,9 +26,19 @@ public class MainController {
         this.sentenceIndexService = sentenceIndexService;
     }
 
-    @RequestMapping("/")
-    public String index() {
-        return "Use book - to parse book, sentence - to parse text";
+    @GetMapping(value = "/")
+    public List<String> index() {
+        return Arrays.asList("book", "sentence", "index", "search");
+    }
+
+    @GetMapping(value = "/2", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String[] index2() {
+        return new String[]{"book"};
+    }
+
+    @GetMapping(value = "/3", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String index3() {
+        return "book";
     }
 
     @RequestMapping("/book")

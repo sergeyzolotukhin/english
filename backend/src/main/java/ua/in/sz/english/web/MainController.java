@@ -15,6 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class MainController {
     private final BookParserService bookParserService;
     private final SentenceIndexService sentenceIndexService;
@@ -29,16 +30,6 @@ public class MainController {
     @GetMapping(value = "/")
     public List<String> index() {
         return Arrays.asList("book", "sentence", "index", "search");
-    }
-
-    @GetMapping(value = "/2", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String[] index2() {
-        return new String[]{"book"};
-    }
-
-    @GetMapping(value = "/3", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String index3() {
-        return "book";
     }
 
     @RequestMapping("/book")

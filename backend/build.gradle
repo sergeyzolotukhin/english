@@ -27,7 +27,12 @@ repositories {
 bootJar {
     baseName = 'english-learn'
     version = '0.1.0'
+    from('../frontend/dist') {
+        into 'static'
+    }
 }
+
+bootJar.dependsOn(':frontend:assemble')
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")

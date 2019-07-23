@@ -9,7 +9,7 @@ var app = express();
 var compiler = webpack(config);
 
 app.use(history());
-app.use(proxy('/api', {target: 'http://localhost:8080', changeOrigin: true}));
+app.use(proxy('/api', {target: 'http://localhost:8100', changeOrigin: true}));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -18,11 +18,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.listen(3000, 'localhost', (err) => {
+app.listen(3100, 'localhost', (err) => {
   if (err) {
     console.log(err);
     return;
   }
 
-  console.log('Listening at http://localhost:3000');
+  console.log('Listening at http://localhost:3100');
 });

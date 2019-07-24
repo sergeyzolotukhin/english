@@ -19,3 +19,4 @@ pnpm
 npm-fast-install
 
 babel 
+https://medium.com/grandcentrix/how-to-debug-gradle-plugins-with-intellij-eef2ef681a7b

@@ -27,9 +27,14 @@ public class MainController {
         this.sentenceIndexService = sentenceIndexService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/simple")
     public List<String> index() {
         return Arrays.asList("book", "sentence", "index", "search");
+    }
+
+    @GetMapping(value = "/session")
+    public String session() {
+        return "0123456";
     }
 
     @RequestMapping("/book")

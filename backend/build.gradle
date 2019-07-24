@@ -27,7 +27,7 @@ repositories {
 bootJar {
     baseName = 'english-learn'
     version = '0.1.0'
-    from('../frontend/dist') {
+    from('../frontend/dist/static') {
         into 'static'
     }
 }

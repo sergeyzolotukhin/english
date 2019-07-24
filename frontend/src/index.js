@@ -6,7 +6,7 @@ import initStore from 'config/store';
 import { setupAxiosInterceptors } from 'rest/axios';
 import DevTools from 'config/devtools';
 import { redirectToLoginWithMessage, logout } from 'reducers/authentication';
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import { Router } from 'react-router';
@@ -16,7 +16,7 @@ import { registerLocales } from 'config/translation';
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
 const store = initStore();
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 registerLocales(store);
 
 const actions = bindActionCreators({redirectToLoginWithMessage, logout}, store.dispatch);

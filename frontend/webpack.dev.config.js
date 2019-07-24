@@ -13,7 +13,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist/static'),
     filename: 'bundle.js',
-    publicPath: 'http://localhost:3200/'
+    publicPath: 'http://localhost:3300/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

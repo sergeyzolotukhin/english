@@ -2,15 +2,12 @@ package ua.in.sz.english.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.in.sz.english.service.index.SentenceIndexService;
 import ua.in.sz.english.service.parser.BookParserService;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -33,18 +30,18 @@ public class MainController {
         return sentenceIndexService.search(query, limit);
     }
 
-    @RequestMapping("/book")
+    @RequestMapping("/parse/book")
     public void parseBook() {
         bookParserService.parseBook();
     }
 
-    @RequestMapping("/sentence")
-    public void processSentence() {
+    @RequestMapping("/parse/text")
+    public void parseText() {
         bookParserService.parseText();
     }
 
-    @RequestMapping("/index")
-    public void indexing() {
+    @RequestMapping("/build/index")
+    public void buildIndex() {
         sentenceIndexService.indexing();
     }
 }

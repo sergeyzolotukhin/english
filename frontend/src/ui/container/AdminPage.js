@@ -6,7 +6,7 @@ export class AdminPage extends Component {
   render() {
     return (
       <div>
-        <button>
+        <button className="pure-button">
           Indexing
         </button>
       </div>

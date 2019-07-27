@@ -9,9 +9,14 @@ export class SearchPage extends Component {
 
         return (
             <div>
-                <button onClick={this.props.search}>
-                    Fetch
-                </button>
+                <form className="pure-form">
+                    <fieldset>
+                        <input type="text" id="query" placeholder="Please type text"/>
+                        <button type="submit" className="pure-button"
+                                onClick={this.props.search}>Search
+                        </button>
+                    </fieldset>
+                </form>
 
                 <ul>
                     {list}
@@ -28,5 +33,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps,
-  {search}
+    {search}
 )(SearchPage);

@@ -27,14 +27,10 @@ public class MainController {
         this.sentenceIndexService = sentenceIndexService;
     }
 
-    @GetMapping(value = "/simple")
-    public List<String> index() {
-        return Arrays.asList("book", "sentence", "index", "search");
-    }
-
-    @GetMapping(value = "/session")
-    public String session() {
-        return "0123456";
+    @RequestMapping("/search")
+    public List<String> search(@RequestParam("query") String query,
+                               @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
+        return sentenceIndexService.search(query, limit);
     }
 
     @RequestMapping("/book")
@@ -50,11 +46,5 @@ public class MainController {
     @RequestMapping("/index")
     public void indexing() {
         sentenceIndexService.indexing();
-    }
-
-    @RequestMapping("/search")
-    public String search(@RequestParam("q") String query,
-                         @RequestParam(value = "l", required = false, defaultValue = "20") int limit) {
-        return String.join("<br/>", sentenceIndexService.search(query, limit));
     }
 }

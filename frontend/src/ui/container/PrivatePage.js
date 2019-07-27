@@ -13,5 +13,5 @@ export class PrivatePage extends Component {
 }
 
 export default connect(
-  ({authentication}) => ({username: authentication.username})
+    state => ({})
 )(PrivatePage);

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import simple from './simple';
 import { routerReducer as routing } from 'react-router-redux';
+import search from './search';
 
 export default combineReducers({
-  simple,
+  search,
   routing
 });

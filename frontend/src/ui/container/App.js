@@ -23,7 +23,7 @@ const TopMenu = (props) => {
 export class App extends Component {
   render() {
     const menuItems = [
-      {label: 'Home', link: '/'},
+      {label: 'Search', link: '/'},
       {label: 'Admin', link: '/private'}
     ];
 

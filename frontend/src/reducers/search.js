@@ -1,6 +1,6 @@
-const FETCH = 'simple/FETCH';
-const FETCH_SUCCESS = 'simple/FETCH_SUCCESS';
-const FETCH_FAIL = 'simple/FETCH_FAIL';
+const FETCH = 'search/FETCH';
+const FETCH_SUCCESS = 'search/FETCH_SUCCESS';
+const FETCH_FAIL = 'search/FETCH_FAIL';
 
 const initialState = {
   items: []
@@ -8,7 +8,7 @@ const initialState = {
 
 // Reducer
 
-export default function simpleReducer(state = initialState, action) {
+export default function searchReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_SUCCESS:
       return {
@@ -22,9 +22,9 @@ export default function simpleReducer(state = initialState, action) {
 
 // Actions
 
-export function fetchSimple() {
+export function search() {
   return  {
     types: [FETCH, FETCH_SUCCESS, FETCH_FAIL],
-    promise: client => client.get('/api/simple')
+    promise: client => client.get('/api/search')
   };
 }

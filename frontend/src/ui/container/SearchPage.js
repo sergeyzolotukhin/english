@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchSimple} from 'reducers/simple';
+import {search} from 'reducers/search';
 
-export class ListComponent extends Component {
+export class SearchPage extends Component {
     render() {
         const items = this.props.items;
         const list = items.map((item, index) => <li key={index}>{item}</li>);
@@ -13,7 +13,7 @@ export class ListComponent extends Component {
                 <ul>
                     {list}
                 </ul>
-                <button onClick={this.props.fetchSimple}>
+                <button onClick={this.props.search}>
                     Fetch
                 </button>
             </div>
@@ -22,6 +22,6 @@ export class ListComponent extends Component {
 }
 
 export default connect(
-  state => ({items: state.simple.items}),
-  {fetchSimple}
-)(ListComponent);
+  state => ({items: state.search.items}),
+  {search}
+)(SearchPage);

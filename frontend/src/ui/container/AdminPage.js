@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-export class PrivatePage extends Component {
+export class AdminPage extends Component {
 
   render() {
     return (
@@ -14,4 +14,4 @@ export class PrivatePage extends Component {
 
 export default connect(
     state => ({})
-)(PrivatePage);
+)(AdminPage);

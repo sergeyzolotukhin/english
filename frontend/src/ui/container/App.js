@@ -36,6 +36,4 @@ export class App extends Component {
   }
 }
 
-export default connect(
-  state => ({})
-)(App);
+export default connect()(App);

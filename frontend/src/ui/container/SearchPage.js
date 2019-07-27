@@ -9,13 +9,13 @@ export class SearchPage extends Component {
 
         return (
             <div>
-                <h2>Search result:</h2>
-                <ul>
-                    {list}
-                </ul>
                 <button onClick={this.props.search}>
                     Fetch
                 </button>
+
+                <ul>
+                    {list}
+                </ul>
             </div>
         );
     }

@@ -6,12 +6,12 @@ export class AdminPage extends Component {
   render() {
     return (
       <div>
-          <h2>Private page</h2>
+        <button>
+          Indexing
+        </button>
       </div>
     )
   }
 }
 
-export default connect(
-    state => ({})
-)(AdminPage);
+export default connect()(AdminPage);

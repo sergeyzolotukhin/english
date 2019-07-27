@@ -21,7 +21,12 @@ export class SearchPage extends Component {
     }
 }
 
-export default connect(
-  state => ({items: state.search.items}),
+const mapStateToProps = state => {
+    return {
+        items: state.search.items
+    }
+};
+
+export default connect(mapStateToProps,
   {search}
 )(SearchPage);

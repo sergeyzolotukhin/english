@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 
 buildscript {
-    ext.APP_TASK_GROUP = "application"
+    ext.APP_BACKEND_TASK_GROUP = "app-backend"
+    ext.APP_FRONEND_TASK_GROUP = "app-frontend"
 }

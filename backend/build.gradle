@@ -33,10 +33,11 @@ bootJar {
 }
 
 bootRun {
-    classpath += files("$projectDir/../frontend/dist")
+    group = APP_BACKEND_TASK_GROUP
+//    classpath += files("$projectDir/../frontend/dist")
 }
 
-bootRun.dependsOn(':frontend:assemble')
+//bootRun.dependsOn(':frontend:assemble')
 bootJar.dependsOn(':frontend:assemble')
 
 dependencies {

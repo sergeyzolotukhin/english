@@ -20,8 +20,14 @@ task bundle(type: YarnTask) {
 }
 
 task start(type: YarnTask) {
-    group = APP_TASK_GROUP
+    group = APP_FRONEND_TASK_GROUP
     args = ['start']
+}
+
+task stop(type:Exec) {
+    group = APP_FRONEND_TASK_GROUP
+    commandLine 'taskkill', '/f', '/im', 'node*'
+    ignoreExitValue = true
 }
 
 bundle.dependsOn(yarn_install)

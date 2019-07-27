@@ -32,3 +32,4 @@ task stop(type:Exec) {
 
 bundle.dependsOn(yarn_install)
 assemble.dependsOn(bundle)
+start.dependsOn(stop)

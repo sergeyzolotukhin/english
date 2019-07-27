@@ -1,20 +1,34 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {search} from 'reducers/search';
+import {SEARCH, SEARCH_SUCCESS, SEARCH_FAIL} from 'reducers/search';
 
 export class SearchPage extends Component {
+    state = {
+        query: ""
+    };
+
+    handleInputChange = (e) => {
+        let value = e.target.value;
+        this.setState({query: value});
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const {query} = this.state;
+        this.props.onSearch(query);
+    };
+
     render() {
         const items = this.props.items;
         const list = items.map((item, index) => <li key={index}>{item}</li>);
 
         return (
             <div>
-                <form className="pure-form">
+                <form className="pure-form" onSubmit={this.handleSubmit}>
                     <fieldset>
-                        <input type="text" id="query" placeholder="Please type text"/>
-                        <button type="submit" className="pure-button"
-                                onClick={this.props.search}>Search
-                        </button>
+                        <input type="text" id="query" placeholder="Please type text"
+                               onChange={this.handleInputChange}/>
+                        <button type="submit" className="pure-button">Search</button>
                     </fieldset>
                 </form>
 
@@ -32,8 +46,10 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = {
-    search
-};
+const mapDispatchToProps = dispatch => ({
+   onSearch: query => dispatch({
+       types: [SEARCH, SEARCH_SUCCESS, SEARCH_FAIL],
+       promise: client => client.get('/api/search?query=' + query)})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

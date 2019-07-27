@@ -1,0 +1,5 @@
+apply plugin: 'idea'
+
+buildscript {
+    ext.APP_TASK_GROUP = "application"
+}

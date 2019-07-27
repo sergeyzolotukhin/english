@@ -32,6 +32,8 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps,
-    {search}
-)(SearchPage);
+const mapDispatchToProps = {
+    search
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

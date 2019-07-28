@@ -26,26 +26,6 @@ public class Application extends WebMvcConfigurationSupport {
         return executor;
     }
 
-    @Bean
-    public TaskExecutor asyncSentenceExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(4);
-        executor.setMaxPoolSize(4);
-        executor.setThreadNamePrefix("async-worker-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean
-    public TaskExecutor asyncCommandExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(1);
-        executor.setThreadNamePrefix("async-command-");
-        executor.initialize();
-        return executor;
-    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")

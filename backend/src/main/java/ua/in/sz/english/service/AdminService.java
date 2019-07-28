@@ -23,6 +23,8 @@ public class AdminService {
     private String bookDirPath;
     @Value("${text.dir.path}")
     private String textDirPath;
+    @Value("${sentence.dir.path}")
+    private String sentenceDirPath;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
 
@@ -44,23 +46,27 @@ public class AdminService {
 
         try (DirectoryStream<Path> books = Files.newDirectoryStream(bookDir, "*.pdf")) {
 
-            createEmptyTextDirectory();
+            createEmptyDirectory(textDirPath);
+            createEmptyDirectory(sentenceDirPath);
 
             for (Path book : books) {
                 String bookPath = book.toString();
                 String textPath = toTextFileName(bookPath);
+                String sentencePath = toSentenceFileName(bookPath);
 
                 Runnable bookParseCommand = bookParserService.createBookParseCommand(bookPath, textPath);
+                Runnable textParseCommand = bookParserService.createTextParseCommand(textPath, sentencePath);
 
-                CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor);
+                CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor)
+                        .thenRunAsync(textParseCommand, asyncCommandExecutor);
             }
         } catch (IOException e) {
             log.error("Can't read books", e);
         }
     }
 
-    private void createEmptyTextDirectory() throws IOException {
-        Path textDir = Paths.get(this.textDirPath);
+    private void createEmptyDirectory(String path) throws IOException {
+        Path textDir = Paths.get(path);
         if (Files.exists(textDir)) {
             FileUtils.cleanDirectory(textDir.toFile());
         } else {
@@ -70,5 +76,9 @@ public class AdminService {
 
     private String toTextFileName(String bookPath) {
         return this.textDirPath + File.separator + FilenameUtils.getBaseName(bookPath) + ".txt";
+    }
+
+    private String toSentenceFileName(String bookPath) {
+        return this.sentenceDirPath + File.separator + FilenameUtils.getBaseName(bookPath) + ".txt";
     }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {SEARCH, SEARCH_SUCCESS, SEARCH_FAIL} from 'reducers/search';
+import {searchSentence} from './../../reducers/search';
 
 export class SearchPage extends Component {
     state = {
@@ -15,7 +15,7 @@ export class SearchPage extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {query} = this.state;
-        this.props.onSearch(query);
+        this.props.searchSentence(query);
     };
 
     render() {
@@ -44,11 +44,8 @@ const mapStateToProps = state => {
         items: state.search.items
     }
 };
-
-const mapDispatchToProps = dispatch => ({
-   onSearch: query => dispatch({
-       types: [SEARCH, SEARCH_SUCCESS, SEARCH_FAIL],
-       promise: client => client.get('/api/search?query=' + query)})
-});
+const mapDispatchToProps = {
+    searchSentence
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

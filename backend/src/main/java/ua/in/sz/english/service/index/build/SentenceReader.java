@@ -3,6 +3,8 @@ package ua.in.sz.english.service.index.build;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import ua.in.sz.english.service.parser.text.SentenceDto;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +30,8 @@ public class SentenceReader implements Runnable {
                     log.trace("Sentence: {}", sentence);
                 }
             }
+
+            queue.put(new SentenceIndexDto(StringUtils.EMPTY, SentenceDto.LAST));
         } catch (IOException | InterruptedException e) {
             log.error("Can't sentence read", e);
         }

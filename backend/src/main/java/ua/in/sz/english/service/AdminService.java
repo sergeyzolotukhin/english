@@ -3,15 +3,19 @@ package ua.in.sz.english.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import ua.in.sz.english.service.index.build.SentenceIndexDto;
 import ua.in.sz.english.service.index.build.SentenceIndexWriter;
 import ua.in.sz.english.service.index.build.SentenceReader;
-import ua.in.sz.english.service.parser.BookParserService;
+import ua.in.sz.english.service.parser.book.BookParser;
+import ua.in.sz.english.service.parser.book.PageDto;
+import ua.in.sz.english.service.parser.book.TextWriter;
 import ua.in.sz.english.service.parser.text.SentenceDto;
+import ua.in.sz.english.service.parser.text.SentenceWriter;
+import ua.in.sz.english.service.parser.text.TextParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +23,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
@@ -38,17 +40,14 @@ public class AdminService {
     private String indexPath;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
+    @Value("classpath:en-sent.bin")
+    private Resource sentenceModel;
 
-    private final TaskExecutor asyncCommandExecutor;
-    private final TaskExecutor asyncSentenceExecutor;
-    private final BookParserService bookParserService;
+    private final TaskExecutor asyncTaskExecutor;
 
-    public AdminService(TaskExecutor asyncCommandExecutor,
-                        TaskExecutor asyncSentenceExecutor,
-                        BookParserService bookParserService) {
-        this.asyncCommandExecutor = asyncCommandExecutor;
-        this.bookParserService = bookParserService;
-        this.asyncSentenceExecutor = asyncSentenceExecutor;
+    public AdminService(TaskExecutor asyncTaskExecutor) {
+        this.asyncTaskExecutor = asyncTaskExecutor;
+
     }
 
     public void indexBook() {
@@ -59,49 +58,61 @@ public class AdminService {
         }
 
         try (DirectoryStream<Path> books = Files.newDirectoryStream(bookDir, "*.pdf")) {
-
             createEmptyDirectory(textDirPath);
             createEmptyDirectory(sentenceDirPath);
 
-            List<CompletableFuture<?>> bookFutures = new ArrayList<>();
+            SentenceIndexWriter indexWriter = writeIndex();
 
-            BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-            SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
-            CompletableFuture.runAsync(writer);
-
+            int count = 0;
             for (Path book : books) {
-                String bookPath = book.toString();
-                String textPath = toTextFileName(bookPath);
-                String sentencePath = toSentenceFileName(bookPath);
+                count++;
 
-                Runnable bookParseCommand = bookParserService.createBookParseCommand(bookPath, textPath);
-                Runnable textParseCommand = bookParserService.createTextParseCommand(textPath, sentencePath);
+                String bookName = FilenameUtils.getBaseName(book.toString());
 
-                SentenceReader reader = new SentenceReader(queue, sentencePath);
-
-                CompletableFuture<Void> bookFuture = CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor)
-                        .thenRunAsync(textParseCommand, asyncCommandExecutor)
-                        .thenRunAsync(reader, asyncSentenceExecutor);
-                bookFutures.add(bookFuture);
+                parseBook(book, bookName)
+                        .thenRun(() -> parseText(bookName)
+                                .thenRun(() -> readSentence(bookName, indexWriter.getQueue())));
             }
 
-            CompletableFuture<?>[] f = new CompletableFuture<?>[bookFutures.size()];
-            bookFutures.toArray(f);
-
-            CompletableFuture.allOf(f)
-                    .thenRunAsync(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                queue.put(new SentenceIndexDto(StringUtils.EMPTY, SentenceDto.LAST));
-                            } catch (InterruptedException e) {
-                                log.error("Can't index book", e);
-                            }
-                        }
-                    });
+            indexWriter.expectedCount(count);
         } catch (IOException e) {
             log.error("Can't read books", e);
         }
+    }
+
+    private CompletableFuture<Void> parseBook(Path book, String bookName) {
+        BlockingQueue<PageDto> bookQueue = new ArrayBlockingQueue<>(queueCapacity);
+
+        String bookPath = book.toString();
+        String textPath = toTextFileName(bookName);
+
+        BookParser parser = new BookParser(bookQueue, bookPath);
+        TextWriter writer = new TextWriter(bookQueue, textPath);
+
+        return CompletableFuture.allOf(
+                CompletableFuture.runAsync(parser, asyncTaskExecutor),
+                CompletableFuture.runAsync(writer, asyncTaskExecutor));
+    }
+
+    private CompletableFuture<Void> parseText(String bookName) {
+        BlockingQueue<SentenceDto> textQueue = new ArrayBlockingQueue<>(queueCapacity);
+
+        String textPath = toTextFileName(bookName);
+        String sentencePath = toSentenceFileName(bookName);
+
+        TextParser parser = new TextParser(textQueue, sentenceModel, textPath);
+        SentenceWriter writer = new SentenceWriter(textQueue, sentencePath);
+
+        return CompletableFuture.allOf(
+                CompletableFuture.runAsync(parser, asyncTaskExecutor),
+                CompletableFuture.runAsync(writer, asyncTaskExecutor));
+    }
+
+    private void readSentence(String bookName, BlockingQueue<SentenceIndexDto> queue) {
+        String sentencePath = toSentenceFileName(bookName);
+        SentenceReader reader = new SentenceReader(queue, sentencePath);
+
+        CompletableFuture.runAsync(reader);
     }
 
     private void createEmptyDirectory(String path) throws IOException {
@@ -113,11 +124,18 @@ public class AdminService {
         }
     }
 
-    private String toTextFileName(String bookPath) {
-        return this.textDirPath + File.separator + FilenameUtils.getBaseName(bookPath) + ".txt";
+    private SentenceIndexWriter writeIndex() {
+        BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
+        CompletableFuture.runAsync(writer);
+        return writer;
     }
 
-    private String toSentenceFileName(String bookPath) {
-        return this.sentenceDirPath + File.separator + FilenameUtils.getBaseName(bookPath) + ".txt";
+    private String toTextFileName(String name) {
+        return this.textDirPath + File.separator + name + ".txt";
+    }
+
+    private String toSentenceFileName(String name) {
+        return this.sentenceDirPath + File.separator + name + ".txt";
     }
 }

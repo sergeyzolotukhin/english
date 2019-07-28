@@ -28,7 +28,7 @@ public final class IndexFactory {
 
     public static IndexWriter createIndexWriter(Analyzer analyzer, Directory directory) throws IOException {
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
-        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         return new IndexWriter(directory, config);
     }
 

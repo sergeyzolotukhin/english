@@ -1,5 +1,6 @@
 package ua.in.sz.english.service.index.build;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
@@ -13,12 +14,16 @@ import ua.in.sz.english.service.index.IndexFactory;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
+@Getter
 @RequiredArgsConstructor
 public class SentenceIndexWriter implements Runnable {
     private final BlockingQueue<SentenceIndexDto> queue;
     private final String path;
+
+    private AtomicInteger expected = new AtomicInteger(Integer.MAX_VALUE);
 
     @Override
     public void run() {
@@ -34,11 +39,17 @@ public class SentenceIndexWriter implements Runnable {
 
     private void doConsume(IndexWriter indexWriter) throws InterruptedException, IOException {
         while (true) {
+            if (Thread.currentThread().isInterrupted()) {
+                break;
+            }
+
             SentenceIndexDto sentence = queue.take();
 
             if (SentenceIndexDto.LAST.equals(sentence.getText())) {
-                log.info("End write build: {}", path);
-                break;
+                if (expected.decrementAndGet() <= 0) {
+                    log.info("End write build: {}", path);
+                    break;
+                }
             }
 
             indexSentence(indexWriter, sentence.getText());
@@ -46,6 +57,12 @@ public class SentenceIndexWriter implements Runnable {
             if (log.isTraceEnabled()) {
                 log.trace("Sentence: {}", sentence.getText());
             }
+        }
+    }
+
+    public void expectedCount(int count) {
+        if (expected.addAndGet(count - Integer.MAX_VALUE) <= 0) {
+            Thread.currentThread().interrupt();
         }
     }
 

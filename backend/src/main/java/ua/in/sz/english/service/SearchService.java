@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.index;
+package ua.in.sz.english.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -11,51 +11,26 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
-import ua.in.sz.english.service.index.build.SentenceIndexDto;
-import ua.in.sz.english.service.index.build.SentenceIndexWriter;
-import ua.in.sz.english.service.index.build.SentenceReader;
+import ua.in.sz.english.service.index.IndexConstant;
+import ua.in.sz.english.service.index.IndexFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 @Slf4j
 @Service
-public class SentenceIndexService {
+public class SearchService {
 
-    @Value("${sentence.path}")
-    private String sentencePath;
-    @Value("${index.path}")
-    private String indexPath;
-    @Value("${parser.queue.capacity:20}")
-    private int queueCapacity;
-
-    private final TaskExecutor asyncTaskExecutor;
-
-    @Autowired
-    public SentenceIndexService(TaskExecutor asyncTaskExecutor) {
-        this.asyncTaskExecutor = asyncTaskExecutor;
-    }
-
-    public void indexing() {
-        BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-        SentenceReader reader = new SentenceReader(queue, sentencePath);
-        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
-
-        asyncTaskExecutor.execute(reader);
-        asyncTaskExecutor.execute(writer);
-    }
+    @Value("${index.dir.path}")
+    private String indexDirPath;
 
     public List<String> search(String queryString, int limit) {
         try (
-                Directory directory = IndexFactory.createDirectory(indexPath);
+                Directory directory = IndexFactory.createDirectory(indexDirPath);
                 IndexReader reader = IndexFactory.createReader(directory);
                 StandardAnalyzer analyzer = IndexFactory.createAnalyzer();
         ) {

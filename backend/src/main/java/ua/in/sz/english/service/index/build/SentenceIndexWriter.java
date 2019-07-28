@@ -38,6 +38,8 @@ public class SentenceIndexWriter implements Runnable {
     }
 
     private void doConsume(IndexWriter indexWriter) throws InterruptedException, IOException {
+        log.info("Start write index");
+
         while (true) {
             if (Thread.currentThread().isInterrupted()) {
                 break;

@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.in.sz.english.service.AdminService;
-import ua.in.sz.english.service.index.SentenceIndexService;
-import ua.in.sz.english.service.parser.BookParserService;
+import ua.in.sz.english.service.SearchService;
 
 import java.util.List;
 
@@ -15,38 +14,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class MainController {
-    private final BookParserService bookParserService;
-    private final SentenceIndexService sentenceIndexService;
+    private final SearchService searchService;
     private final AdminService adminService;
 
     @Autowired
-    public MainController(BookParserService bookParserService,
-                          SentenceIndexService sentenceIndexService,
-                          AdminService adminService) {
-        this.bookParserService = bookParserService;
-        this.sentenceIndexService = sentenceIndexService;
+    public MainController(SearchService searchService, AdminService adminService) {
+        this.searchService = searchService;
         this.adminService = adminService;
     }
 
     @RequestMapping("/search")
     public List<String> search(@RequestParam("query") String query,
                                @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
-        return sentenceIndexService.search(query, limit);
-    }
-
-    @RequestMapping("/parse/book")
-    public void parseBook() {
-        bookParserService.parseBook();
-    }
-
-    @RequestMapping("/parse/text")
-    public void parseText() {
-        bookParserService.parseText();
-    }
-
-    @RequestMapping("/build/index")
-    public void buildIndex() {
-        sentenceIndexService.indexing();
+        return searchService.search(query, limit);
     }
 
     @RequestMapping("/index/book")

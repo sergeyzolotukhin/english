@@ -36,8 +36,8 @@ public class AdminService {
     private String textDirPath;
     @Value("${sentence.dir.path}")
     private String sentenceDirPath;
-    @Value("${index.path}")
-    private String indexPath;
+    @Value("${index.dir.path}")
+    private String indexDirPath;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
     @Value("classpath:en-sent.bin")
@@ -79,6 +79,10 @@ public class AdminService {
             log.error("Can't read books", e);
         }
     }
+
+    // ================================================================================================================
+    // private method
+    // ================================================================================================================
 
     private CompletableFuture<Void> parseBook(Path book, String bookName) {
         BlockingQueue<PageDto> bookQueue = new ArrayBlockingQueue<>(queueCapacity);
@@ -126,7 +130,7 @@ public class AdminService {
 
     private SentenceIndexWriter writeIndex() {
         BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
+        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexDirPath);
         CompletableFuture.runAsync(writer);
         return writer;
     }

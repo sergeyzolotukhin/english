@@ -32,11 +32,11 @@ public final class IndexFactory {
         return new IndexWriter(directory, config);
     }
 
-    static IndexSearcher createSearcher(IndexReader reader) {
+    public static IndexSearcher createSearcher(IndexReader reader) {
         return new IndexSearcher(reader);
     }
 
-    static DirectoryReader createReader(Directory index) throws IOException {
+    public static DirectoryReader createReader(Directory index) throws IOException {
         return DirectoryReader.open(index);
     }
 }

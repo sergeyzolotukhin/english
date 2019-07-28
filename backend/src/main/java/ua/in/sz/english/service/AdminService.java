@@ -50,11 +50,13 @@ public class AdminService {
             Files.createDirectories(Paths.get(textPath));
 
             for (Path book : books) {
-                String baseName = FilenameUtils.getBaseName(book.toString());
+                final String path = book.toString();
+                String baseName = FilenameUtils.getBaseName(path);
+                final String text = textPath + File.separator + baseName + ".txt";
 
                 BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-                BookParser parser = new BookParser(queue, book.toString());
-                TextWriter writer = new TextWriter(queue, textPath + File.separator + baseName + ".txt");
+                BookParser parser = new BookParser(queue, path);
+                TextWriter writer = new TextWriter(queue, text);
 
                 asyncTaskExecutor.execute(parser);
                 asyncTaskExecutor.execute(writer);

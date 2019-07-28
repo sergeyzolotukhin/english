@@ -29,7 +29,7 @@ public class SentenceWriter implements Runnable {
             SentenceDto sentence = queue.take();
 
             if (SentenceDto.LAST.equals(sentence.getText())) {
-                log.info("End parse text book: {}", path);
+                log.info("End parse text: {}", path);
                 break;
             }
 

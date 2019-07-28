@@ -29,7 +29,7 @@ public class TextWriter implements Runnable {
             PageDto page = queue.take();
 
             if (PageDto.LAST == page.getPageNo()) {
-                log.info("End parse book book: {}", page.getBookTitle());
+                log.info("End parse book: {}", page.getBookTitle());
                 break;
             }
 

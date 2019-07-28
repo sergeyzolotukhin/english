@@ -18,7 +18,7 @@ public class BookParser implements Runnable {
 
     @Override
     public void run() {
-        log.info("Parse book book: {}", path);
+        log.info("Parse book: {}", path);
 
         try (PdfPageReader reader = new PdfPageReader(path)) {
             for (int page = 1; page < reader.getNumberOfPages(); page++) {

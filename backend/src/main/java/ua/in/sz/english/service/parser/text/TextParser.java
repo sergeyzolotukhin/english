@@ -27,7 +27,7 @@ public class TextParser implements Runnable {
 
     @Override
     public void run() {
-        log.info("Parse text book: {}", path);
+        log.info("Parse text: {}", path);
 
         try (InputStream model = sentenceModel.getInputStream()) {
             SentenceDetectorME detector = new SentenceDetectorME(new SentenceModel(model));

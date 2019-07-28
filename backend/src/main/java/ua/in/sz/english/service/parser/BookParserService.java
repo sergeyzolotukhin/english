@@ -38,12 +38,11 @@ public class BookParserService {
     }
 
     public void parseBook() {
-        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-        BookParser parser = new BookParser(queue, bookPath);
-        TextWriter writer = new TextWriter(queue, textPath);
+        createBookParseCommand(bookPath, textPath).run();
+    }
 
-        asyncTaskExecutor.execute(parser);
-        asyncTaskExecutor.execute(writer);
+    public Runnable createBookParseCommand(String bookPath, String textPath) {
+        return new BookParseCommand(bookPath, textPath);
     }
 
     public void parseText() {
@@ -53,5 +52,22 @@ public class BookParserService {
 
         asyncTaskExecutor.execute(parser);
         asyncTaskExecutor.execute(writer);
+    }
+
+    private class BookParseCommand implements Runnable {
+        private final BookParser parser;
+        private final TextWriter writer;
+
+        public BookParseCommand(String bookPath, String textPath) {
+            BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+            parser = new BookParser(queue, bookPath);
+            writer = new TextWriter(queue, textPath);
+        }
+
+        @Override
+        public void run() {
+            asyncTaskExecutor.execute(parser);
+            asyncTaskExecutor.execute(writer);
+        }
     }
 }

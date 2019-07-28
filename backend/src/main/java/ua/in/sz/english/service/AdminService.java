@@ -6,63 +6,69 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
-import ua.in.sz.english.service.parser.book.BookParser;
-import ua.in.sz.english.service.parser.book.PageDto;
-import ua.in.sz.english.service.parser.book.TextWriter;
+import ua.in.sz.english.service.parser.BookParserService;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
-import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletableFuture;
 
-/*
-CompletableFuture
- */
 @Slf4j
 @Service
 public class AdminService {
     @Value("${book.dir.path}")
     private String bookDirPath;
     @Value("${text.dir.path}")
-    private String textPath;
+    private String textDirPath;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
 
-    private final TaskExecutor asyncTaskExecutor;
     private final TaskExecutor asyncCommandExecutor;
+    private final BookParserService bookParserService;
 
     public AdminService(TaskExecutor asyncCommandExecutor,
-                        TaskExecutor asyncTaskExecutor) {
+                        BookParserService bookParserService) {
         this.asyncCommandExecutor = asyncCommandExecutor;
-        this.asyncTaskExecutor = asyncTaskExecutor;
+        this.bookParserService = bookParserService;
     }
 
     public void indexBook() {
-        try (
-                DirectoryStream<Path> books = Files.newDirectoryStream(
-                        Files.createDirectories(Paths.get(bookDirPath)), "*.pdf")
-        ) {
-            Files.createDirectories(Paths.get(textPath));
+        Path bookDir = Paths.get(this.bookDirPath);
+        if (!Files.exists(bookDir)) {
+            log.info("Book directory not exist {}", bookDir);
+            return;
+        }
+
+        try (DirectoryStream<Path> books = Files.newDirectoryStream(bookDir, "*.pdf")) {
+
+            createEmptyTextDirectory();
 
             for (Path book : books) {
-                final String path = book.toString();
-                String baseName = FilenameUtils.getBaseName(path);
-                final String text = textPath + File.separator + baseName + ".txt";
+                String bookPath = book.toString();
+                String textPath = toTextFileName(bookPath);
 
-                BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-                BookParser parser = new BookParser(queue, path);
-                TextWriter writer = new TextWriter(queue, text);
+                Runnable bookParseCommand = bookParserService.createBookParseCommand(bookPath, textPath);
 
-                asyncTaskExecutor.execute(parser);
-                asyncTaskExecutor.execute(writer);
+                CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor);
             }
         } catch (IOException e) {
             log.error("Can't read books", e);
         }
+    }
+
+    private void createEmptyTextDirectory() throws IOException {
+        Path textDir = Paths.get(this.textDirPath);
+        if (Files.exists(textDir)) {
+            FileUtils.cleanDirectory(textDir.toFile());
+        } else {
+            Files.createDirectory(textDir);
+        }
+    }
+
+    private String toTextFileName(String bookPath) {
+        return this.textDirPath + File.separator + FilenameUtils.getBaseName(bookPath) + ".txt";
     }
 }

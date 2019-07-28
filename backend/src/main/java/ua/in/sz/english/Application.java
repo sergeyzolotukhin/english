@@ -19,9 +19,19 @@ public class Application extends WebMvcConfigurationSupport {
     @Bean
     public TaskExecutor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(4);
-        executor.setMaxPoolSize(4);
+        executor.setCorePoolSize(8);
+        executor.setMaxPoolSize(8);
         executor.setThreadNamePrefix("async-worker-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean
+    public TaskExecutor asyncCommandExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(1);
+        executor.setThreadNamePrefix("async-command-");
         executor.initialize();
         return executor;
     }

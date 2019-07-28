@@ -3,10 +3,15 @@ package ua.in.sz.english.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
+import ua.in.sz.english.service.index.build.SentenceIndexDto;
+import ua.in.sz.english.service.index.build.SentenceIndexWriter;
+import ua.in.sz.english.service.index.build.SentenceReader;
 import ua.in.sz.english.service.parser.BookParserService;
+import ua.in.sz.english.service.parser.text.SentenceDto;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +19,10 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -25,16 +34,21 @@ public class AdminService {
     private String textDirPath;
     @Value("${sentence.dir.path}")
     private String sentenceDirPath;
+    @Value("${index.path}")
+    private String indexPath;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
 
     private final TaskExecutor asyncCommandExecutor;
+    private final TaskExecutor asyncSentenceExecutor;
     private final BookParserService bookParserService;
 
     public AdminService(TaskExecutor asyncCommandExecutor,
+                        TaskExecutor asyncSentenceExecutor,
                         BookParserService bookParserService) {
         this.asyncCommandExecutor = asyncCommandExecutor;
         this.bookParserService = bookParserService;
+        this.asyncSentenceExecutor = asyncSentenceExecutor;
     }
 
     public void indexBook() {
@@ -49,6 +63,12 @@ public class AdminService {
             createEmptyDirectory(textDirPath);
             createEmptyDirectory(sentenceDirPath);
 
+            List<CompletableFuture<?>> bookFutures = new ArrayList<>();
+
+            BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+            SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexPath);
+            CompletableFuture.runAsync(writer);
+
             for (Path book : books) {
                 String bookPath = book.toString();
                 String textPath = toTextFileName(bookPath);
@@ -57,9 +77,28 @@ public class AdminService {
                 Runnable bookParseCommand = bookParserService.createBookParseCommand(bookPath, textPath);
                 Runnable textParseCommand = bookParserService.createTextParseCommand(textPath, sentencePath);
 
-                CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor)
-                        .thenRunAsync(textParseCommand, asyncCommandExecutor);
+                SentenceReader reader = new SentenceReader(queue, sentencePath);
+
+                CompletableFuture<Void> bookFuture = CompletableFuture.runAsync(bookParseCommand, asyncCommandExecutor)
+                        .thenRunAsync(textParseCommand, asyncCommandExecutor)
+                        .thenRunAsync(reader, asyncSentenceExecutor);
+                bookFutures.add(bookFuture);
             }
+
+            CompletableFuture<?>[] f = new CompletableFuture<?>[bookFutures.size()];
+            bookFutures.toArray(f);
+
+            CompletableFuture.allOf(f)
+                    .thenRunAsync(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                queue.put(new SentenceIndexDto(StringUtils.EMPTY, SentenceDto.LAST));
+                            } catch (InterruptedException e) {
+                                log.error("Can't index book", e);
+                            }
+                        }
+                    });
         } catch (IOException e) {
             log.error("Can't read books", e);
         }

@@ -28,7 +28,6 @@ export class SearchPage extends Component {
                     <fieldset>
                         <input type="text" id="query" placeholder="Please type text"
                                onChange={this.handleInputChange}/>
-                        <button type="submit" className="pure-button">Search</button>
                     </fieldset>
                 </form>
 

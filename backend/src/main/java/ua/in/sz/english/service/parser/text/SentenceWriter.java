@@ -18,9 +18,13 @@ public class SentenceWriter implements Runnable {
     @Override
     public void run() {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path))) {
+            log.debug("Start write sentence: {}", path);
+
             doConsume(writer);
+
+            log.debug("End write sentence: {}", path);
         } catch (InterruptedException | IOException e) {
-            log.error("Interrupted", e);
+            log.error("Can't write sentence", e);
         }
     }
 
@@ -29,7 +33,6 @@ public class SentenceWriter implements Runnable {
             SentenceDto sentence = queue.take();
 
             if (SentenceDto.LAST.equals(sentence.getText())) {
-                log.info("End parse text: {}", path);
                 break;
             }
 

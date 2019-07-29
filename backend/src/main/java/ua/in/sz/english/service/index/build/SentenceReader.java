@@ -20,20 +20,26 @@ public class SentenceReader implements Runnable {
 
     @Override
     public void run() {
-        log.info("Read sentences: {}", path);
-
         try {
-            for (String sentence : Files.readAllLines(Paths.get(path))) {
-                queue.put(new SentenceIndexDto(path, sentence));
+            log.debug("Start read sentences: {}", path);
 
-                if (log.isTraceEnabled()) {
-                    log.trace("Sentence: {}", sentence);
-                }
-            }
+            doRead();
 
-            queue.put(new SentenceIndexDto(StringUtils.EMPTY, SentenceDto.LAST));
+            log.debug("End read sentences: {}", path);
         } catch (IOException | InterruptedException e) {
             log.error("Can't sentence read", e);
         }
+    }
+
+    private void doRead() throws IOException, InterruptedException {
+        for (String sentence : Files.readAllLines(Paths.get(path))) {
+            queue.put(new SentenceIndexDto(path, sentence));
+
+            if (log.isTraceEnabled()) {
+                log.trace("Sentence: {}", sentence);
+            }
+        }
+
+        queue.put(new SentenceIndexDto(StringUtils.EMPTY, SentenceDto.LAST));
     }
 }

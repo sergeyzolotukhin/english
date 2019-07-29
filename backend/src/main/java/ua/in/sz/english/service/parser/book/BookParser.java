@@ -18,23 +18,29 @@ public class BookParser implements Runnable {
 
     @Override
     public void run() {
-        log.info("Parse book: {}", path);
-
         try (PdfPageReader reader = new PdfPageReader(path)) {
-            for (int page = 1; page < reader.getNumberOfPages(); page++) {
-                String text = PdfTextExtractor.getTextFromPage(reader, page, new SimpleTextExtractionStrategy());
+            log.debug("Start parse book: {}", path);
 
-                if (log.isTraceEnabled()) {
-                    log.trace("Send page: {}", page);
-                }
+            doParse(reader);
 
-                queue.put(new PageDto(path, page, text));
-            }
-
-            queue.put(new PageDto(path, PageDto.LAST, StringUtils.EMPTY));
+            log.debug("End parse book: {}", path);
         } catch (IOException | InterruptedException e) {
             log.error("Can't parse book", e);
         }
+    }
+
+    private void doParse(PdfPageReader reader) throws IOException, InterruptedException {
+        for (int page = 1; page < reader.getNumberOfPages(); page++) {
+            String text = PdfTextExtractor.getTextFromPage(reader, page, new SimpleTextExtractionStrategy());
+
+            if (log.isTraceEnabled()) {
+                log.trace("Send page: {}", page);
+            }
+
+            queue.put(new PageDto(path, page, text));
+        }
+
+        queue.put(new PageDto(path, PageDto.LAST, StringUtils.EMPTY));
     }
 
     private static class PdfPageReader extends PdfReader implements AutoCloseable {

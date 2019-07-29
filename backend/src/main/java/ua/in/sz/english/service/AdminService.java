@@ -47,7 +47,6 @@ public class AdminService {
 
     public AdminService(TaskExecutor asyncTaskExecutor) {
         this.asyncTaskExecutor = asyncTaskExecutor;
-
     }
 
     public void indexBook() {
@@ -62,6 +61,7 @@ public class AdminService {
             createEmptyDirectory(sentenceDirPath);
 
             SentenceIndexWriter indexWriter = writeIndex();
+            CompletableFuture.runAsync(indexWriter, asyncTaskExecutor);
 
             int count = 0;
             for (Path book : books) {
@@ -130,9 +130,7 @@ public class AdminService {
 
     private SentenceIndexWriter writeIndex() {
         BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-        SentenceIndexWriter writer = new SentenceIndexWriter(queue, indexDirPath);
-        CompletableFuture.runAsync(writer);
-        return writer;
+        return new SentenceIndexWriter(queue, indexDirPath);
     }
 
     private String toTextFileName(String name) {

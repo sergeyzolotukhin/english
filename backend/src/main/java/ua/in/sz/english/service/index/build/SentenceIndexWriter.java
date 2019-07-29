@@ -21,25 +21,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class SentenceIndexWriter implements Runnable {
     private final BlockingQueue<SentenceIndexDto> queue;
-    private final String path;
+    private final String indexPath;
 
     private AtomicInteger expected = new AtomicInteger(Integer.MAX_VALUE);
 
     @Override
     public void run() {
         try (Analyzer analyzer = IndexFactory.createAnalyzer();
-             Directory directory = IndexFactory.createDirectory(path);
+             Directory directory = IndexFactory.createDirectory(indexPath);
              IndexWriter indexWriter = IndexFactory.createIndexWriter(analyzer, directory)
         ) {
+            log.info("Start write index: {}", indexPath);
+
             doConsume(indexWriter);
+
+            log.info("End write index: {}", indexPath);
         } catch (InterruptedException | IOException e) {
-            log.error("Interrupted", e);
+            log.error("Can't write index", e);
         }
     }
 
     private void doConsume(IndexWriter indexWriter) throws InterruptedException, IOException {
-        log.info("Start write index");
-
         while (true) {
             if (Thread.currentThread().isInterrupted()) {
                 break;
@@ -49,7 +51,6 @@ public class SentenceIndexWriter implements Runnable {
 
             if (SentenceIndexDto.LAST.equals(sentence.getText())) {
                 if (expected.decrementAndGet() <= 0) {
-                    log.info("End write build: {}", path);
                     break;
                 }
             }

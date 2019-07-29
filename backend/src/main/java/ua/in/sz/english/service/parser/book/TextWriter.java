@@ -18,7 +18,11 @@ public class TextWriter implements Runnable {
     @Override
     public void run() {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path))) {
+            log.debug("Start write text: {}", path);
+
             doConsume(writer);
+
+            log.debug("End write text: {}", path);
         } catch (InterruptedException | IOException e) {
             log.error("Interrupted", e);
         }
@@ -29,7 +33,6 @@ public class TextWriter implements Runnable {
             PageDto page = queue.take();
 
             if (PageDto.LAST == page.getPageNo()) {
-                log.info("End parse book: {}", page.getBookTitle());
                 break;
             }
 

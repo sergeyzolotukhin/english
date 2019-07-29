@@ -27,26 +27,32 @@ public class TextParser implements Runnable {
 
     @Override
     public void run() {
-        log.info("Parse text: {}", path);
-
         try (InputStream model = sentenceModel.getInputStream()) {
-            SentenceDetectorME detector = new SentenceDetectorME(new SentenceModel(model));
+            log.debug("Start parse text: {}", path);
 
-            String text = new String(Files.readAllBytes(Paths.get(path)));
-            for (String sentence : detector.sentDetect(text)) {
+            doParse(model);
 
-                String normalizedSentence = normalize(sentence);
-                queue.put(new SentenceDto(path, normalizedSentence));
-
-                if (log.isTraceEnabled()) {
-                    log.trace("Sentence: {}", normalizedSentence);
-                }
-            }
-
-            queue.put(new SentenceDto(path, SentenceDto.LAST));
+            log.debug("End parse text: {}", path);
         } catch (IOException | InterruptedException e) {
-            log.error("Can't sentence parse", e);
+            log.error("Can't parse text", e);
         }
+    }
+
+    private void doParse(InputStream model) throws IOException, InterruptedException {
+        SentenceDetectorME detector = new SentenceDetectorME(new SentenceModel(model));
+
+        String text = new String(Files.readAllBytes(Paths.get(path)));
+        for (String sentence : detector.sentDetect(text)) {
+
+            String normalizedSentence = normalize(sentence);
+            queue.put(new SentenceDto(path, normalizedSentence));
+
+            if (log.isTraceEnabled()) {
+                log.trace("Sentence: {}", normalizedSentence);
+            }
+        }
+
+        queue.put(new SentenceDto(path, SentenceDto.LAST));
     }
 
     private String normalize(String sentence) {

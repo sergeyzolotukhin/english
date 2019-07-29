@@ -3,37 +3,24 @@ import {connect} from 'react-redux';
 import {searchSentence} from './../../reducers/search';
 
 export class SearchPage extends Component {
-    state = {
-        query: ""
-    };
 
     handleInputChange = (e) => {
-        let value = e.target.value;
-        this.setState({query: value});
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const {query} = this.state;
-        this.props.searchSentence(query);
+        if ('Enter' === e.key) {
+            this.props.searchSentence(e.target.value);
+        }
     };
 
     render() {
         const items = this.props.items;
-        const list = items.map((item, index) => <li key={index}>{item}</li>);
+        const list = items.map((item, index) => <div className="row mt-2" key={index}>{item}</div>);
 
         return (
-            <div>
-                <form className="pure-form" onSubmit={this.handleSubmit}>
-                    <fieldset>
-                        <input type="text" id="query" placeholder="Please type text"
-                               onChange={this.handleInputChange}/>
-                    </fieldset>
-                </form>
-
-                <ul>
-                    {list}
-                </ul>
+            <div className="container">
+                <div className="row">
+                    <input className="form-control col-12" type="text"
+                           onKeyDown={this.handleInputChange}/>
+                </div>
+                {list}
             </div>
         );
     }

@@ -2,21 +2,17 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
-import 'stylus/main.styl';
-
 const TopMenu = (props) => {
     const items = props.items.map((item, key) => (
-        <li key={key} className="pure-menu-item">
-            <Link to={item.link} className="pure-menu-link">{item.label}</Link>
+        <li className="nav-item" key={key}>
+            <Link onlyActiveOnIndex={true} to={item.link} className="nav-link active">{item.label}</Link>
         </li>
     ));
 
     return (
-        <div className="pure-menu pure-menu-horizontal">
-            <ul className="pure-menu-list">
-                {items}
-            </ul>
-        </div>
+        <ul className="nav nav-tabs mt-2">
+            {items}
+        </ul>
     );
 };
 
@@ -28,9 +24,11 @@ export class App extends Component {
         ];
 
         return (
-            <div id="application">
+            <div className="container">
                 <TopMenu items={menuItems}/>
-                {this.props.children}
+                <div className="mt-2">
+                    {this.props.children}
+                </div>
             </div>
         );
     }

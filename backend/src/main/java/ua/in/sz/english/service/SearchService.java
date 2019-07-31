@@ -12,7 +12,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.springframework.stereotype.Service;
-import ua.in.sz.english.AppProperties;
+import ua.in.sz.english.AppProps;
 import ua.in.sz.english.service.index.IndexConstant;
 import ua.in.sz.english.service.index.IndexFactory;
 
@@ -25,15 +25,15 @@ import java.util.List;
 @Service
 public class SearchService {
 
-    private final AppProperties appProperties;
+    private final AppProps appProps;
 
-    public SearchService(AppProperties appProperties) {
-        this.appProperties = appProperties;
+    public SearchService(AppProps appProps) {
+        this.appProps = appProps;
     }
 
     public List<String> search(String queryString, int limit) {
         try (
-                Directory directory = IndexFactory.createDirectory(appProperties.getIndexDirPath());
+                Directory directory = IndexFactory.createDirectory(appProps.getIndexDirPath());
                 IndexReader reader = IndexFactory.createReader(directory);
                 StandardAnalyzer analyzer = IndexFactory.createAnalyzer();
         ) {

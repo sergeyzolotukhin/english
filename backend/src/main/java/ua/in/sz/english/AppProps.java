@@ -1,13 +1,14 @@
 package ua.in.sz.english;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
 
 @ConfigurationProperties(prefix = "english")
-@Component
-public class AppProperties {
+public class AppProps {
+    /**
+     * Location of source book
+     */
     @NotEmpty
     private String bookDirPath;
     @NotEmpty
@@ -16,8 +17,6 @@ public class AppProperties {
     private String sentenceDirPath;
     @NotEmpty
     private String indexDirPath;
-
-    private String name;
 
     public String getBookDirPath() {
         return bookDirPath;
@@ -49,13 +48,5 @@ public class AppProperties {
 
     public void setIndexDirPath(String indexDirPath) {
         this.indexDirPath = indexDirPath;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

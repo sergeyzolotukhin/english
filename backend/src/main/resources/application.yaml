@@ -6,7 +6,6 @@ logging:
   file: work/application.log
 
 english:
-  name: sz
   bookDirPath: e:/_book/_development/_book
   textDirPath: K:/projects/english/work/text
   sentenceDirPath: K:/projects/english/work/sentence

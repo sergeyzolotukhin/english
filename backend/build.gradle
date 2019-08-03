@@ -48,7 +48,8 @@ dependencies {
     compile group: 'org.apache.opennlp', name: 'opennlp-tools', version: '1.9.1'
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.1.1'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.1.1'
-    
+//    compile group: 'org.apache.lucene', name: 'lucene-analyzers-opennlp', version: '8.1.1'
+
     compile group: 'org.apache.commons', name: 'commons-text', version: '1.7'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
@@ -57,6 +58,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

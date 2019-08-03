@@ -3,10 +3,12 @@ package ua.in.sz.english.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
+import ua.in.sz.english.AppProps;
 import ua.in.sz.english.service.index.build.SentenceIndexDto;
 import ua.in.sz.english.service.index.build.SentenceIndexWriter;
 import ua.in.sz.english.service.index.build.SentenceReader;
@@ -30,14 +32,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 public class AdminService {
-    @Value("${book.dir.path}")
-    private String bookDirPath;
-    @Value("${text.dir.path}")
-    private String textDirPath;
-    @Value("${sentence.dir.path}")
-    private String sentenceDirPath;
-    @Value("${index.dir.path}")
-    private String indexDirPath;
+    private final AppProps props;
     @Value("${parser.queue.capacity:20}")
     private int queueCapacity;
     @Value("classpath:en-sent.bin")
@@ -45,20 +40,22 @@ public class AdminService {
 
     private final TaskExecutor asyncTaskExecutor;
 
-    public AdminService(TaskExecutor asyncTaskExecutor) {
+    @Autowired
+    public AdminService(AppProps props, TaskExecutor asyncTaskExecutor) {
         this.asyncTaskExecutor = asyncTaskExecutor;
+        this.props = props;
     }
 
     public void indexBook() {
-        Path bookDir = Paths.get(this.bookDirPath);
+        Path bookDir = Paths.get(this.props.getBookDirPath());
         if (!Files.exists(bookDir)) {
             log.info("Book directory not exist {}", bookDir);
             return;
         }
 
         try (DirectoryStream<Path> books = Files.newDirectoryStream(bookDir, "*.pdf")) {
-            createEmptyDirectory(textDirPath);
-            createEmptyDirectory(sentenceDirPath);
+            createEmptyDirectory(props.getTextDirPath());
+            createEmptyDirectory(props.getSentenceDirPath());
 
             SentenceIndexWriter indexWriter = writeIndex();
             CompletableFuture.runAsync(indexWriter, asyncTaskExecutor);
@@ -130,14 +127,14 @@ public class AdminService {
 
     private SentenceIndexWriter writeIndex() {
         BlockingQueue<SentenceIndexDto> queue = new ArrayBlockingQueue<>(queueCapacity);
-        return new SentenceIndexWriter(queue, indexDirPath);
+        return new SentenceIndexWriter(queue, props.getIndexDirPath());
     }
 
     private String toTextFileName(String name) {
-        return this.textDirPath + File.separator + name + ".txt";
+        return this.props.getTextDirPath() + File.separator + name + ".txt";
     }
 
     private String toSentenceFileName(String name) {
-        return this.sentenceDirPath + File.separator + name + ".txt";
+        return this.props.getSentenceDirPath() + File.separator + name + ".txt";
     }
 }

@@ -1,0 +1,12 @@
+spring:
+  output:
+    ansi:
+      enabled:  always
+logging:
+  file: work/application.log
+
+english:
+  bookDirPath: e:/_book/_development/!book
+  textDirPath: K:/projects/english/work/text
+  sentenceDirPath: K:/projects/english/work/sentence
+  indexDirPath: K:/projects/english/index

@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.integration.annotation.MessageEndpoint;
+import org.springframework.integration.annotation.Poller;
 import org.springframework.integration.annotation.Splitter;
 import ua.in.sz.english.service.parser.book.PageDto;
 
@@ -16,9 +17,11 @@ import java.util.Iterator;
 @Slf4j
 @MessageEndpoint
 public class BookParserEndpoint {
-    @Splitter(inputChannel = "bookChannel", outputChannel = "pageChannel")
+    @Splitter(inputChannel = "bookChannel", outputChannel = "pageChannel",
+            poller = @Poller(fixedDelay = "100", taskExecutor = "integrateTaskExecutor"))
     public Iterator<PageDto> parse(File file) throws IOException {
         PdfReader reader = new PdfReader(file.getAbsolutePath());
+        log.info("Parse book {}", file);
         return new PageIt(reader);
     }
 

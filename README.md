@@ -35,4 +35,4 @@ Proposal:
 4. As User I want have online idioms store.
 5. As User I want have index of my books.
 6. As User I want have irregular verbs store.
-7. As User I want identify parts of speech (noun, verb) 
+8. As Dev I want migrate to spring integration for take expandability. 

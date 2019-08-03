@@ -49,11 +49,11 @@ public class PartOfSpeechService {
                 sb.append(token).append(StringUtils.SPACE);
 
                 if (isNoun(tag)) {
-                    sb.append(NOUN_TAG).append(StringUtils.SPACE);
+                    sb.append(tag).append(StringUtils.SPACE);
                 }
 
                 if (isVerb(tag)) {
-                    sb.append(VERB_TAG).append(StringUtils.SPACE);
+                    sb.append(tag).append(StringUtils.SPACE);
                 }
             }
 

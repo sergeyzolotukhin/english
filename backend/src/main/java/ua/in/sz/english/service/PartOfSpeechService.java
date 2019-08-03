@@ -5,6 +5,7 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTagger;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -14,9 +15,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.upperCase;
+
 @Slf4j
 @Service
 public class PartOfSpeechService {
+    private static final String NOUN_TAG = "N";
+    private static final String VERB_TAG = "V";
+
     @Value("classpath:en-pos-maxent.bin")
     private Resource partOfSpeechModel;
 
@@ -40,8 +46,15 @@ public class PartOfSpeechService {
                 String token = tokens[i];
                 String tag = tags[i];
 
-                sb.append(token).append(StringUtils.SPACE)
-                        .append(tag).append(StringUtils.SPACE);
+                sb.append(token).append(StringUtils.SPACE);
+
+                if (isNoun(tag)) {
+                    sb.append(NOUN_TAG).append(StringUtils.SPACE);
+                }
+
+                if (isVerb(tag)) {
+                    sb.append(VERB_TAG).append(StringUtils.SPACE);
+                }
             }
 
             return sb.toString();
@@ -50,5 +63,13 @@ public class PartOfSpeechService {
         }
 
         return sentence;
+    }
+
+    private boolean isNoun(String tag) {
+        return upperCase(tag).startsWith(NOUN_TAG);
+    }
+
+    private boolean isVerb(String tag) {
+        return upperCase(tag).startsWith(VERB_TAG);
     }
 }

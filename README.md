@@ -26,3 +26,10 @@ https://babeljs.io/docs/en/6.26.3/babel-preset-react
 
 js libs: 
 axios - Promise based HTTP client for the browser and node.js
+
+Proposal:
+
+1. As User I want have translator with store unknown word.
+2. As User I want have online dictionary with shot explanation of word.
+3. As User I want have online wiki with shot book content. 
+4. As User I want have online idioms store.

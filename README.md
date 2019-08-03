@@ -33,3 +33,6 @@ Proposal:
 2. As User I want have online dictionary with shot explanation of word.
 3. As User I want have online wiki with shot book content. 
 4. As User I want have online idioms store.
+5. As User I want have index of my books.
+6. As User I want have irregular verbs store.
+7. As User I want identify parts of speech (noun, verb) 

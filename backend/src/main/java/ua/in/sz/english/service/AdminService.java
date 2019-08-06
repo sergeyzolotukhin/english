@@ -71,7 +71,7 @@ public class AdminService {
                                 .thenRun(() -> readSentence(bookName, indexWriter.getQueue())));
             }
 
-            indexWriter.expectedCount(count);
+//            indexWriter.expectedCount(count);
         } catch (IOException e) {
             log.error("Can't read books", e);
         }

@@ -14,7 +14,6 @@ import ua.in.sz.english.service.index.IndexFactory;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Getter
@@ -22,8 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SentenceIndexWriter implements Runnable {
     private final BlockingQueue<SentenceIndexDto> queue;
     private final String indexPath;
-
-    private AtomicInteger expected = new AtomicInteger(Integer.MAX_VALUE);
 
     @Override
     public void run() {
@@ -50,9 +47,7 @@ public class SentenceIndexWriter implements Runnable {
             SentenceIndexDto sentence = queue.take();
 
             if (SentenceIndexDto.LAST.equals(sentence.getText())) {
-                if (expected.decrementAndGet() <= 0) {
-                    break;
-                }
+                break;
             }
 
             indexSentence(indexWriter, sentence.getText());
@@ -60,12 +55,6 @@ public class SentenceIndexWriter implements Runnable {
             if (log.isTraceEnabled()) {
                 log.trace("Sentence: {}", sentence.getText());
             }
-        }
-    }
-
-    public void expectedCount(int count) {
-        if (expected.addAndGet(count - Integer.MAX_VALUE) <= 0) {
-            Thread.currentThread().interrupt();
         }
     }
 

@@ -20,6 +20,7 @@ public class AppProps {
 
     private int bookParseQueueCapacity = 20;
     private int textParseQueueCapacity = 1000;
+    private int sentenceParseQueueCapacity = 1000;
 
     public String getBookDirPath() {
         return bookDirPath;
@@ -67,5 +68,13 @@ public class AppProps {
 
     public void setTextParseQueueCapacity(int textParseQueueCapacity) {
         this.textParseQueueCapacity = textParseQueueCapacity;
+    }
+
+    public int getSentenceParseQueueCapacity() {
+        return sentenceParseQueueCapacity;
+    }
+
+    public void setSentenceParseQueueCapacity(int sentenceParseQueueCapacity) {
+        this.sentenceParseQueueCapacity = sentenceParseQueueCapacity;
     }
 }

@@ -1,59 +1,59 @@
 package ua.in.sz.english.integration.parser;
 
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
-import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.integration.annotation.MessageEndpoint;
-import org.springframework.integration.annotation.Poller;
-import org.springframework.integration.annotation.Splitter;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.util.Assert;
+import ua.in.sz.english.AppProps;
+import ua.in.sz.english.service.parser.book.BookParser;
 import ua.in.sz.english.service.parser.book.PageDto;
+import ua.in.sz.english.service.parser.book.TextWriter;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
-@MessageEndpoint
 public class BookParserEndpoint {
-    @Splitter(inputChannel = "bookChannel", outputChannel = "pageChannel",
-            poller = @Poller(fixedDelay = "100", taskExecutor = "integrateTaskExecutor"))
-    public Iterator<PageDto> parse(File file) throws IOException {
-        PdfReader reader = new PdfReader(file.getAbsolutePath());
-        log.info("Parse book {}", file);
-        return new PageIt(reader);
+
+    private final AppProps props;
+    private final TaskExecutor executor;
+
+    @Value("${parser.queue.capacity:20}")
+    private int queueCapacity;
+
+    public BookParserEndpoint(TaskExecutor executor, AppProps props) {
+        this.executor = executor;
+        this.props = props;
     }
 
-    private static class PageIt implements Iterator<PageDto> {
-        private final int pages;
-        private final PdfReader reader;
-        private final TextExtractionStrategy strategy;
+    public File parse(File book) throws ExecutionException, InterruptedException {
+        log.info("Start parse book: {}", book);
 
-        private int page = 1;
+        Assert.notNull(book, "Book is null");
 
-        PageIt(PdfReader reader) {
-            this.reader = reader;
-            this.pages = reader.getNumberOfPages();
-            this.strategy = new SimpleTextExtractionStrategy();
-        }
+        String bookName = FilenameUtils.getBaseName(book.toString());
 
-        @Override
-        public boolean hasNext() {
-            return page < pages;
-        }
+        String bookPath = book.toString();
+        String textPath = toTextFileName(bookName);
 
-        @Override
-        public PageDto next() {
-            return new PageDto("", page++, pageText());
-        }
+        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+        BookParser parser = new BookParser(queue, bookPath);
+        TextWriter writer = new TextWriter(queue, textPath);
 
-        private String pageText() {
-            try {
-                return PdfTextExtractor.getTextFromPage(reader, page, strategy);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(parser, executor),
+                CompletableFuture.runAsync(writer, executor)
+        ).get();
+
+        log.info("End parse book: {}", book);
+        return new File(textPath);
+    }
+
+    private String toTextFileName(String name) {
+        return this.props.getTextDirPath() + File.separator + name + ".txt";
     }
 }

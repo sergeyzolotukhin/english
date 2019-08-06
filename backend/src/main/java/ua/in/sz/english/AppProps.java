@@ -18,6 +18,10 @@ public class AppProps {
     @NotEmpty
     private String indexDirPath;
 
+    private int bookParseQueueCapacity = 20;
+    private int textParseQueueCapacity = 1000;
+    private int sentenceParseQueueCapacity = 1000;
+
     public String getBookDirPath() {
         return bookDirPath;
     }
@@ -48,5 +52,29 @@ public class AppProps {
 
     public void setIndexDirPath(String indexDirPath) {
         this.indexDirPath = indexDirPath;
+    }
+
+    public int getBookParseQueueCapacity() {
+        return bookParseQueueCapacity;
+    }
+
+    public void setBookParseQueueCapacity(int bookParseQueueCapacity) {
+        this.bookParseQueueCapacity = bookParseQueueCapacity;
+    }
+
+    public int getTextParseQueueCapacity() {
+        return textParseQueueCapacity;
+    }
+
+    public void setTextParseQueueCapacity(int textParseQueueCapacity) {
+        this.textParseQueueCapacity = textParseQueueCapacity;
+    }
+
+    public int getSentenceParseQueueCapacity() {
+        return sentenceParseQueueCapacity;
+    }
+
+    public void setSentenceParseQueueCapacity(int sentenceParseQueueCapacity) {
+        this.sentenceParseQueueCapacity = sentenceParseQueueCapacity;
     }
 }

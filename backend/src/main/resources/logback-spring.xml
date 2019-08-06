@@ -1,5 +1,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
+<!--    <logger name="org.springframework.integration" level="DEBUG"/>-->
+<!--    <logger name="ua.in.sz.english.integration.processor" level="DEBUG"/>-->
 <!--    <logger name="ua.in.sz.english" level="TRACE"/>-->
 <!--    <logger name="ua.in.sz.english.service.tokenizer.sentence.SentenceWriterlevel="TRACE"/>-->
 </configuration>

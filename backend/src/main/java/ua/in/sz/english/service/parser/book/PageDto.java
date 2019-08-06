@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PageDto {
-    static final int LAST = -1;
+    public static final int LAST = -1;
 
     private final String bookTitle;
     private final int pageNo;

@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.parser;
+package ua.in.sz.english.integration.processor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -17,14 +17,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class TextParserEndpoint {
+public class TextProcessor {
     private final AppProps props;
     private final TaskExecutor executor;
 
     @Value("classpath:en-sent.bin")
     private Resource sentenceModel;
 
-    public TextParserEndpoint(TaskExecutor executor, AppProps props) {
+    public TextProcessor(TaskExecutor executor, AppProps props) {
         this.executor = executor;
         this.props = props;
     }

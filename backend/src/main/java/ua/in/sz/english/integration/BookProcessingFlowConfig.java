@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.integration.channel.NullChannel;
 import org.springframework.integration.channel.QueueChannel;
-import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Pollers;
@@ -14,52 +12,50 @@ import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.integration.parser.BookFileMessageSource;
-import ua.in.sz.english.integration.parser.BookParserEndpoint;
-import ua.in.sz.english.integration.parser.SentenceParserEndpoint;
-import ua.in.sz.english.integration.parser.TextParserEndpoint;
-
-import java.io.File;
+import ua.in.sz.english.integration.processor.BookFileSource;
+import ua.in.sz.english.integration.processor.BookProcessor;
+import ua.in.sz.english.integration.processor.SentenceProcessor;
+import ua.in.sz.english.integration.processor.TextProcessor;
 
 @Slf4j
 @Configuration
-public class IntegrationConfig {
+public class BookProcessingFlowConfig {
     private final AppProps appProps;
 
-    public IntegrationConfig(AppProps appProps) {
+    public BookProcessingFlowConfig(AppProps appProps) {
         this.appProps = appProps;
     }
 
     @Bean
     public IntegrationFlow bookProcessingFlow() {
         return IntegrationFlows
-                .from(bookDirectoryScanner())
+                .from(bookSource())
                 .channel(bookChannel())
-                .handle(bookParser())
+                .handle(bookProcessor())
                 .channel(pageChannel())
-                .handle(textParser())
+                .handle(textProcessor())
                 .channel(sentenceChannel())
-                .handle(sentenceParser())
+                .handle(sentenceProcessor())
                 .get();
     }
 
-    private MessageSource<File> bookDirectoryScanner() {
-        return new BookFileMessageSource(appProps);
+    private BookFileSource bookSource() {
+        return new BookFileSource(appProps);
     }
 
     @Bean
-    public BookParserEndpoint bookParser() {
-        return new BookParserEndpoint(bookParserTaskExecutor(), appProps);
+    public BookProcessor bookProcessor() {
+        return new BookProcessor(bookParserTaskExecutor(), appProps);
     }
 
     @Bean
-    public TextParserEndpoint textParser() {
-        return new TextParserEndpoint(textParserTaskExecutor(), appProps);
+    public TextProcessor textProcessor() {
+        return new TextProcessor(textParserTaskExecutor(), appProps);
     }
 
     @Bean
-    public SentenceParserEndpoint sentenceParser() {
-        return new SentenceParserEndpoint(sentenceParserTaskExecutor(), appProps);
+    public SentenceProcessor sentenceProcessor() {
+        return new SentenceProcessor(sentenceParserTaskExecutor(), appProps);
     }
 
     // ================================================================================================================
@@ -76,10 +72,6 @@ public class IntegrationConfig {
 
     private MessageChannel pageChannel() {
         return new QueueChannel();
-    }
-
-    private NullChannel nullChannel() {
-        return new NullChannel();
     }
 
     // ================================================================================================================

@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.parser;
+package ua.in.sz.english.integration.processor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -16,12 +16,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class BookParserEndpoint {
+public class BookProcessor {
 
     private final AppProps props;
     private final TaskExecutor executor;
 
-    public BookParserEndpoint(TaskExecutor executor, AppProps props) {
+    public BookProcessor(TaskExecutor executor, AppProps props) {
         this.executor = executor;
         this.props = props;
     }

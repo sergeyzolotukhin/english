@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.parser;
+package ua.in.sz.english.integration.processor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
@@ -14,11 +14,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class SentenceParserEndpoint {
+public class SentenceProcessor {
     private final AppProps props;
     private final TaskExecutor executor;
 
-    public SentenceParserEndpoint(TaskExecutor executor, AppProps props) {
+    public SentenceProcessor(TaskExecutor executor, AppProps props) {
         this.executor = executor;
         this.props = props;
     }

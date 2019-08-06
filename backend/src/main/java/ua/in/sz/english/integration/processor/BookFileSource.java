@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.parser;
+package ua.in.sz.english.integration.processor;
 
 import org.springframework.integration.file.FileReadingMessageSource;
 import org.springframework.integration.file.filters.AcceptOnceFileListFilter;
@@ -9,10 +9,10 @@ import ua.in.sz.english.AppProps;
 import java.io.File;
 import java.util.Arrays;
 
-public class BookFileMessageSource extends FileReadingMessageSource {
+public class BookFileSource extends FileReadingMessageSource {
     private static final String FILE_PATTERN = "*.pdf";
 
-    public BookFileMessageSource(AppProps appProps) {
+    public BookFileSource(AppProps appProps) {
         setDirectory(new File(appProps.getBookDirPath()));
         setFilter(
                 new CompositeFileListFilter<>(Arrays.asList(

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.integration.channel.ExecutorChannel;
+import org.springframework.integration.channel.NullChannel;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -32,15 +32,16 @@ public class IntegrationConfig {
     @Bean
     public IntegrationFlow bookProcessingFlow() {
         return IntegrationFlows
-                .from(fileReadingMessageSource())
+                .from(bookDirectoryScanner())
                 .channel(bookChannel())
                 .handle(bookParser())
                 .channel(pageChannel())
                 .handle(textParser())
+                .channel(nullChannel())
                 .get();
     }
 
-    private MessageSource<File> fileReadingMessageSource() {
+    private MessageSource<File> bookDirectoryScanner() {
         return new BookFileMessageSource(appProps);
     }
 
@@ -54,11 +55,16 @@ public class IntegrationConfig {
     }
 
     private MessageChannel pageChannel() {
-        return new ExecutorChannel(pageTaskExecutor());
+        return new QueueChannel();
     }
 
-    private TextParserEndpoint textParser() {
-        return new TextParserEndpoint();
+    @Bean
+    public TextParserEndpoint textParser() {
+        return new TextParserEndpoint(textParserTaskExecutor(), appProps);
+    }
+
+    private NullChannel nullChannel() {
+        return new NullChannel();
     }
 
     // ================================================================================================================
@@ -81,11 +87,11 @@ public class IntegrationConfig {
     }
 
 //    @Bean
-    private TaskExecutor pageTaskExecutor() {
+    private TaskExecutor textParserTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);
-        executor.setThreadNamePrefix("async-page-");
+        executor.setThreadNamePrefix("text-parser-");
         executor.initialize();
         return executor;
     }

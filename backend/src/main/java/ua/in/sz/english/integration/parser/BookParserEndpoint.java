@@ -2,7 +2,6 @@ package ua.in.sz.english.integration.parser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.util.Assert;
 import ua.in.sz.english.AppProps;
@@ -22,9 +21,6 @@ public class BookParserEndpoint {
     private final AppProps props;
     private final TaskExecutor executor;
 
-    @Value("${parser.queue.capacity:20}")
-    private int queueCapacity;
-
     public BookParserEndpoint(TaskExecutor executor, AppProps props) {
         this.executor = executor;
         this.props = props;
@@ -40,7 +36,7 @@ public class BookParserEndpoint {
         String bookPath = book.toString();
         String textPath = toTextFileName(bookName);
 
-        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(queueCapacity);
+        BlockingQueue<PageDto> queue = new ArrayBlockingQueue<>(props.getBookParseQueueCapacity());
         BookParser parser = new BookParser(queue, bookPath);
         TextWriter writer = new TextWriter(queue, textPath);
 

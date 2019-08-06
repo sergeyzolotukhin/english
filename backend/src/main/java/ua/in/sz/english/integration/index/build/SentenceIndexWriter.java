@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.index.build;
+package ua.in.sz.english.integration.index.build;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
-import ua.in.sz.english.service.index.IndexConstant;
-import ua.in.sz.english.service.index.IndexFactory;
+import ua.in.sz.english.integration.index.IndexConstant;
+import ua.in.sz.english.integration.index.IndexFactory;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;

@@ -12,10 +12,10 @@ import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.integration.processor.BookFileSource;
-import ua.in.sz.english.integration.processor.BookProcessor;
-import ua.in.sz.english.integration.processor.SentenceProcessor;
-import ua.in.sz.english.integration.processor.TextProcessor;
+import ua.in.sz.english.integration.parser.BookFileSource;
+import ua.in.sz.english.integration.parser.book.BookProcessor;
+import ua.in.sz.english.integration.index.build.SentenceProcessor;
+import ua.in.sz.english.integration.parser.text.TextProcessor;
 
 @Slf4j
 @Configuration

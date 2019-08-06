@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.parser.book;
+package ua.in.sz.english.integration.parser.book;
 
 import lombok.Data;
 

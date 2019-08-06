@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.processor;
+package ua.in.sz.english.integration.parser;
 
 import org.springframework.integration.file.FileReadingMessageSource;
 import org.springframework.integration.file.filters.AcceptOnceFileListFilter;

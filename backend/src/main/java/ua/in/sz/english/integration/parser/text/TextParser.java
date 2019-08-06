@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.parser.text;
+package ua.in.sz.english.integration.parser.text;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

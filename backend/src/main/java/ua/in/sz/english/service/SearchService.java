@@ -13,8 +13,8 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.springframework.stereotype.Service;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.service.index.IndexConstant;
-import ua.in.sz.english.service.index.IndexFactory;
+import ua.in.sz.english.integration.index.IndexConstant;
+import ua.in.sz.english.integration.index.IndexFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,13 +1,13 @@
-package ua.in.sz.english.integration.processor;
+package ua.in.sz.english.integration.parser.book;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.util.Assert;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.service.parser.book.BookParser;
-import ua.in.sz.english.service.parser.book.PageDto;
-import ua.in.sz.english.service.parser.book.TextWriter;
+import ua.in.sz.english.integration.parser.book.BookParser;
+import ua.in.sz.english.integration.parser.book.PageDto;
+import ua.in.sz.english.integration.parser.book.TextWriter;
 
 import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;

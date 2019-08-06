@@ -1,4 +1,4 @@
-package ua.in.sz.english.integration.processor;
+package ua.in.sz.english.integration.parser.text;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.task.TaskExecutor;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.service.parser.text.SentenceDto;
-import ua.in.sz.english.service.parser.text.SentenceWriter;
-import ua.in.sz.english.service.parser.text.TextParser;
+import ua.in.sz.english.integration.parser.text.SentenceDto;
+import ua.in.sz.english.integration.parser.text.SentenceWriter;
+import ua.in.sz.english.integration.parser.text.TextParser;
 
 import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;

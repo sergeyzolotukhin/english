@@ -1,11 +1,11 @@
-package ua.in.sz.english.integration.processor;
+package ua.in.sz.english.integration.index.build;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 import ua.in.sz.english.AppProps;
-import ua.in.sz.english.service.index.build.SentenceIndexDto;
-import ua.in.sz.english.service.index.build.SentenceIndexWriter;
-import ua.in.sz.english.service.index.build.SentenceReader;
+import ua.in.sz.english.integration.index.build.SentenceIndexDto;
+import ua.in.sz.english.integration.index.build.SentenceIndexWriter;
+import ua.in.sz.english.integration.index.build.SentenceReader;
 
 import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;

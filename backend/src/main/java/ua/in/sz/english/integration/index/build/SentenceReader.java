@@ -1,10 +1,10 @@
-package ua.in.sz.english.service.index.build;
+package ua.in.sz.english.integration.index.build;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import ua.in.sz.english.service.parser.text.SentenceDto;
+import ua.in.sz.english.integration.parser.text.SentenceDto;
 
 import java.io.IOException;
 import java.nio.file.Files;

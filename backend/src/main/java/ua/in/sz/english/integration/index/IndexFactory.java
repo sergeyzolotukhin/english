@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.index;
+package ua.in.sz.english.integration.index;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;

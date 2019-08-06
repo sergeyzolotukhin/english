@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.parser.book;
+package ua.in.sz.english.integration.parser.book;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;

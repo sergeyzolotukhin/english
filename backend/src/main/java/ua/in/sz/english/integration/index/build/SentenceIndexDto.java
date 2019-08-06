@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.index.build;
+package ua.in.sz.english.integration.index.build;
 
 import lombok.Data;
 

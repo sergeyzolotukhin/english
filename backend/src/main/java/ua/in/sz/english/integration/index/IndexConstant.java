@@ -1,4 +1,4 @@
-package ua.in.sz.english.service.index;
+package ua.in.sz.english.integration.index;
 
 public final class IndexConstant {
     private IndexConstant() {

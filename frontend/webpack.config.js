@@ -26,7 +26,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Boot React',
             template: path.join(__dirname, 'assets/index-template.html')
-        }),
+        })
+/*        ,
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify('production')
@@ -37,26 +38,26 @@ module.exports = {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('styles.css')*/
     ],
     resolve: {
         extensions: ['', '.js'],
         root: path.join(__dirname, 'src')
     },
     module: {
-        preLoaders: [
+/*        preLoaders: [
             {
                 test: /\.css$/,
                 loader: 'stripcomment'
             }
-        ],
+        ],*/
         loaders: [{
             test: /\.js$/,
             loaders: ['babel'],
             include: path.join(__dirname, 'src')
         }, {
             test: /\.css$/,
-            loaders: ExtractTextPlugin.extract('css-loader!stylus-loader')
+            loaders: ['style-loader', 'css-loader']
         }, {
             test: /\.json/,
             loaders: ['json-loader']

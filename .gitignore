@@ -33,3 +33,4 @@ frontend/dist/
 /backend/build/*
 /backend/out/*
 /build/*
+/.gtm/

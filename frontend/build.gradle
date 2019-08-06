@@ -19,12 +19,12 @@ task bundle(type: YarnTask) {
     args = ['run', 'bundle']
 }
 
-task start(type: YarnTask) {
+task nodeRun(type: YarnTask) {
     group = APP_FRONEND_TASK_GROUP
     args = ['start']
 }
 
-task stop(type:Exec) {
+task nodeStop(type:Exec) {
     group = APP_FRONEND_TASK_GROUP
     commandLine 'taskkill', '/f', '/im', 'node*'
     ignoreExitValue = true
@@ -32,4 +32,4 @@ task stop(type:Exec) {
 
 bundle.dependsOn(yarn_install)
 assemble.dependsOn(bundle)
-start.dependsOn(stop)
+nodeRun.dependsOn(nodeStop)

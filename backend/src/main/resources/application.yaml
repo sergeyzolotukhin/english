@@ -2,8 +2,14 @@ spring:
   output:
     ansi:
       enabled:  always
+  batch:
+    job:
+      enabled: false
+
 logging:
   file: work/application.log
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(%5p) %clr([%20.20t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
 
 english:
   bookDirPath: e:/_book/_development/!book

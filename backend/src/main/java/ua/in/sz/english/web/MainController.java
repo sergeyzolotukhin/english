@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.in.sz.english.service.AdminService;
 import ua.in.sz.english.service.SearchService;
+import ua.in.sz.english.service.dictionary.DictionaryService;
+import ua.in.sz.english.service.dictionary.WordNotFoundException;
 
 import java.util.List;
 
@@ -14,23 +16,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class MainController {
-    private final SearchService searchService;
-    private final AdminService adminService;
+	private final AdminService adminService;
 
-    @Autowired
-    public MainController(SearchService searchService, AdminService adminService) {
-        this.searchService = searchService;
-        this.adminService = adminService;
-    }
+	private final SearchService searchService;
+	private final DictionaryService dictionaryService;
 
-    @RequestMapping("/search")
-    public List<String> search(@RequestParam("query") String query,
-                               @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
-        return searchService.search(query, limit);
-    }
+	@Autowired
+	public MainController(
+			AdminService adminService,
+			SearchService searchService, DictionaryService dictionaryService) {
 
-    @RequestMapping("/index/book")
-    public void indexBook() {
-        adminService.indexBook();
-    }
+		this.searchService = searchService;
+		this.adminService = adminService;
+		this.dictionaryService = dictionaryService;
+	}
+
+	@RequestMapping("/search")
+	public List<String> search(@RequestParam("query") String query,
+							   @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
+		return searchService.search(query, limit);
+	}
+
+	@RequestMapping("/index/book")
+	public void indexBook() {
+		adminService.indexBook();
+	}
+
+	@RequestMapping(value = "/definition", produces = {"text/pain;charset=UTF-8"})
+	public String definition(@RequestParam("word") String word) {
+		try {
+			return dictionaryService.definition(word);
+		} catch (WordNotFoundException e) {
+			return String.format("Word not found [%s]", word);
+		}
+	}
 }

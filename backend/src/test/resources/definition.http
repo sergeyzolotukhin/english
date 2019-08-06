@@ -1,0 +1,4 @@
+GET http://localhost:8080/api/definition?word=about
+###
+GET http://localhost:8080/api/definition?word=get
+###

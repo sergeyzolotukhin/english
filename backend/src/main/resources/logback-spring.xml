@@ -1,7 +1,19 @@
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-<!--    <logger name="org.springframework.integration" level="DEBUG"/>-->
-<!--    <logger name="ua.in.sz.english.integration.processor" level="DEBUG"/>-->
-<!--    <logger name="ua.in.sz.english" level="TRACE"/>-->
-<!--    <logger name="ua.in.sz.english.service.tokenizer.sentence.SentenceWriterlevel="TRACE"/>-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ua.in.sz.english" level="INFO"/>
+
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
 </configuration>

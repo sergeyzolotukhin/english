@@ -26,3 +26,18 @@ THE COMPOSITE SENTENCE
                 (otherwise, however, nevertheless, yet, still, therefore etc)
             b) asyndetically - without a conjunction or a conjunctive adverb.
 3. THE COMPOUND SENTENCE - subordination (a complex)
+
+##### Basic English sentence structure
+    
+    Subject–Verb
+    Subject–Verb–Object
+    Subject–Verb–Adjective
+    Subject–Verb–Adverb
+    Subject–Verb–Noun
+    Subject-Verb-Object-Manner-[at,on,in,by?]-Place-[at,in,on?,by?]-Time
+    
+And as we discussed in chapter 1, 
+you’ll rarely understand the requirements completely or correctly at the start of a project, 
+and requirements and assumptions often change during the life of a project
+
+['ei riAmba'wAn]).

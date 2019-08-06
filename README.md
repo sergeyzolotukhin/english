@@ -35,3 +35,14 @@ Proposal:
 4. As User I want have online idioms store.
 5. As User I want have index of my books.
 6. As User I want have irregular verbs store.
+
+https://github.com/nurkiewicz/rxjava-book-examples
+https://github.com/sean-liang/stardict
+https://github.com/huzheng001/stardict-3/blob/master/dict/doc/StarDictFileFormat
+
+=======================================================================================================================
+Yandex translate
+
+trnsl.1.1.20191013T135829Z.dc216ae89c78f1ce.f2105f47c218df74607d35dd45839fa4399861d5
+
+https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191013T135829Z.dc216ae89c78f1ce.f2105f47c218df74607d35dd45839fa4399861d5&text=sand&lang=en-ru

@@ -1,4 +1,6 @@
 GET http://localhost:8080/api/definition?word=about
+Accept: plai/text;charset=UTF-8
 ###
 GET http://localhost:8080/api/definition?word=get
+Accept: plai/text;charset=UTF-8
 ###

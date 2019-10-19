@@ -76,7 +76,7 @@ public class DictionaryService {
 	private Pair<String, String> parseDefinition(String line) {
 		try {
 			Matcher matcher = WORD_PATTERN.matcher(line);
-			matcher.find();
+			Assert.isTrue(matcher.find(), String.format("Incorrect line [%s]", line));
 
 			String word = normalizeWord(matcher.group(1));
 			String description = matcher.group(2);

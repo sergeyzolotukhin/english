@@ -42,7 +42,7 @@ public class MainController {
 		adminService.indexBook();
 	}
 
-	@RequestMapping(value = "/definition", produces = {"text/pain;charset=UTF-8"})
+	@RequestMapping(value = "/definition")
 	public String definition(@RequestParam("word") String word) {
 		try {
 			return dictionaryService.definition(word);

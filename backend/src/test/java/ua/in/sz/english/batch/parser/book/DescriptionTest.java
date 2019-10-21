@@ -1,10 +1,13 @@
 package ua.in.sz.english.batch.parser.book;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +26,7 @@ class DescriptionTest {
 
 	@Test
 	void parse() {
-		String description = "abate [эЪеп.] v " +
+		String text = "abate [эЪеп.] v " +
 				"1) ослаблять, уменьшать, умерять; " +
 				"2)  снижать (цену, налог и т. п.); " +
 				"3) делать скидку; " +
@@ -32,20 +35,33 @@ class DescriptionTest {
 				"6) юр.  аннулировать, отменять, прекращать; " +
 				"7) метал, отпускать (сталь).";
 
-		Matcher matcher = DEFINITION_PATTERN.matcher(description);
+		Optional<DefinitionDto> definition1 = parseDefinition(text);
+
+		if(definition1.isPresent()) {
+			DefinitionDto definition = definition1.get();
+
+			log.info("[{}] -> [{}] -> [{}]",
+					definition.getWord(), definition.getTranscription(), definition.getPartOfSpeech());
+
+			definition.getDescriptions().forEach(description -> log.info("\t: [{}]", description));
+		} else {
+			log.error("I can not parse definition: [{}]", text);
+		}
+	}
+
+	private Optional<DefinitionDto> parseDefinition(String text) {
+		Matcher matcher = DEFINITION_PATTERN.matcher(text);
 		if (matcher.find()) {
 			String word = matcher.group(1);
 			String transcription = matcher.group(2);
 			String partOfSpeech = matcher.group(3);
-			String descriptions = matcher.group(4);
+			String description = matcher.group(4);
 
-			log.info("word:[{}]", word);
-			log.info("transcription:[{}]", transcription);
-			log.info("part:[{}]", partOfSpeech);
-
-			parseDescriptions(descriptions).forEach(s -> log.info("description: [{}]", s));
+			return Optional.of(
+					DefinitionDto.of(word, transcription, partOfSpeech,
+							parseDescriptions(description)));
 		} else {
-			log.error("Not working");
+			return Optional.empty();
 		}
 	}
 
@@ -58,5 +74,14 @@ class DescriptionTest {
 		}
 
 		return result;
+	}
+
+	@Getter
+	@AllArgsConstructor(staticName = "of")
+	private static class DefinitionDto {
+		private final String word;
+		private final String transcription;
+		private final String partOfSpeech;
+		private final List<String> descriptions;
 	}
 }

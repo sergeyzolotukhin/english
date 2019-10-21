@@ -9,20 +9,18 @@ import java.util.regex.Pattern;
 @Slf4j
 class DescriptionTest {
 
+	private static final int WORD = 1;
 	private static final int TRANSCRIPTION = 2;
-	private static final int PART_OF_SPEECH = 6;
-	private static final int DEFINITION = 7;
+	private static final int PART_OF_SPEECH = 3;
+	private static final int DEFINITION = 4;
+
+	private static final String WORD_PATTERN = "^(\\S+\\s*)";
+	private static final String TRANSCRIPTION_PATTERN = "(\\[\\S*]\\s*)";
+	private static final String PART_OF_SPEECH_PATTERN = "(\\S+\\s+)";
+	private static final String DEFINITION_PATTERN = "(.*)";
 
 	private static Pattern DESCRIPTION_PATTERN = Pattern.compile(
-			// word
-			"^(\\S+)\\s*" +
-					// transcription
-					"((\\[)(\\S*)(]))\\s*" +
-					// part of speech
-					"(\\S+)\\s*" +
-					// definition
-					"([^;]+\\s*)+"
-	);
+			WORD_PATTERN + TRANSCRIPTION_PATTERN + PART_OF_SPEECH_PATTERN + DEFINITION_PATTERN);
 
 	@Test
 	void parse() {
@@ -39,8 +37,8 @@ class DescriptionTest {
 		if (matcher.find()) {
 			log.info("group count:[{}]", matcher.groupCount());
 
-			log.info("word:[{}]", matcher.group(1));
-			log.info("transcription:[{}]", matcher.group(TRANSCRIPTION + 2));
+			log.info("word:[{}]", matcher.group(WORD));
+			log.info("transcription:[{}]", matcher.group(TRANSCRIPTION));
 			log.info("part:[{}]", matcher.group(PART_OF_SPEECH));
 
 			log.info("definition:[{}]", matcher.group(DEFINITION));

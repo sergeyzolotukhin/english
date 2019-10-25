@@ -35,6 +35,15 @@ distributions {
     }
 }
 
+task copy2bin(type: Copy) {
+    group = "distribution"
+
+    from file("$buildDir/install/dict2json")
+    into file("$rootDir/.bin")
+}
+
+copy2bin.dependsOn(installDist)
+
 dependencies {
     compile 'commons-cli:commons-cli:1.4'
 

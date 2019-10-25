@@ -1,6 +1,7 @@
 package ua.in.sz.english;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,6 +21,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @SpringBootApplication
 @EnableConfigurationProperties(AppProps.class)
 public class Application extends WebMvcConfigurationSupport {
+
+    @Value("classpath:word-data.json")
+    private Resource dictionary;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -43,9 +47,9 @@ public class Application extends WebMvcConfigurationSupport {
 
     @Bean
     @ConditionalOnProperty(prefix = "english", name = "wordStoreType", havingValue = "mongo")
-    public Jackson2RepositoryPopulatorFactoryBean getRespositoryPopulator() {
+    public Jackson2RepositoryPopulatorFactoryBean mongoRespositoryPopulator() {
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
-        factory.setResources(new Resource[]{new ClassPathResource("word-data.json")});
+        factory.setResources(new Resource[]{dictionary});
         return factory;
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public class MainController {
 	private final AdminService adminService;
 

@@ -1,8 +1,10 @@
 package ua.in.sz.english;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import ua.in.sz.english.store.WordStoreType;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @ConfigurationProperties(prefix = "english")
 public class AppProps {
@@ -17,6 +19,8 @@ public class AppProps {
     private String sentenceDirPath;
     @NotEmpty
     private String indexDirPath;
+    @NotNull
+    private WordStoreType wordStoreType;
 
     private int bookParseQueueCapacity = 20;
     private int textParseQueueCapacity = 1000;
@@ -76,5 +80,13 @@ public class AppProps {
 
     public void setSentenceParseQueueCapacity(int sentenceParseQueueCapacity) {
         this.sentenceParseQueueCapacity = sentenceParseQueueCapacity;
+    }
+
+    public WordStoreType getWordStoreType() {
+        return wordStoreType;
+    }
+
+    public void setWordStoreType(WordStoreType wordStoreType) {
+        this.wordStoreType = wordStoreType;
     }
 }

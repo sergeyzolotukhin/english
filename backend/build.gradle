@@ -58,7 +58,9 @@ dependencyManagement {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-batch"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 
+    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
     compile "org.hsqldb:hsqldb"
 
     compile 'com.itextpdf:itextpdf:5.5.13.1'

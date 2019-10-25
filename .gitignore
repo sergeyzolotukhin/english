@@ -21,6 +21,7 @@ hs_err_pid*
 .gradle/
 
 # application
+bin/*
 work/*
 index/*
 books/*
@@ -29,10 +30,10 @@ backend/work/
 # JS dependencies
 frontend/node_modules/
 frontend/dist/
-
 /backend/build/*
 /backend/out/*
-/tools/build/*
-/tools/out/*
+/dict2json/build/*
+/dict2json/out/*
+
 /build/*
 /.gtm/

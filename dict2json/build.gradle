@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'distribution'
 }
 
 version 'unspecified'
@@ -13,12 +14,24 @@ repositories {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'ua.in.sz.english.tools.Dictionary'
+                'Main-Class': 'ua.in.sz.english.dict2json.Dictionary'
         )
     }
 
+    archiveFileName = 'dict2json.jar'
+
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+distributions {
+    main {
+        baseName = 'dict2json'
+        contents {
+            from 'src/cmd'
+            from jar
+        }
     }
 }
 

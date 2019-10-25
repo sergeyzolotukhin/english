@@ -1,4 +1,4 @@
-package ua.in.sz.english.tools;
+package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;

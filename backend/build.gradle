@@ -60,26 +60,32 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-batch"
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 
-    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
-    compile "org.hsqldb:hsqldb"
-
+    // data processing
     compile 'com.itextpdf:itextpdf:5.5.13.1'
     compile 'org.apache.opennlp:opennlp-tools:1.9.1'
+
+    // data store
+    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
+    compile "org.hsqldb:hsqldb"
     compile 'org.apache.lucene:lucene-core:8.1.1'
     compile 'org.apache.lucene:lucene-queryparser:8.1.1'
 
+    // common utils
     compile 'com.google.guava:guava:28.0-jre'
     compile 'org.apache.commons:commons-text:1.7'
     compile 'org.apache.commons:commons-lang3:3.9'
     compile 'commons-io:commons-io:2.6'
 
+    // logging
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.fusesource.jansi:jansi:1.8'
 
+    // development
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+    // testing
     testCompile 'com.tngtech.archunit:archunit-junit5-api:0.11.0'
     testCompile 'org.mockito:mockito-junit-jupiter:2.23.4'
     testRuntime 'com.tngtech.archunit:archunit-junit5-engine:0.11.0'

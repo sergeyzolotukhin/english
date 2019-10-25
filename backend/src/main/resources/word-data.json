@@ -1,0 +1,12 @@
+[
+  {
+    "_class": "ua.in.sz.english.store.entity.Word",
+    "word": "about",
+    "description": "о чем то"
+  },
+  {
+    "_class": "ua.in.sz.english.store.entity.Word",
+    "word": "get",
+    "description": "получить"
+  }
+]

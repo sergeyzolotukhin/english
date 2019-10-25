@@ -27,7 +27,7 @@ public class Dictionary {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 
-			new HelpFormatter().printHelp("java dict2json", options());
+			new HelpFormatter().printHelp("dict2json -f <file name>", options());
 		}
 	}
 

@@ -21,7 +21,7 @@ hs_err_pid*
 .gradle/
 
 # application
-bin/*
+.bin/*
 work/*
 index/*
 books/*

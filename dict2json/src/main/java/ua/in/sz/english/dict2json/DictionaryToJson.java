@@ -15,6 +15,8 @@ import ua.in.sz.english.dict2json.impl.DictionaryParser;
 import ua.in.sz.english.dict2json.impl.Word;
 import ua.in.sz.english.dict2json.impl.WordParser;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,8 @@ public class DictionaryToJson {
 		}
 
 		try {
-			DictionaryParser dictionaryParser = new DictionaryParser(args.get(0));
+			Path path = Paths.get(args.get(0));
+			DictionaryParser dictionaryParser = new DictionaryParser(path);
 			List<String> words = dictionaryParser.parse();
 
 			List<Word> words1 = words.stream().map(WordParser::parse).collect(Collectors.toList());

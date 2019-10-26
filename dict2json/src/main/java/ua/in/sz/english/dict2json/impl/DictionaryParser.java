@@ -6,9 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,14 +21,13 @@ public class DictionaryParser {
 	private static final String PAGE_TAG = "^[a-zA-Z]*$";
 	private static final String PAGE_NUMBER = "^[0-9]*$";
 
-	private final String fileName;
+	private final Path filePath;
 
 	public List<String> parse() {
 		try {
-			List<String> lines = Files.readAllLines(Paths.get(fileName));
+			List<String> lines = Files.readAllLines(filePath);
 
-			List<String> result1 = removePageHeaderFotter(lines);
-			return splitDescription(result1);
+			return splitDescription(normalize(lines));
 		} catch (IOException e) {
 			throw new BaseDictionaryException(e.getMessage(), e);
 		}
@@ -58,20 +59,18 @@ public class DictionaryParser {
 		return result;
 	}
 
-	private List<String> removePageHeaderFotter(List<String> split) {
-		List<String> result1 = new ArrayList<>();
-
-		for (String s : split) {
-			String current = StringUtils.trim(s);
-			if (current.matches(PAGE_TAG) || current.matches(PAGE_NUMBER)) {
-				continue;
-			}
-			result1.add(current);
-		}
-		return result1;
+	private List<String> normalize(List<String> rawLines) {
+		return rawLines.stream()
+				.filter(skip(PAGE_NUMBER))
+				.filter(skip(PAGE_TAG))
+				.collect(Collectors.toList());
 	}
 
-	private String normalize(String current) {
-		return current.replaceAll("\n", " ").trim();
+	private Predicate<String> skip(String pattern) {
+		return line -> !line.matches(pattern);
+	}
+
+	private String normalize(String text) {
+		return text.replaceAll("\n", " ").trim();
 	}
 }

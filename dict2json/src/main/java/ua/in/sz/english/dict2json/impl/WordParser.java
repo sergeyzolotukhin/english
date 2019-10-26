@@ -32,9 +32,9 @@ public class WordParser {
 
 			return new Word(word, transcription, partOfSpeech,
 					parseDescriptions(description));
-		} else {
-			throw new BaseDictionaryException(String.format("Illegal format [%s]", text));
 		}
+
+		return new Word(text);
 	}
 
 	private static List<String> parseDescriptions(String descriptions) {

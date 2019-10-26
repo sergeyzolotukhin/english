@@ -53,7 +53,7 @@ public class DictionaryToJson {
 
 			List<Word> words1 = words.stream().map(WordParser::parse).collect(Collectors.toList());
 
-			words1.stream().limit(5).map(Word::getWord).forEach(log::info);
+			words1.stream().limit(30).map(DictionaryToJson::format).forEach(log::info);
 
 			return "OK";
 		} catch (BaseDictionaryException e) {
@@ -61,6 +61,13 @@ public class DictionaryToJson {
 
 			return "KO";
 		}
+	}
+
+	private static String format(Word word) {
+		return word.getWord() + " - " +
+				(word.getDescriptions() != null && word.getDescriptions().size() > 0
+						? word.getDescriptions().get(0) :
+						"null");
 	}
 
 	private static Options options() {

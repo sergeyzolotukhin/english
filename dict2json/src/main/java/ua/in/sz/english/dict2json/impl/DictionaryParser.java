@@ -37,14 +37,14 @@ public class DictionaryParser {
 	// private methods
 	//=================================================================================================================
 
-	private List<String> splitDescription(List<String> result1) {
+	private List<String> splitDescription(List<String> lines) {
 		List<String> result = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < result1.size() - 1; i++) {
-			String current = StringUtils.trim(result1.get(i));
-			String next = StringUtils.trim(result1.get(i + 1));
+		for (int i = 0; i < lines.size() - 1; i++) {
+			String current = StringUtils.trim(lines.get(i));
+			String next = StringUtils.trim(lines.get(i + 1));
 
 			sb.append(normalize(current));
 

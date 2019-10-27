@@ -37,9 +37,9 @@ class WordMultiDefinitionParserTest {
 	}
 
 	@Test
-	void description() {
-		String text = "123)     несуществующий    ;";
-		Pattern pattern = Pattern.compile("\\d+\\)(\\s*[а-яА-Я]+\\s*,)*\\s*[а-яА-Я]+\\s*;");
+	void singleDescription() {
+		String text = "re/7, отлучиться; отсутствовать; to ~ oneself from smth. уклоняться от чего-л.";
+		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.SINGLE_DESCRIPTION_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: " + text);
@@ -47,8 +47,8 @@ class WordMultiDefinitionParserTest {
 
 	@ParameterizedTest
 	@CsvFileSource(resources = "/description.txt", delimiter = '|')
-	void descriptionList(String text) {
-		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.DESCRIPTIONS_PATTERN);
+	void listItemDescription(String text) {
+		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.LIST_ITEM_DESCRIPTION_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");

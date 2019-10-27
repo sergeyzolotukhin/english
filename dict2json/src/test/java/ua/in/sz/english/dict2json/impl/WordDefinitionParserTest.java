@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 class WordDefinitionParserTest {
 
 	@ParameterizedTest
-	@CsvFileSource(resources = "/word.txt", delimiter = '|')
+	@CsvFileSource(resources = "/word-definition.txt", delimiter = '|')
 	void parse(String text) {
 		log.info("text: [{}]", text);
 

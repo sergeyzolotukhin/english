@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class WordDefinitionParser {
 
-	private static final String WORD_PATTERN = "^\\s*(\\S*)\\s*";
+	private static final String WORD_PATTERN = "^\\s*(\\S*[ -]*\\S*)\\s*";
 	private static final String TRANSCRIPTION_PATTERN = "(\\[.*])\\s*";
 	private static final String PART_OF_SPEECH_PATTERN = "(\\S+\\s+)";
 	private static final String DESCRIPTION_LIST_PATTERN = "(.*)\\.\\s*$";

@@ -12,17 +12,16 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.collections4.CollectionUtils;
 import ua.in.sz.english.dict2json.impl.BaseDictionaryException;
 import ua.in.sz.english.dict2json.impl.DictionaryParser;
-import ua.in.sz.english.dict2json.impl.ValidWord;
-import ua.in.sz.english.dict2json.impl.Word;
-import ua.in.sz.english.dict2json.impl.WordParser;
+import ua.in.sz.english.dict2json.impl.WordDefinition;
+import ua.in.sz.english.dict2json.impl.WordDefinitionParser;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class DictionaryToJson {
+
 	public static void main(String[] args) {
 		try {
 			CommandLineParser parser = new DefaultParser();
@@ -41,31 +40,24 @@ public class DictionaryToJson {
 	}
 
 	private static String doExecute(CommandLine commandLine) throws ParseException {
-		List<String> args = commandLine.getArgList();
-		if (CollectionUtils.size(args) <= 0) {
-			throw new MissingArgumentException("No input text file name");
-		}
-
-		if (CollectionUtils.size(args) > 1) {
-			throw new MissingArgumentException("Multiply input text file names is unsupported");
-		}
+		String inputFilePath = getInputFilePath(commandLine);
 
 		try {
-			Path path = Paths.get(args.get(0));
-			DictionaryParser dictionaryParser = new DictionaryParser(path);
-			List<String> words = dictionaryParser.parse();
+			DictionaryParser dictionaryParser = new DictionaryParser(Paths.get(inputFilePath));
+			List<String> lines = dictionaryParser.parse();
 
-			List<Word> words1 = words.stream().map(WordParser::parse).collect(Collectors.toList());
+			List<WordDefinition> definitions = lines.stream()
+					.map(WordDefinitionParser::parse)
+					.collect(Collectors.toList());
 
-			long validCount = words1.stream().filter(word -> word instanceof ValidWord).count();
+			long validCount = definitions.stream().filter(WordDefinition::isValid).count();
 
-			log.info("Valid word {} from total {}", validCount, words1.size());
+			log.info("Valid word {} from total {}", validCount, definitions.size());
 
-			words1.stream()
-					.filter(word -> word instanceof ValidWord)
+			definitions.stream()
+					.filter(definition -> !definition.isValid())
 					.limit(30)
-					.map(word -> (ValidWord)word)
-					.map(DictionaryToJson::format)
+					.map(WordDefinition::getText)
 					.forEach(log::info);
 
 			return "OK";
@@ -76,11 +68,22 @@ public class DictionaryToJson {
 		}
 	}
 
-	private static String format(ValidWord word) {
-		return word.getWord() + " - " +
-				(word.getDescriptions() != null && word.getDescriptions().size() > 0
-						? word.getDescriptions().get(0) :
-						"null");
+	private static String getInputFilePath(CommandLine commandLine) throws MissingArgumentException {
+		List<String> args = commandLine.getArgList();
+
+		if (CollectionUtils.size(args) <= 0) {
+			throw new MissingArgumentException("No input text file name");
+		}
+
+		if (CollectionUtils.size(args) > 1) {
+			throw new MissingArgumentException("Multiply input text file names is unsupported");
+		}
+
+		return args.get(0);
+	}
+
+	private static String format(WordDefinition word) {
+		return word.getWord() + " - " + word.getDescriptionText();
 	}
 
 	private static Options options() {

@@ -56,7 +56,7 @@ public class DictionaryToJson {
 
 			definitions.stream()
 					.filter(definition -> !definition.isValid())
-					.limit(30)
+					.limit(200)
 					.map(WordDefinition::getText)
 					.forEach(log::info);
 

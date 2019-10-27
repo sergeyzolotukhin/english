@@ -57,10 +57,10 @@ public class WordMultiDefinitionParser {
 
 			log.info("word: {}", word);
 
-			String descriptionText = matcher.group(2);
-			String[] split = p1.split(descriptionText);
-			for (String s : split) {
-				log.info("split: [{}]", s);
+			String definitionText = matcher.group(2);
+			String[] definitions = p1.split(definitionText);
+			for (String s : definitions) {
+				log.info("def: {}", s);
 			}
 		}
 

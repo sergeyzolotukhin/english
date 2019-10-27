@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ua.in.sz.english.dict2json.impl.WordMultiDefinitionParser.*;
+
 @Slf4j
 class WordMultiDefinitionParserTest {
 
@@ -37,9 +39,26 @@ class WordMultiDefinitionParserTest {
 	}
 
 	@Test
+	void definition() {
+		String text = " 1. в [f'cebssnt] 1) несуществующий, отсутствующий;2) рассеянный; ";
+		Pattern pattern = Pattern.compile(
+				STRONG_DEFINITION_NO_PATTERN +
+						STRONG_PART_OF_SPEECH_PATTERN +
+						STRONG_TRANSCRIPTION_PATTERN +
+						LIST_ITEM_DESCRIPTION_PATTERN +
+						LIST_ITEM_DESCRIPTION_PATTERN
+		);
+
+		Matcher matcher = pattern.matcher(text);
+		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");
+
+		log.info("Text: [" + matcher.group(0) + "]");
+	}
+
+	@Test
 	void transcription() {
 		String text = "  [f'cebssnt]   jkhkhkj   [aeb'sent]  gjhgjgjhg ";
-		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.STRONG_TRANSCRIPTION_PATTERN);
+		Pattern pattern = Pattern.compile(STRONG_TRANSCRIPTION_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");
@@ -50,7 +69,7 @@ class WordMultiDefinitionParserTest {
 	@Test
 	void singleDescription() {
 		String text = "re/7, отлучиться; отсутствовать; to ~ oneself from smth. уклоняться от чего-л.";
-		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.SINGLE_DESCRIPTION_PATTERN);
+		Pattern pattern = Pattern.compile(SINGLE_DESCRIPTION_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: " + text);
@@ -59,7 +78,7 @@ class WordMultiDefinitionParserTest {
 	@ParameterizedTest
 	@CsvFileSource(resources = "/description.txt", delimiter = '|')
 	void listItemDescription(String text) {
-		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.LIST_ITEM_DESCRIPTION_PATTERN);
+		Pattern pattern = Pattern.compile(LIST_ITEM_DESCRIPTION_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");

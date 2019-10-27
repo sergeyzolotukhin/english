@@ -16,10 +16,14 @@ class WordParserTest {
 
 		Word word = WordParser.parse(text);
 
-		log.info("word:[{}]", word.getWord());
-		log.info("description:");
+		if (word instanceof ValidWord) {
+			ValidWord validWord = (ValidWord) word;
 
-		CollectionUtils.emptyIfNull(word.getDescriptions()).forEach(d -> log.info("\t{}", d));
+			log.info("word:[{}]", validWord.getWord());
+			log.info("description:");
+
+			CollectionUtils.emptyIfNull(validWord.getDescriptions()).forEach(d -> log.info("\t{}", d));
+		}
 
 		Assertions.assertNotNull(word);
 	}

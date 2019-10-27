@@ -31,9 +31,9 @@ public class WordParser {
 
 			List<String> descriptions = Arrays.asList(DESCRIPTION_NO_PATTERN.split(matcher.group(4)));
 
-			return new Word(word, transcription, partOfSpeech, descriptions);
+			return new ValidWord(word, text, transcription, partOfSpeech, descriptions);
 		}
 
-		return new Word(text);
+		return new InvalidWord(text);
 	}
 }

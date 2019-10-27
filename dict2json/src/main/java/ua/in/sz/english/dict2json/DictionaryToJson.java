@@ -12,6 +12,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.collections4.CollectionUtils;
 import ua.in.sz.english.dict2json.impl.BaseDictionaryException;
 import ua.in.sz.english.dict2json.impl.DictionaryParser;
+import ua.in.sz.english.dict2json.impl.ValidWord;
 import ua.in.sz.english.dict2json.impl.Word;
 import ua.in.sz.english.dict2json.impl.WordParser;
 
@@ -56,7 +57,16 @@ public class DictionaryToJson {
 
 			List<Word> words1 = words.stream().map(WordParser::parse).collect(Collectors.toList());
 
-			words1.stream().limit(30).map(DictionaryToJson::format).forEach(log::info);
+			long validCount = words1.stream().filter(word -> word instanceof ValidWord).count();
+
+			log.info("Valid word {} from total {}", validCount, words1.size());
+
+			words1.stream()
+					.filter(word -> word instanceof ValidWord)
+					.limit(30)
+					.map(word -> (ValidWord)word)
+					.map(DictionaryToJson::format)
+					.forEach(log::info);
 
 			return "OK";
 		} catch (BaseDictionaryException e) {
@@ -66,7 +76,7 @@ public class DictionaryToJson {
 		}
 	}
 
-	private static String format(Word word) {
+	private static String format(ValidWord word) {
 		return word.getWord() + " - " +
 				(word.getDescriptions() != null && word.getDescriptions().size() > 0
 						? word.getDescriptions().get(0) :

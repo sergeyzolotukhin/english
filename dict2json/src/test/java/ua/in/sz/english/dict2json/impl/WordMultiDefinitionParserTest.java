@@ -40,7 +40,7 @@ class WordMultiDefinitionParserTest {
 
 	@Test
 	void definition() {
-		String text = " 1. в [f'cebssnt] 1) несуществующий, отсутствующий;2) рассеянный; ";
+		String text = " 1. в [f'cebssnt] 1) несуществующий, отсутствующий;   2) рассеянный; ";
 		Pattern pattern = Pattern.compile(
 				STRONG_DEFINITION_NO_PATTERN +
 						STRONG_PART_OF_SPEECH_PATTERN +

@@ -20,6 +20,9 @@ class WordMultiDefinitionParserTest {
 	void parse(String text) {
 		log.info("text: [{}]", text);
 
+		final boolean support = isSupport(text);
+		Assertions.assertTrue(support, "Not supported text");
+
 		List<WordDefinition> definitions = WordMultiDefinitionParser.parse(text);
 
 		definitions.forEach(this::print);

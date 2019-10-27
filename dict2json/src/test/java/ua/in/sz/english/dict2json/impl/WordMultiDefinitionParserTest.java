@@ -37,6 +37,17 @@ class WordMultiDefinitionParserTest {
 	}
 
 	@Test
+	void transcription() {
+		String text = "  [f'cebssnt]   jkhkhkj   [aeb'sent]  gjhgjgjhg ";
+		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.STRONG_TRANSCRIPTION_PATTERN);
+
+		Matcher matcher = pattern.matcher(text);
+		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");
+
+		log.info("Text: [" + matcher.group(0) + "]");
+	}
+
+	@Test
 	void singleDescription() {
 		String text = "re/7, отлучиться; отсутствовать; to ~ oneself from smth. уклоняться от чего-л.";
 		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.SINGLE_DESCRIPTION_PATTERN);

@@ -47,6 +47,17 @@ class WordMultiDefinitionParserTest {
 		}
 	}
 
+	@Test
+	void descriptionList() {
+		String text = "1) несуществующий, отсутствующий;";
+		Pattern pattern = Pattern.compile("\\d+\\)\\s+([а-яА-Я]+,)*\\s+[а-яА-Я]+;");
+
+		Matcher matcher = pattern.matcher(text);
+		while (matcher.find()) {
+			log.info("description: {}", matcher.group(0));
+		}
+	}
+
 	private void print(WordDefinition definition) {
 		log.info("word: {}", definition.getWord());
 

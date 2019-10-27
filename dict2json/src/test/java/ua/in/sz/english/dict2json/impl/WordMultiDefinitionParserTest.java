@@ -38,24 +38,20 @@ class WordMultiDefinitionParserTest {
 
 	@Test
 	void description() {
-		String text = "1) несуществующий;";
-		Pattern pattern = Pattern.compile("\\d+\\)\\s+[а-яА-Я]+;");
+		String text = "123)     несуществующий    ;";
+		Pattern pattern = Pattern.compile("\\d+\\)(\\s*[а-яА-Я]+\\s*,)*\\s*[а-яА-Я]+\\s*;");
 
 		Matcher matcher = pattern.matcher(text);
-		while (matcher.find()) {
-			log.info("description: {}", matcher.group(0));
-		}
+		Assertions.assertTrue(matcher.find(), "Text not match: " + text);
 	}
 
-	@Test
-	void descriptionList() {
-		String text = "1) несуществующий, отсутствующий;";
-		Pattern pattern = Pattern.compile("\\d+\\)\\s+([а-яА-Я]+,)*\\s+[а-яА-Я]+;");
+	@ParameterizedTest
+	@CsvFileSource(resources = "/description.txt", delimiter = '|')
+	void descriptionList(String text) {
+		Pattern pattern = Pattern.compile(WordMultiDefinitionParser.DESCRIPTIONS_PATTERN);
 
 		Matcher matcher = pattern.matcher(text);
-		while (matcher.find()) {
-			log.info("description: {}", matcher.group(0));
-		}
+		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");
 	}
 
 	private void print(WordDefinition definition) {

@@ -20,6 +20,8 @@ public class WordMultiDefinitionParser {
 
 	private static final String DESCRIPTION_LIST_PATTERN = "(.*)\\.\\s*$";
 
+	static String DESCRIPTIONS_PATTERN = "\\d+\\)(\\s*[а-яА-Я]+\\s*,)*\\s*[а-яА-Я]+\\s*;";
+
 	private static Pattern DEFINITION_PATTERN = Pattern.compile(
 			WORD_PATTERN +
 					DEFINITION_NO_PATTERN +

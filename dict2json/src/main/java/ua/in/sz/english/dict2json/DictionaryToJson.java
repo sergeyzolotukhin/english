@@ -57,7 +57,7 @@ public class DictionaryToJson {
 			definitions.stream()
 					.filter(definition -> !definition.isValid())
 					.limit(200)
-					.map(WordDefinition::getText)
+					.map(DictionaryToJson::format)
 					.forEach(log::info);
 
 			return "OK";
@@ -83,7 +83,11 @@ public class DictionaryToJson {
 	}
 
 	private static String format(WordDefinition word) {
-		return word.getWord() + " - " + word.getDescriptionText();
+		if (word.isValid()) {
+			return word.getWord() + " - " + word.getDescriptionText();
+		} else {
+			return word.getText();
+		}
 	}
 
 	private static Options options() {

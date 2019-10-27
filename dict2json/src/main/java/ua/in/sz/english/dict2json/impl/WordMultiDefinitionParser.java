@@ -35,9 +35,9 @@ public class WordMultiDefinitionParser {
 		WordDefinition definition = new WordDefinition(text);
 		if (matcher.find()) {
 			definition.setWord(matcher.group(1));
-			definition.setTranscription(matcher.group(2));
 			definition.setPartOfSpeech(matcher.group(3));
-			definition.setDescriptionText(matcher.group(4));
+			definition.setTranscription(matcher.group(4));
+			definition.setDescriptionText(matcher.group(5));
 		}
 
 		result.add(definition);

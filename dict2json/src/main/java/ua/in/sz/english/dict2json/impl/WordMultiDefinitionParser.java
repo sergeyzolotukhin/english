@@ -19,18 +19,20 @@ import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.WORD;
 @AllArgsConstructor
 public class WordMultiDefinitionParser {
 
-	private static final Pattern MULTI_DEFINITION_PATTERN =
-			Pattern.compile(WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION);
-	private static final Pattern p1 = Pattern.compile("(?=(\\d+\\.))");
+	private static final String MULTI_DEFINITION_PATTERN = WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION;
+
+	private static final Pattern MULTI_DEFINITION = Pattern.compile(MULTI_DEFINITION_PATTERN);
+	private static final Pattern DEFINITION_NO_SPLIT = Pattern.compile("(?=(\\d+\\.))");
+	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + "(.*)");
 
 	public static boolean isSupport(String text) {
-		return MULTI_DEFINITION_PATTERN.matcher(text).find();
+		return MULTI_DEFINITION.matcher(text).find();
 	}
 
 	public static List<WordDefinition> parse(String text) {
 		List<WordDefinition> result = new ArrayList<>();
 
-		Matcher matcher = Pattern.compile(WORD + "(.*)").matcher(text);
+		Matcher matcher = WORD_DEFINITION.matcher(text);
 
 		WordDefinition definition = new WordDefinition(text);
 		if (matcher.find()) {
@@ -40,7 +42,7 @@ public class WordMultiDefinitionParser {
 			log.info("word: {}", word);
 
 			String definitionText = matcher.group(2);
-			String[] definitions = p1.split(definitionText);
+			String[] definitions = DEFINITION_NO_SPLIT.split(definitionText);
 			for (String s : definitions) {
 				log.info("def: {}", s);
 			}

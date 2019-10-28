@@ -10,10 +10,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.DEFINITION_NO;
+import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.PART_OF_SPEECH;
+import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.TRANSCRIPTION;
 import static ua.in.sz.english.dict2json.impl.WordMultiDefinitionParser.*;
 
 @Slf4j
 class WordMultiDefinitionParserTest {
+	private static final String LIST_ITEM_DESCRIPTION_PATTERN = "\\s*\\d+\\)(\\s*[а-яА-Я]+\\s*,)*\\s*[а-яА-Я]+\\s*;";
+	private static final String SINGLE_DESCRIPTION_PATTERN = "(\\s*[а-яА-Я]+\\s*,)*\\s*[а-яА-Я]+\\s*;";
 
 	@ParameterizedTest
 	@CsvFileSource(resources = "/word-multi-definition.txt", delimiter = '|')
@@ -45,9 +50,9 @@ class WordMultiDefinitionParserTest {
 	void definition() {
 		String text = " 1. в [f'cebssnt] 1) несуществующий, отсутствующий;   2) рассеянный; ";
 		Pattern pattern = Pattern.compile(
-				STRONG_DEFINITION_NO_PATTERN +
-						STRONG_PART_OF_SPEECH_PATTERN +
-						STRONG_TRANSCRIPTION_PATTERN +
+				DEFINITION_NO +
+						PART_OF_SPEECH +
+						TRANSCRIPTION +
 						LIST_ITEM_DESCRIPTION_PATTERN +
 						LIST_ITEM_DESCRIPTION_PATTERN
 		);
@@ -61,7 +66,7 @@ class WordMultiDefinitionParserTest {
 	@Test
 	void transcription() {
 		String text = "  [f'cebssnt]   jkhkhkj   [aeb'sent]  gjhgjgjhg ";
-		Pattern pattern = Pattern.compile(STRONG_TRANSCRIPTION_PATTERN);
+		Pattern pattern = Pattern.compile(TRANSCRIPTION);
 
 		Matcher matcher = pattern.matcher(text);
 		Assertions.assertTrue(matcher.find(), "Text not match: [" + text + "]");

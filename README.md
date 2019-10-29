@@ -43,3 +43,4 @@ https://github.com/huzheng001/stardict-3/blob/master/dict/doc/StarDictFileFormat
 
 =======================================================================================================================
 https://www.baeldung.com/java-replace-if-statements
+https://blog.walterlv.com/post/framework-api-design-en.html

@@ -5,25 +5,27 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.util.List;
+
 @Slf4j
 class WordParserTest {
 
 	@ParameterizedTest
-	@CsvFileSource(resources = "/word-definition.txt", delimiter = '|')
+	@CsvFileSource(resources = "/word-multi-definition.txt", delimiter = '|')
 	void parse(String text) {
 		log.info("text: [{}]", text);
 
-		Word word = WordParser.parse(text);
+		final boolean support = WordParser.isSupport(text);
+		Assertions.assertTrue(support, "Not supported text");
 
-		print(word);
+		List<Word> words = WordParser.parse(text);
 
-		Assertions.assertTrue(true, "Invalid word: " + word.getText());
+		words.forEach(this::print);
+
+//		Assertions.assertEquals(2, words.size(), "Invalid words:" + text);
 	}
 
 	private void print(Word definition) {
 		log.info("word: {}", definition.getWord());
-//		log.info("transcription: {}", definition.getTranscription());
-//		log.info("partOfSpeech: {}", definition.getPartOfSpeech());
-//		log.info("descriptions: {}", definition.getDescriptionText());
 	}
 }

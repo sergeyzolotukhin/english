@@ -20,7 +20,7 @@ import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.WORD;
 @Slf4j
 @Getter
 @NoArgsConstructor
-public class MultiPartOfSpeechParser implements Parser {
+public class MultiPartOfSpeechWordParser implements Parser {
 
 	private static final String MULTI_DEFINITION_PATTERN = WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION;
 

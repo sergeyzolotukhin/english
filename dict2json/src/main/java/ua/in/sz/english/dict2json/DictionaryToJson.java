@@ -55,7 +55,7 @@ public class DictionaryToJson {
 			log.info("Valid word {} from total {}", validCount, definitions.size());
 
 			definitions.stream()
-					.filter(definition -> !definition.isValid())
+					.filter(definition -> definition.isValid())
 					.limit(200)
 					.map(DictionaryToJson::format)
 					.forEach(log::info);
@@ -84,7 +84,7 @@ public class DictionaryToJson {
 
 	private static String format(WordDefinition word) {
 		if (word.isValid()) {
-			return word.getWord() + " - " + word.getDescriptionText();
+			return word.getText();
 		} else {
 			return word.getText();
 		}

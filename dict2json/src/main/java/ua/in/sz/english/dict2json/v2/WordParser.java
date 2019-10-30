@@ -3,7 +3,7 @@ package ua.in.sz.english.dict2json.v2;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.v2.model.Word;
-import ua.in.sz.english.dict2json.v2.words.MultiPartOfSpeechParser;
+import ua.in.sz.english.dict2json.v2.words.MultiPartOfSpeechWordParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ public class WordParser {
 
 	private List<Parser> getDefaultParsers() {
 		return Arrays.asList(
-				new MultiPartOfSpeechParser()
+				new MultiPartOfSpeechWordParser()
 		);
 	}
 }

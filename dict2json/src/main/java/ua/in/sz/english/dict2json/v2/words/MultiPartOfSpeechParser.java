@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.v2.Parser;
+import ua.in.sz.english.dict2json.v2.model.Definition;
 import ua.in.sz.english.dict2json.v2.model.Word;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,22 +35,24 @@ public class MultiPartOfSpeechParser implements Parser {
 	public Word parse(String text) {
 		Matcher matcher = WORD_DEFINITION.matcher(text);
 
-		Word definition = new Word(text);
+		Word word = new Word(text);
 		if (matcher.find()) {
-			String word = matcher.group(1);
-			definition.setWord(word);
+			word.setWord(matcher.group(1));
+			word.setDefinitions(parseDefinitions(matcher.group(2)));
 
-			log.info("word: {}", word);
-
-			String definitionText = matcher.group(2);
-			String[] definitions = DEFINITION_NO_SPLIT.split(definitionText);
-			for (String s : definitions) {
-				log.info("def: {}", s);
-			}
-
-			return definition;
+			return word;
 		}
 
 		throw new  IllegalStateException(text);
+	}
+
+	private List<Definition> parseDefinitions(String text) {
+		List<Definition> definitions = new ArrayList<>();
+
+		for (String definitionText : DEFINITION_NO_SPLIT.split(text)) {
+			definitions.add(new Definition(definitionText));
+		}
+
+		return definitions;
 	}
 }

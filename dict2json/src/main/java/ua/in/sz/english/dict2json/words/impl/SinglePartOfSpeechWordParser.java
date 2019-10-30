@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ua.in.sz.english.dict2json.DictionaryPatterns.END;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.MEANING;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.PART_OF_SPEECH;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.TRANSCRIPTION;
@@ -22,12 +23,13 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 @NoArgsConstructor
 public class SinglePartOfSpeechWordParser implements Parser {
 
-	private static final String MULTI_DEFINITION_PATTERN = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + "\\.";
+	private static final String MULTI_DEFINITION_PATTERN = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END;
 
 	private static final Pattern MULTI_DEFINITION = Pattern.compile(MULTI_DEFINITION_PATTERN);
 	private static final Pattern DEFINITION_NO_SPLIT = Pattern.compile("(?=(\\d+\\.))");
 	private static final Pattern DEFINITION = Pattern.compile("(\\d+)\\.\\s*(.*)");
-	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH  + MEANING + "\\.");
+
+	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH  + MEANING + END);
 
 	public boolean isSupport(String text) {
 		return MULTI_DEFINITION.matcher(text).find();

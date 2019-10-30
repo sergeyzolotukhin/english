@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static ua.in.sz.english.dict2json.DictionaryPatterns.*;
@@ -67,7 +68,7 @@ class PatternTest {
 	void customParse() {
 		String text = ".";
 
-		boolean find = Pattern.compile("\\.").matcher(text).find();
+		boolean find = Pattern.compile(END).matcher(text).find();
 		Assertions.assertTrue(find, text);
 	}
 
@@ -75,7 +76,21 @@ class PatternTest {
 	void sentenceParse() {
 		String text = " aard-wolf ['a:d,wulfj] n земляно'й волк.";
 
-		boolean find = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + "\\.").matcher(text).find();
+		boolean find = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END).matcher(text).find();
 		Assertions.assertTrue(find, text);
 	}
+
+	@Test
+	void repeatedMeaningsParse() {
+//		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
+		String text = "teratology [,tero 'totao^i] n изу-ча'ющая врождённые уро'дства. ";
+
+		Matcher matcher = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END).matcher(text);
+		boolean find = matcher.find();
+
+		log.info("group: {}", matcher.group(0));
+
+		Assertions.assertTrue(find, text);
+	}
+
 }

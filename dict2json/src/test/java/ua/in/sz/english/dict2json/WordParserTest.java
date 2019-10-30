@@ -11,8 +11,18 @@ import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
 class WordParserTest {
 
 	@Test
-	void parse() {
+	void oneMeaning() {
 		String text = "aard-wolf ['a:d,wulfj] n земляно'й волк.";
+
+		Parser parser = new SinglePartOfSpeechWordParser();
+		Word word = parser.parse(text);
+
+		print(word);
+	}
+
+	@Test
+	void manyMeaning() {
+		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 
 		Parser parser = new SinglePartOfSpeechWordParser();
 		Word word = parser.parse(text);

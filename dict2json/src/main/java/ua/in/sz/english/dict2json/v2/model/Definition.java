@@ -12,9 +12,10 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class Definition {
+	private final int no;
 	private final String text;
 
 	private String transcription;
 	private String partOfSpeech;
-	private List<String> description = Lists.newArrayList();
+	private List<String> meanings = Lists.newArrayList();
 }

@@ -26,6 +26,7 @@ public class MultiPartOfSpeechParser implements Parser {
 
 	private static final Pattern MULTI_DEFINITION = Pattern.compile(MULTI_DEFINITION_PATTERN);
 	private static final Pattern DEFINITION_NO_SPLIT = Pattern.compile("(?=(\\d+\\.))");
+	private static final Pattern DEFINITION = Pattern.compile("(\\d+)\\.\\s*(.*)");
 	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + "(.*)");
 
 	public boolean isSupport(String text) {
@@ -41,16 +42,24 @@ public class MultiPartOfSpeechParser implements Parser {
 			word.setDefinitions(parseDefinitions(matcher.group(2)));
 
 			return word;
+		} else {
+			throw new IllegalStateException(text);
 		}
-
-		throw new  IllegalStateException(text);
 	}
 
 	private List<Definition> parseDefinitions(String text) {
 		List<Definition> definitions = new ArrayList<>();
 
 		for (String definitionText : DEFINITION_NO_SPLIT.split(text)) {
-			definitions.add(new Definition(definitionText));
+			Matcher matcher = DEFINITION.matcher(definitionText);
+
+			if (matcher.find()) {
+				int no = Integer.parseInt(matcher.group(1));
+				Definition def = new Definition(no, matcher.group(2));
+				definitions.add(def);
+			} else {
+				throw new IllegalStateException(text);
+			}
 		}
 
 		return definitions;

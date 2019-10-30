@@ -25,7 +25,7 @@ class WordParserTest {
 		log.info("word: {}", definition.getWord());
 
 		for (Definition def : definition.getDefinitions()) {
-			log.info("\t {}", def.getText());
+			log.info("\t {}. {}", def.getNo(), def.getText());
 		}
 	}
 }

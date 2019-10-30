@@ -2,6 +2,7 @@ package ua.in.sz.english.dict2json.v2;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import ua.in.sz.english.dict2json.v2.model.Word;
 import ua.in.sz.english.dict2json.v2.words.MultiPartOfSpeechParser;
 
 import java.util.Arrays;

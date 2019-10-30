@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json.v2.model;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.v2.Parser;
-import ua.in.sz.english.dict2json.v2.Word;
+import ua.in.sz.english.dict2json.v2.model.Word;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

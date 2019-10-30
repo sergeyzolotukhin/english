@@ -1,10 +1,9 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json.v2.model;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

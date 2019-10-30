@@ -3,6 +3,7 @@ package ua.in.sz.english.dict2json.v2;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import ua.in.sz.english.dict2json.v2.model.Word;
 
 @Slf4j
 class WordParserTest {

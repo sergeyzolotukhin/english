@@ -1,8 +1,10 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json.v2.words;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ua.in.sz.english.dict2json.v2.Parser;
+import ua.in.sz.english.dict2json.v2.Word;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +16,7 @@ import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.WORD;
 
 @Slf4j
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class MultiPartOfSpeechParser implements Parser {
 
 	private static final String MULTI_DEFINITION_PATTERN = WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION;

@@ -24,6 +24,14 @@ class PatternTest {
 	}
 
 	@Test
+	void suffixParse() {
+		String text = "    преподаватель   (     ница    )     ";
+
+		boolean find = Pattern.compile(RU_WORD + RU_SUFFIX).matcher(text).find();
+		Assertions.assertTrue(find, text);
+	}
+
+	@Test
 	void transcriptionParse() {
 		String text = " ['a:d,wulfj] ";
 

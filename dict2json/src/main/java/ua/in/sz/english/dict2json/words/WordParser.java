@@ -28,7 +28,7 @@ public class WordParser {
 	private List<Parser> getDefaultParsers() {
 		return Arrays.asList(
 				new SinglePartOfSpeechWordParser(),
-				new MultiPartOfSpeechWordParser(),
+//				new MultiPartOfSpeechWordParser(),
 				new UnformattedWordParser()
 		);
 	}

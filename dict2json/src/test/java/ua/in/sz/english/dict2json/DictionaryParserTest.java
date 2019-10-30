@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.impl;
+package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ class DictionaryParserTest {
 
 	@Test
 	void parse() {
-		Path path = Paths.get(BASE_PATH, "descriptions.txt");
+		Path path = Paths.get(BASE_PATH, "dictionary.txt");
 		DictionaryParser parser = new DictionaryParser(path);
 		List<String> descriptions = parser.parse();
 

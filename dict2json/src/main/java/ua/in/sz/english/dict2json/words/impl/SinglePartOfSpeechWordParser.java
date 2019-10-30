@@ -1,21 +1,21 @@
-package ua.in.sz.english.dict2json.v2.words;
+package ua.in.sz.english.dict2json.words.impl;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ua.in.sz.english.dict2json.v2.DictionaryParseException;
-import ua.in.sz.english.dict2json.v2.Parser;
-import ua.in.sz.english.dict2json.v2.model.Definition;
-import ua.in.sz.english.dict2json.v2.model.Word;
+import ua.in.sz.english.dict2json.DictionaryParseException;
+import ua.in.sz.english.dict2json.model.Definition;
+import ua.in.sz.english.dict2json.model.Word;
+import ua.in.sz.english.dict2json.words.Parser;
 
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.MEANING;
-import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.PART_OF_SPEECH;
-import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.TRANSCRIPTION;
-import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.WORD;
+import static ua.in.sz.english.dict2json.DictionaryPatterns.MEANING;
+import static ua.in.sz.english.dict2json.DictionaryPatterns.PART_OF_SPEECH;
+import static ua.in.sz.english.dict2json.DictionaryPatterns.TRANSCRIPTION;
+import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 
 @Slf4j
 @Getter

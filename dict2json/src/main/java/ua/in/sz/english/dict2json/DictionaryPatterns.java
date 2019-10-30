@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.impl;
+package ua.in.sz.english.dict2json;
 
 
 public final class DictionaryPatterns {

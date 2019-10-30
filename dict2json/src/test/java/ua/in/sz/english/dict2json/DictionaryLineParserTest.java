@@ -1,20 +1,21 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import ua.in.sz.english.dict2json.v2.model.Definition;
-import ua.in.sz.english.dict2json.v2.model.Word;
+import ua.in.sz.english.dict2json.words.WordParser;
+import ua.in.sz.english.dict2json.model.Definition;
+import ua.in.sz.english.dict2json.model.Word;
 
 @Slf4j
-class DictionaryParserTest {
+class DictionaryLineParserTest {
 
 	@ParameterizedTest
-	@CsvFileSource(resources = "/v2-definitions.txt", delimiter = '|')
+	@CsvFileSource(resources = "/definitions.txt", delimiter = '|')
 	void parse(String text) {
 		log.info("text: [{}]", text);
 
-		DictionaryParser parser = new DictionaryParser();
+		WordParser parser = new WordParser();
 		Word word = parser.parse(text);
 
 		print(word);

@@ -10,10 +10,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.collections4.CollectionUtils;
-import ua.in.sz.english.dict2json.impl.BaseDictionaryException;
-import ua.in.sz.english.dict2json.impl.DictionaryParser;
-import ua.in.sz.english.dict2json.impl.WordDefinition;
-import ua.in.sz.english.dict2json.impl.WordDefinitionParser;
+import ua.in.sz.english.dict2json.model.Word;
+import ua.in.sz.english.dict2json.words.WordParser;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,7 +32,7 @@ public class DictionaryToJson {
 			System.out.println(e.getMessage());
 
 			new HelpFormatter().printHelp("dict2json <input text file name>", options());
-		} catch (BaseDictionaryException e) {
+		} catch (DictionaryParseException e) {
 			log.error(e.getMessage(), e);
 		}
 	}
@@ -42,30 +40,26 @@ public class DictionaryToJson {
 	private static String doExecute(CommandLine commandLine) throws ParseException {
 		String inputFilePath = getInputFilePath(commandLine);
 
-		try {
-			DictionaryParser dictionaryParser = new DictionaryParser(Paths.get(inputFilePath));
-			List<String> lines = dictionaryParser.parse();
+		DictionaryParser dictionaryParser = new DictionaryParser(Paths.get(inputFilePath));
+		List<String> lines = dictionaryParser.parse();
 
-			List<WordDefinition> definitions = lines.stream()
-					.map(WordDefinitionParser::parse)
-					.collect(Collectors.toList());
+		WordParser wordParser = new WordParser();
 
-			long validCount = definitions.stream().filter(WordDefinition::isValid).count();
+		List<Word> definitions = lines.stream()
+				.map(wordParser::parse)
+				.collect(Collectors.toList());
 
-			log.info("Valid word {} from total {}", validCount, definitions.size());
+		long validCount = definitions.stream().count();
 
-			definitions.stream()
-					.filter(definition -> definition.isValid())
-					.limit(200)
-					.map(DictionaryToJson::format)
-					.forEach(log::info);
+		log.info("Valid word {} from total {}", validCount, definitions.size());
 
-			return "OK";
-		} catch (BaseDictionaryException e) {
-			log.error(e.getMessage(), e);
+		definitions.stream()
+//					.filter(definition -> definition.isValid())
+				.limit(200)
+				.map(DictionaryToJson::format)
+				.forEach(log::info);
 
-			return "KO";
-		}
+		return "OK";
 	}
 
 	private static String getInputFilePath(CommandLine commandLine) throws MissingArgumentException {
@@ -82,12 +76,8 @@ public class DictionaryToJson {
 		return args.get(0);
 	}
 
-	private static String format(WordDefinition word) {
-		if (word.isValid()) {
-			return word.getText();
-		} else {
-			return word.getText();
-		}
+	private static String format(Word word) {
+		return word.getText();
 	}
 
 	private static Options options() {

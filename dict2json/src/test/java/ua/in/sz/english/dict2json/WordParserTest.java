@@ -1,10 +1,11 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import ua.in.sz.english.dict2json.v2.model.Definition;
-import ua.in.sz.english.dict2json.v2.model.Word;
-import ua.in.sz.english.dict2json.v2.words.SinglePartOfSpeechWordParser;
+import ua.in.sz.english.dict2json.words.Parser;
+import ua.in.sz.english.dict2json.model.Definition;
+import ua.in.sz.english.dict2json.model.Word;
+import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
 
 @Slf4j
 class WordParserTest {

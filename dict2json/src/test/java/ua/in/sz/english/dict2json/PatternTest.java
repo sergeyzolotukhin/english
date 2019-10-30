@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.v2;
+package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
-import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.*;
+import static ua.in.sz.english.dict2json.DictionaryPatterns.*;
 
 @Slf4j
 class PatternTest {

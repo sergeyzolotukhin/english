@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.impl;
+package ua.in.sz.english.dict2json;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class DictionaryParser {
 
 			return splitDescription(normalize(lines));
 		} catch (IOException e) {
-			throw new BaseDictionaryException(e.getMessage(), e);
+			throw new DictionaryParseException(e.getMessage(), e);
 		}
 	}
 

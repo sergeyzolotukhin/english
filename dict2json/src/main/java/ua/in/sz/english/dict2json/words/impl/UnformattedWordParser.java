@@ -1,8 +1,8 @@
-package ua.in.sz.english.dict2json.v2.words;
+package ua.in.sz.english.dict2json.words.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import ua.in.sz.english.dict2json.v2.Parser;
-import ua.in.sz.english.dict2json.v2.model.Word;
+import ua.in.sz.english.dict2json.model.Word;
+import ua.in.sz.english.dict2json.words.Parser;
 
 @Slf4j
 public class UnformattedWordParser implements Parser {

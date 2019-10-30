@@ -15,4 +15,9 @@ public class Word {
 
 	private String word;
 	private List<Definition> definitions = Lists.newArrayList();
+
+	@Override
+	public String toString() {
+		return word;
+	}
 }

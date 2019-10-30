@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.v2.model.Word;
 import ua.in.sz.english.dict2json.v2.words.MultiPartOfSpeechWordParser;
 import ua.in.sz.english.dict2json.v2.words.SinglePartOfSpeechWordParser;
+import ua.in.sz.english.dict2json.v2.words.UnformattedWordParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +21,14 @@ public class DictionaryParser {
 				.filter(p -> p.isSupport(text))
 				.map(p -> p.parse(text))
 				.findFirst()
-				.orElseThrow(() -> new IllegalStateException(text));
+				.orElseThrow(() -> new DictionaryParseException(text));
 	}
 
 	private List<Parser> getDefaultParsers() {
 		return Arrays.asList(
 				new SinglePartOfSpeechWordParser(),
-				new MultiPartOfSpeechWordParser()
+				new MultiPartOfSpeechWordParser(),
+				new UnformattedWordParser()
 		);
 	}
 }

@@ -3,6 +3,7 @@ package ua.in.sz.english.dict2json.v2.words;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ua.in.sz.english.dict2json.v2.DictionaryParseException;
 import ua.in.sz.english.dict2json.v2.Parser;
 import ua.in.sz.english.dict2json.v2.model.Definition;
 import ua.in.sz.english.dict2json.v2.model.Word;
@@ -47,7 +48,7 @@ public class SinglePartOfSpeechWordParser implements Parser {
 
 			return word;
 		} else {
-			throw new IllegalStateException(text);
+			throw new DictionaryParseException(text);
 		}
 	}
 }

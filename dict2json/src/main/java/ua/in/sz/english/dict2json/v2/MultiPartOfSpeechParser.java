@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +15,7 @@ import static ua.in.sz.english.dict2json.impl.DictionaryPatterns.WORD;
 @Slf4j
 @Getter
 @AllArgsConstructor
-public class WordParser {
+public class MultiPartOfSpeechParser implements Parser {
 
 	private static final String MULTI_DEFINITION_PATTERN = WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION;
 
@@ -25,13 +23,11 @@ public class WordParser {
 	private static final Pattern DEFINITION_NO_SPLIT = Pattern.compile("(?=(\\d+\\.))");
 	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + "(.*)");
 
-	public static boolean isSupport(String text) {
+	public boolean isSupport(String text) {
 		return MULTI_DEFINITION.matcher(text).find();
 	}
 
-	public static List<Word> parse(String text) {
-		List<Word> result = new ArrayList<>();
-
+	public Word parse(String text) {
 		Matcher matcher = WORD_DEFINITION.matcher(text);
 
 		Word definition = new Word(text);
@@ -46,10 +42,10 @@ public class WordParser {
 			for (String s : definitions) {
 				log.info("def: {}", s);
 			}
+
+			return definition;
 		}
 
-		result.add(definition);
-
-		return result;
+		throw new  IllegalStateException(text);
 	}
 }

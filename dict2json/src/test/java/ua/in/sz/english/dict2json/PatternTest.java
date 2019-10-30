@@ -2,6 +2,8 @@ package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
@@ -9,6 +11,8 @@ import java.util.regex.Pattern;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.*;
 
 @Slf4j
+@Tag("DEV")
+@DisplayName("Dictionary pattern development")
 class PatternTest {
 
 	@Test
@@ -59,8 +63,6 @@ class PatternTest {
 		Assertions.assertTrue(find, text);
 	}
 
-
-	// aard-wolf ['a:d,wulfj] n земляно'й волк.
 	@Test
 	void sentenceParse() {
 		String text = " aard-wolf ['a:d,wulfj] n земляно'й волк.";

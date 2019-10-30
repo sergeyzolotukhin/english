@@ -66,9 +66,13 @@ class PatternTest {
 
 	@Test
 	void customParse() {
-		String text = ".";
+		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 
-		boolean find = Pattern.compile(END).matcher(text).find();
+		Matcher matcher = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH + "\\s*([а-яёА-ЯЁ'\\- ]+),\\s*").matcher(text);
+		boolean find = matcher.find();
+
+		log.info("group: {}", matcher.group(4));
+
 		Assertions.assertTrue(find, text);
 	}
 

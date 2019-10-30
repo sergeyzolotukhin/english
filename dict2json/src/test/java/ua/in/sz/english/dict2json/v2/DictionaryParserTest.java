@@ -1,19 +1,20 @@
 package ua.in.sz.english.dict2json.v2;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import ua.in.sz.english.dict2json.v2.model.Definition;
 import ua.in.sz.english.dict2json.v2.model.Word;
-import ua.in.sz.english.dict2json.v2.words.SinglePartOfSpeechWordParser;
 
 @Slf4j
-class WordParserTest {
+class DictionaryParserTest {
 
-	@Test
-	void parse() {
-		String text = "aard-wolf ['a:d,wulfj] n земляно'й волк.";
+	@ParameterizedTest
+	@CsvFileSource(resources = "/v2-definitions.txt", delimiter = '|')
+	void parse(String text) {
+		log.info("text: [{}]", text);
 
-		Parser parser = new SinglePartOfSpeechWordParser();
+		DictionaryParser parser = new DictionaryParser();
 		Word word = parser.parse(text);
 
 		print(word);

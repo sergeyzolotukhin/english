@@ -98,4 +98,17 @@ class PatternTest {
 		Assertions.assertTrue(find, text);
 	}
 
+	@Test
+	void namedCaptureGroupParse() {
+		String text = "teratology [terototaoi]  000-111-22-33 уро'дства. ";
+
+		Matcher matcher = Pattern.compile("\\[(?<transcription>[a-zA-Z]+)]\\s*(?<phone>[0-9\\-]+)").matcher(text);
+		boolean find = matcher.find();
+
+		log.info("transcription: {}", matcher.group("transcription"));
+		log.info("phone: {}", matcher.group("phone"));
+
+		Assertions.assertTrue(find, text);
+	}
+
 }

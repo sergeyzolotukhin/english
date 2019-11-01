@@ -8,7 +8,7 @@ import ua.in.sz.english.dict2json.model.Word;
 import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
 
 @Slf4j
-class WordParserTest {
+class SinglePartOfSpeechWordParserTest {
 
 	@Test
 	void oneMeaning() {

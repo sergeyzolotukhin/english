@@ -23,20 +23,15 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 @NoArgsConstructor
 public class SinglePartOfSpeechWordParser implements Parser {
 
-	private static final String MULTI_DEFINITION_PATTERN = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END;
-
-	private static final Pattern MULTI_DEFINITION = Pattern.compile(MULTI_DEFINITION_PATTERN);
-	private static final Pattern DEFINITION_NO_SPLIT = Pattern.compile("(?=(\\d+\\.))");
-	private static final Pattern DEFINITION = Pattern.compile("(\\d+)\\.\\s*(.*)");
-
-	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH  + MEANING + END);
+	private static final String REGEX = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END;
+	private static final Pattern PATTERN = Pattern.compile(REGEX);
 
 	public boolean isSupport(String text) {
-		return MULTI_DEFINITION.matcher(text).find();
+		return PATTERN.matcher(text).find();
 	}
 
 	public Word parse(String text) {
-		Matcher matcher = MULTI_DEFINITION.matcher(text);
+		Matcher matcher = PATTERN.matcher(text);
 
 		Word word = new Word();
 		if (matcher.find()) {

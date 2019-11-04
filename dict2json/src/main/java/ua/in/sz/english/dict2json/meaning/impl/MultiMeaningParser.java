@@ -19,9 +19,15 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.START;
 @Slf4j
 public class MultiMeaningParser implements Parser<List<String>> {
 	private static final String REGEX = START + "\\s+(\\s*" + MEANING + "\\s*,)+\\s*" + MEANING + "\\s*" + END +"$";
-	private static final Pattern PATTERN = Pattern.compile(REGEX);
+
+	private final Pattern PATTERN = Pattern.compile(getPattern());
 
 	private static final Pattern MEANING_PATTERN = Pattern.compile(MEANING);
+
+	@Override
+	public String getPattern() {
+		return REGEX;
+	}
 
 	@Override
 	public boolean isSupport(String text) {

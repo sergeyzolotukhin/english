@@ -8,6 +8,10 @@ import java.util.List;
 
 @Slf4j
 public class UnformattedMeaningParser implements Parser<List<String>> {
+	@Override
+	public String getPattern() {
+		return ".*";
+	}
 
 	@Override
 	public boolean isSupport(String text) {

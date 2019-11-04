@@ -24,7 +24,12 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 public class SinglePartOfSpeechWordParser implements Parser<Word> {
 
 	private static final String REGEX = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END;
-	private static final Pattern PATTERN = Pattern.compile(REGEX);
+
+	private final Pattern PATTERN = Pattern.compile(getPattern());
+
+	public String getPattern() {
+		return REGEX;
+	}
 
 	@Override
 	public boolean isSupport(String text) {

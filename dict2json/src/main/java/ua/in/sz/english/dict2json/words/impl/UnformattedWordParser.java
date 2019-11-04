@@ -8,6 +8,11 @@ import ua.in.sz.english.dict2json.Parser;
 public class UnformattedWordParser implements Parser<Word> {
 
 	@Override
+	public String getPattern() {
+		return ".*";
+	}
+
+	@Override
 	public boolean isSupport(String text) {
 		return true;
 	}

@@ -67,6 +67,17 @@ class DictionaryPatternTest {
 	}
 
 	@Test
+	void multiWordMeaningParse() {
+		String text = "     изу-ча'ющая врождённые уро'дства     ";
+
+		String regex = "^\\s*"+ MEANING + "\\s*$";
+		Matcher matcher = Pattern.compile(regex).matcher(text);
+
+		Assertions.assertTrue(matcher.find());
+		Assertions.assertEquals("изу-ча'ющая врождённые уро'дства", matcher.group(1));
+	}
+
+	@Test
 	void customParse() {
 		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 

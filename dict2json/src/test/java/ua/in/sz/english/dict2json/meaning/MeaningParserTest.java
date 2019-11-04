@@ -16,7 +16,8 @@ class MeaningParserTest {
 		List<String> meanings = parser.parse(text);
 
 		Assertions.assertEquals(1, meanings.size());
-		Assertions.assertEquals("изу-ча'ющая врождённые уро'дства", String.format("[%s]", meanings.get(0)));
+		Assertions.assertEquals("изу-ча'ющая врождённые уро'дства", meanings.get(0));
+
 		log.info("Meaning: {}", meanings);
 	}
 

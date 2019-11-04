@@ -12,7 +12,7 @@ import java.util.List;
 class MeaningParserTest {
 	@Test
 	void oneMeaning() {
-		String text = "     изу-ча'ющая врождённые уро'дства     ";
+		String text = "     изу-ча'ющая врождённые уро'дства     .";
 
 		MeaningParser parser = new MeaningParser();
 		List<String> meanings = parser.parse(text);
@@ -25,25 +25,9 @@ class MeaningParserTest {
 
 	@Test
 	void manyMeaning() {
-		String text = "      тератоло'гия, наука, изу-ча'ющая врождённые уро'дства   ";
+		String text = "      тератоло'гия, наука, изу-ча'ющая врождённые уро'дства   .";
 
 		MeaningParser parser = new MeaningParser();
-		List<String> meanings = parser.parse(text);
-
-		Assertions.assertEquals(3, meanings.size());
-		Assertions.assertEquals("тератоло'гия", meanings.get(0));
-		Assertions.assertEquals("наука", meanings.get(1));
-		Assertions.assertEquals("изу-ча'ющая врождённые уро'дства", meanings.get(2));
-	}
-
-	@Test
-	void manyMeaningParser() {
-		String text = "      тератоло'гия, наука, изу-ча'ющая врождённые уро'дства   ";
-
-		Parser<List<String>> parser = new MultiMeaningParser();
-
-		Assertions.assertTrue(parser.isSupport(text));
-
 		List<String> meanings = parser.parse(text);
 
 		Assertions.assertEquals(3, meanings.size());

@@ -6,8 +6,6 @@ import ua.in.sz.english.dict2json.Parser;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SingleMeaningParserTest {
 
 	@Test

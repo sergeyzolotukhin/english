@@ -3,8 +3,6 @@ package ua.in.sz.english.dict2json.meaning;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ua.in.sz.english.dict2json.Parser;
-import ua.in.sz.english.dict2json.meaning.impl.MultiMeaningParser;
 
 import java.util.List;
 

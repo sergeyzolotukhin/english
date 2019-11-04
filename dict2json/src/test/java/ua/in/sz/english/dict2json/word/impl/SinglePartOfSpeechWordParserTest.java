@@ -1,6 +1,7 @@
 package ua.in.sz.english.dict2json.word.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ua.in.sz.english.dict2json.Parser;
 import ua.in.sz.english.dict2json.model.Definition;
@@ -16,7 +17,13 @@ class SinglePartOfSpeechWordParserTest {
 		Parser<Word> parser = new SinglePartOfSpeechWordParser();
 		Word word = parser.parse(text);
 
-		print(word);
+		Assertions.assertEquals("aard-wolf", word.getWord());
+		Assertions.assertEquals(1, word.getDefinitions().size());
+
+		Definition definition = word.getDefinitions().get(0);
+		Assertions.assertEquals("'a:d,wulfj", definition.getTranscription());
+		Assertions.assertEquals("n", definition.getPartOfSpeech());
+		Assertions.assertEquals("земляно'й волк", definition.getText());
 	}
 
 	@Test
@@ -26,18 +33,11 @@ class SinglePartOfSpeechWordParserTest {
 		Parser<Word> parser = new SinglePartOfSpeechWordParser();
 		Word word = parser.parse(text);
 
-		print(word);
-	}
+		Assertions.assertEquals("teratology", word.getWord());
+		Assertions.assertEquals(3, word.getDefinitions().size());
 
-	// ================================================================================================================
-	// private methods
-	// ================================================================================================================
-
-	private void print(Word definition) {
-		log.info("word: {}", definition.getWord());
-
-		for (Definition def : definition.getDefinitions()) {
-			log.info("\t {}. {}", def.getNo(), def.getText());
-		}
+		Assertions.assertEquals("тератоло'гия", word.getDefinitions().get(0).getText());
+		Assertions.assertEquals("наука", word.getDefinitions().get(1).getText());
+		Assertions.assertEquals("изу-ча'ющая врождённые уро'дства", word.getDefinitions().get(2).getText());
 	}
 }

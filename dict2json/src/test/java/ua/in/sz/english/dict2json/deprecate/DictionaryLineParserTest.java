@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json;
+package ua.in.sz.english.dict2json.deprecate;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.params.ParameterizedTest;

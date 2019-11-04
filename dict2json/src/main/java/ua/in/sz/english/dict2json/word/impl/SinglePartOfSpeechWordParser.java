@@ -50,6 +50,8 @@ public class SinglePartOfSpeechWordParser implements Parser<Word> {
 			def.setPartOfSpeech(matcher.group(3));
 			def.setMeanings(Collections.singletonList(matcher.group(4)));
 
+			word.setDefinitions(Collections.singletonList(def));
+
 			return word;
 		} else {
 			throw new DictionaryParseException(text);

@@ -15,6 +15,9 @@ class SinglePartOfSpeechWordParserTest {
 		String text = "aard-wolf ['a:d,wulfj] n земляно'й волк.";
 
 		Parser<Word> parser = new SinglePartOfSpeechWordParser();
+
+		Assertions.assertTrue(parser.isSupport(text));
+
 		Word word = parser.parse(text);
 
 		Assertions.assertEquals("aard-wolf", word.getWord());
@@ -23,7 +26,7 @@ class SinglePartOfSpeechWordParserTest {
 		Definition definition = word.getDefinitions().get(0);
 		Assertions.assertEquals("'a:d,wulfj", definition.getTranscription());
 		Assertions.assertEquals("n", definition.getPartOfSpeech());
-		Assertions.assertEquals("земляно'й волк", definition.getText());
+		Assertions.assertEquals("земляно'й волк", definition.getMeanings().get(0));
 	}
 
 	@Test

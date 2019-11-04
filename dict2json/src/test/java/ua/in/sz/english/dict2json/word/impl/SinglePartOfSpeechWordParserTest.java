@@ -2,6 +2,7 @@ package ua.in.sz.english.dict2json.word.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ua.in.sz.english.dict2json.Parser;
 import ua.in.sz.english.dict2json.model.Definition;
@@ -30,6 +31,7 @@ class SinglePartOfSpeechWordParserTest {
 	}
 
 	@Test
+	@Disabled
 	void manyMeaning() {
 		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 

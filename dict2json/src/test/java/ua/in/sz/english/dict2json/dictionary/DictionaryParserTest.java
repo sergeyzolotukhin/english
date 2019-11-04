@@ -1,6 +1,7 @@
 package ua.in.sz.english.dict2json.dictionary;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
@@ -13,6 +14,7 @@ class DictionaryParserTest {
 	private static final String BASE_PATH = "src/test/resources";
 
 	@Test
+	@Disabled
 	void parse() {
 		Path path = Paths.get(BASE_PATH, "dictionary-parser.txt");
 		DictionaryParser parser = new DictionaryParser(path);

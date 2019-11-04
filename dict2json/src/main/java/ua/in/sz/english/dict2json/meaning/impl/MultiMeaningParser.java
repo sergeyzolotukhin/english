@@ -1,9 +1,11 @@
 package ua.in.sz.english.dict2json.meaning.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import ua.in.sz.english.dict2json.DictionaryParseException;
 import ua.in.sz.english.dict2json.Parser;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,8 +17,9 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.START;
 
 @Slf4j
 public class MultiMeaningParser implements Parser<List<String>> {
-	private static final String REGEX = START + "\\s+" + MEANING + "\\s*" + END;
+	private static final String REGEX = START + "\\s+(\\s*" + MEANING + "\\s*,)+";
 	private static final Pattern PATTERN = Pattern.compile(REGEX);
+	private static final Pattern MEANING_PATTERN = Pattern.compile(MEANING);
 
 	@Override
 	public boolean isSupport(String text) {
@@ -25,12 +28,18 @@ public class MultiMeaningParser implements Parser<List<String>> {
 
 	@Override
 	public List<String> parse(String text) {
-		Matcher matcher = PATTERN.matcher(text);
+		List<String> result = new ArrayList<>();
 
-		if (matcher.find()) {
-			return Collections.singletonList(matcher.group(1));
-		} else {
+		Matcher matcher = MEANING_PATTERN.matcher(text);
+
+		while (matcher.find()) {
+			result.add(matcher.group(1));
+		}
+
+		if (CollectionUtils.isEmpty(result)) {
 			throw new DictionaryParseException(text);
 		}
+
+		return result;
 	}
 }

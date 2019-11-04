@@ -8,6 +8,7 @@ public final class DictionaryPatterns {
 	public static final String PART_OF_SPEECH = "\\s*([а-яёА-ЯЁa-zA-Z]+)\\s+";
 	public static final String MEANING = "\\s*([а-яёА-ЯЁ'\\- ]+)\\s*";
 	public static final String TRANSCRIPTION = "\\s*\\[([a-zA-Z':, \\^]+)]\\s*";
+	public static final String START = "^";
 	public static final String END = "\\s*\\.\\s*";
 
 	public static final String RU_WORD = "^\\s*([а-яёА-ЯЁ\\-]+)\\s*";

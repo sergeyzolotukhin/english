@@ -3,8 +3,8 @@ package ua.in.sz.english.dict2json.words;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.DictionaryParseException;
+import ua.in.sz.english.dict2json.Parser;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.impl.MultiPartOfSpeechWordParser;
 import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
 import ua.in.sz.english.dict2json.words.impl.UnformattedWordParser;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 public class WordParser {
 
-	private List<Parser> parsers = getDefaultParsers();
+	private List<Parser<Word>> parsers = getDefaultParsers();
 
 	public Word parse(String text) {
 		return parsers.stream()
@@ -25,7 +25,7 @@ public class WordParser {
 				.orElseThrow(() -> new DictionaryParseException(text));
 	}
 
-	private List<Parser> getDefaultParsers() {
+	private List<Parser<Word>> getDefaultParsers() {
 		return Arrays.asList(
 				new SinglePartOfSpeechWordParser(),
 //				new MultiPartOfSpeechWordParser(),

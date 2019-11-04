@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.DictionaryParseException;
 import ua.in.sz.english.dict2json.model.Definition;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.Parser;
+import ua.in.sz.english.dict2json.Parser;
 
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -21,15 +21,17 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 @Slf4j
 @Getter
 @NoArgsConstructor
-public class SinglePartOfSpeechWordParser implements Parser {
+public class SinglePartOfSpeechWordParser implements Parser<Word> {
 
 	private static final String REGEX = WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END;
 	private static final Pattern PATTERN = Pattern.compile(REGEX);
 
+	@Override
 	public boolean isSupport(String text) {
 		return PATTERN.matcher(text).find();
 	}
 
+	@Override
 	public Word parse(String text) {
 		Matcher matcher = PATTERN.matcher(text);
 

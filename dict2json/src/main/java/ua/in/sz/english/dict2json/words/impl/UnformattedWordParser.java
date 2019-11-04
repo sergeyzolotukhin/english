@@ -2,10 +2,10 @@ package ua.in.sz.english.dict2json.words.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.Parser;
+import ua.in.sz.english.dict2json.Parser;
 
 @Slf4j
-public class UnformattedWordParser implements Parser {
+public class UnformattedWordParser implements Parser<Word> {
 
 	@Override
 	public boolean isSupport(String text) {

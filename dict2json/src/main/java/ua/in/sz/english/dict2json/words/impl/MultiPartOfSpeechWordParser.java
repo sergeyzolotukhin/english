@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.DictionaryParseException;
 import ua.in.sz.english.dict2json.model.Definition;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.Parser;
+import ua.in.sz.english.dict2json.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.WORD;
 @Slf4j
 @Getter
 @NoArgsConstructor
-public class MultiPartOfSpeechWordParser implements Parser {
+public class MultiPartOfSpeechWordParser implements Parser<Word> {
 
 	private static final String MULTI_DEFINITION_PATTERN = WORD + DEFINITION_NO + PART_OF_SPEECH + TRANSCRIPTION;
 
@@ -30,10 +30,12 @@ public class MultiPartOfSpeechWordParser implements Parser {
 	private static final Pattern DEFINITION = Pattern.compile("(\\d+)\\.\\s*(.*)");
 	private static final Pattern WORD_DEFINITION = Pattern.compile(WORD + "(.*)");
 
+	@Override
 	public boolean isSupport(String text) {
 		return MULTI_DEFINITION.matcher(text).find();
 	}
 
+	@Override
 	public Word parse(String text) {
 		Matcher matcher = WORD_DEFINITION.matcher(text);
 

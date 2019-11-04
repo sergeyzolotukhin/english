@@ -2,7 +2,6 @@ package ua.in.sz.english.dict2json;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import ua.in.sz.english.dict2json.words.Parser;
 import ua.in.sz.english.dict2json.model.Definition;
 import ua.in.sz.english.dict2json.model.Word;
 import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
@@ -14,7 +13,7 @@ class SinglePartOfSpeechWordParserTest {
 	void oneMeaning() {
 		String text = "aard-wolf ['a:d,wulfj] n земляно'й волк.";
 
-		Parser parser = new SinglePartOfSpeechWordParser();
+		Parser<Word> parser = new SinglePartOfSpeechWordParser();
 		Word word = parser.parse(text);
 
 		print(word);
@@ -24,7 +23,7 @@ class SinglePartOfSpeechWordParserTest {
 	void manyMeaning() {
 		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 
-		Parser parser = new SinglePartOfSpeechWordParser();
+		Parser<Word> parser = new SinglePartOfSpeechWordParser();
 		Word word = parser.parse(text);
 
 		print(word);

@@ -8,9 +8,14 @@ import ua.in.sz.english.dict2json.meaning.impl.UnformattedMeaningParser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MeaningParser {
 	private List<Parser<List<String>>> parsers = getDefaultParsers();
+
+	public List<String> getPattern() {
+		return parsers.stream().map(Parser::getPattern).collect(Collectors.toList());
+	}
 
 	public List<String> parse(String text) {
 		return parsers.stream()

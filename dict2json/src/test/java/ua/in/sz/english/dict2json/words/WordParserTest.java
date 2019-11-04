@@ -1,17 +1,16 @@
-package ua.in.sz.english.dict2json.deprecate;
+package ua.in.sz.english.dict2json.words;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import ua.in.sz.english.dict2json.words.WordParser;
 import ua.in.sz.english.dict2json.model.Definition;
 import ua.in.sz.english.dict2json.model.Word;
 
 @Slf4j
-class DictionaryLineParserTest {
+class WordParserTest {
 
 	@ParameterizedTest
-	@CsvFileSource(resources = "/definitions.txt", delimiter = '|')
+	@CsvFileSource(resources = "/word-parser.txt", delimiter = '|')
 	void parse(String text) {
 		log.info("text: [{}]", text);
 
@@ -20,6 +19,10 @@ class DictionaryLineParserTest {
 
 		print(word);
 	}
+
+	// ================================================================================================================
+	// private methods
+	// ================================================================================================================
 
 	private void print(Word definition) {
 		log.info("word: {}", definition.getWord());

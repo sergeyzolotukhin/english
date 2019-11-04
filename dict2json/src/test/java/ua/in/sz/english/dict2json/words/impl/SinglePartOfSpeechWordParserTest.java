@@ -1,11 +1,12 @@
-package ua.in.sz.english.dict2json.deprecate;
+package ua.in.sz.english.dict2json.words.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import ua.in.sz.english.dict2json.Parser;
 import ua.in.sz.english.dict2json.model.Definition;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class SinglePartOfSpeechWordParserTest {
@@ -29,6 +30,10 @@ class SinglePartOfSpeechWordParserTest {
 
 		print(word);
 	}
+
+	// ================================================================================================================
+	// private methods
+	// ================================================================================================================
 
 	private void print(Word definition) {
 		log.info("word: {}", definition.getWord());

@@ -1,4 +1,4 @@
-package ua.in.sz.english.dict2json.words.impl;
+package ua.in.sz.english.dict2json.word.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.model.Word;

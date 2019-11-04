@@ -1,12 +1,12 @@
-package ua.in.sz.english.dict2json.words;
+package ua.in.sz.english.dict2json.word;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.DictionaryParseException;
 import ua.in.sz.english.dict2json.Parser;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.impl.SinglePartOfSpeechWordParser;
-import ua.in.sz.english.dict2json.words.impl.UnformattedWordParser;
+import ua.in.sz.english.dict2json.word.impl.SinglePartOfSpeechWordParser;
+import ua.in.sz.english.dict2json.word.impl.UnformattedWordParser;
 
 import java.util.Arrays;
 import java.util.List;

@@ -10,8 +10,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.collections4.CollectionUtils;
+import ua.in.sz.english.dict2json.dictionary.DictionaryParser;
 import ua.in.sz.english.dict2json.model.Word;
-import ua.in.sz.english.dict2json.words.WordParser;
+import ua.in.sz.english.dict2json.word.WordParser;
 
 import java.nio.file.Paths;
 import java.util.List;

@@ -14,7 +14,7 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.*;
 @Slf4j
 @Tag("DEV")
 @DisplayName("Dictionary pattern development")
-class PatternTest {
+class DictionaryPatternTest {
 
 	@Test
 	void wordParse() {
@@ -57,11 +57,13 @@ class PatternTest {
 	}
 
 	@Test
-	void meaningParse() {
+	void oneMeaningParse() {
 		String text = " земляно'й волк ";
 
-		boolean find = Pattern.compile(MEANING).matcher(text).find();
-		Assertions.assertTrue(find, text);
+		Matcher matcher = Pattern.compile(MEANING).matcher(text);
+
+		Assertions.assertTrue(matcher.find());
+		Assertions.assertEquals("земляно'й волк", matcher.group(0));
 	}
 
 	@Test

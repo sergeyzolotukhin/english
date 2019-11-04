@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import ua.in.sz.english.dict2json.DictionaryParseException;
 import ua.in.sz.english.dict2json.Parser;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +14,7 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.MEANING;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.START;
 
 @Slf4j
-public class SingleMeaningParser implements Parser<String> {
+public class SingleMeaningParser implements Parser<List<String>> {
 	private static final String REGEX = START + MEANING + END;
 	private static final Pattern PATTERN = Pattern.compile(REGEX);
 
@@ -22,11 +24,11 @@ public class SingleMeaningParser implements Parser<String> {
 	}
 
 	@Override
-	public String parse(String text) {
+	public List<String> parse(String text) {
 		Matcher matcher = PATTERN.matcher(text);
 
 		if (matcher.find()) {
-			return matcher.group(1);
+			return Collections.singletonList(matcher.group(1));
 		} else {
 			throw new DictionaryParseException(text);
 		}

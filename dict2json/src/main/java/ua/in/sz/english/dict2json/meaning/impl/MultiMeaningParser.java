@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.END;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.MEANING;
 import static ua.in.sz.english.dict2json.DictionaryPatterns.START;
@@ -19,6 +20,7 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.START;
 public class MultiMeaningParser implements Parser<List<String>> {
 	private static final String REGEX = START + "\\s+(\\s*" + MEANING + "\\s*,)+\\s*" + MEANING + "\\s*" + END +"$";
 	private static final Pattern PATTERN = Pattern.compile(REGEX);
+
 	private static final Pattern MEANING_PATTERN = Pattern.compile(MEANING);
 
 	@Override
@@ -36,7 +38,7 @@ public class MultiMeaningParser implements Parser<List<String>> {
 			result.add(matcher.group(1));
 		}
 
-		if (CollectionUtils.isEmpty(result)) {
+		if (isEmpty(result)) {
 			throw new DictionaryParseException(text);
 		}
 

@@ -14,7 +14,7 @@ import static ua.in.sz.english.dict2json.DictionaryPatterns.*;
 @Slf4j
 @Tag("DEV")
 @DisplayName("Dictionary pattern development")
-class DictionaryPatternTest {
+class DictionaryPatternsTest {
 
 	@Test
 	void wordParse() {
@@ -100,7 +100,6 @@ class DictionaryPatternTest {
 
 	@Test
 	void repeatedMeaningsParse() {
-//		String text = "teratology [,tero 'totao^i] n тератоло'гия, наука, изу-ча'ющая врождённые уро'дства. ";
 		String text = "teratology [,tero 'totao^i] n изу-ча'ющая врождённые уро'дства. ";
 
 		Matcher matcher = Pattern.compile(WORD + TRANSCRIPTION + PART_OF_SPEECH + MEANING + END).matcher(text);

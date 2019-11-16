@@ -4,48 +4,34 @@ grammar Chat;
 package ua.in.sz.english.antlr;
 }
 
-/**
- * Parser Rules
- */
+// ====================================================================================================================
+// Parser Rules
+// ====================================================================================================================
 
 chat : line+ EOF ;
 
-line : name command message NEWLINE ;
+line : name command color message NEWLINE ;
 
 name : WORD WHITESPACE ;
 
-command : (SAYS | SHOUTS) ':' WHITESPACE ;
+command : (SAYS) ':' WHITESPACE ;
 
-message : (emoticon | link | color | mention | WORD | WHITESPACE)+ ;
+color : ( '/' WORD '/' )? ;
 
-emoticon : ':' '-'? ')'
-         | ':' '-'? '(' ;
+message : ( WORD | WHITESPACE)+ ;
 
-link : '[' TEXT ']' '(' TEXT ')' ;
-
-color : '/' WORD '/' message '/' ;
-
-mention : '@' + WORD ;
-
-
-/**
- * Lexer Rules
- */
+// ====================================================================================================================
+// Lexer Rules
+// ====================================================================================================================
 
 fragment A : ('A' | 'a') ;
 fragment S : ('S' | 's') ;
 fragment Y : ('Y' | 'y') ;
-fragment H : ('H' | 'h') ;
-fragment O : ('O' | 'o') ;
-fragment U : ('U' | 'u') ;
-fragment T : ('T' | 't') ;
 
 fragment LOWERCASE : [a-z] ;
 fragment UPPERCASE : [A-Z] ;
 
 SAYS : S A Y S ;
-
-SHOUTS : S H O U T S ;
 
 WORD : (LOWERCASE | UPPERCASE | '_')+ ;
 

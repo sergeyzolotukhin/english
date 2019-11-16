@@ -5,8 +5,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.io.IOException;
-
 @Slf4j
 public class AntlrApplication {
 	private static final String TEXT = "Serhij SAYS: /red/message/\n";

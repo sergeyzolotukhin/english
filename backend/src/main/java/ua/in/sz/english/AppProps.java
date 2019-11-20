@@ -21,6 +21,7 @@ public class AppProps {
     private String indexDirPath;
     @NotNull
     private WordStoreType wordStoreType;
+    private String author;
 
     private int bookParseQueueCapacity = 20;
     private int textParseQueueCapacity = 1000;
@@ -88,5 +89,13 @@ public class AppProps {
 
     public void setWordStoreType(WordStoreType wordStoreType) {
         this.wordStoreType = wordStoreType;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

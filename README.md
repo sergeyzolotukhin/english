@@ -45,3 +45,10 @@ https://github.com/huzheng001/stardict-3/blob/master/dict/doc/StarDictFileFormat
 https://www.baeldung.com/java-replace-if-statements
 https://blog.walterlv.com/post/framework-api-design-en.html
 https://github.com/Apress/pivotal-certified-pro-spring-dev-exam
+=======================================================================================================================
+Security
+https://habr.com/ru/post/444764/
+http://www.jasypt.org/non-default-providers.html
+https://www.baeldung.com/jasypt
+
+JASYPT_ENCRYPTOR_PASSWORD=<master password>

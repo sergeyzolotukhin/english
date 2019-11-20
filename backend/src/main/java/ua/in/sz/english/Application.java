@@ -23,6 +23,8 @@ public class Application extends WebMvcConfigurationSupport {
 
     @Value("classpath:word-data.json")
     private Resource dictionary;
+    @Value("${english.author}")
+    private String author;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -47,6 +49,8 @@ public class Application extends WebMvcConfigurationSupport {
     @Bean
     @ConditionalOnProperty(prefix = "english", name = "wordStoreType", havingValue = "mongo")
     public Jackson2RepositoryPopulatorFactoryBean mongoRespositoryPopulator() {
+        log.info("Author: {}", author);
+
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
         factory.setResources(new Resource[]{dictionary});
         return factory;

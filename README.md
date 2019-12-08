@@ -54,3 +54,6 @@ Security
 https://habr.com/ru/post/444764/
 http://www.jasypt.org/non-default-providers.html
 https://www.baeldung.com/jasypt
+
+https://www.baeldung.com/spring-boot-failure-analyzer
+

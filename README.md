@@ -57,6 +57,6 @@ https://www.baeldung.com/jasypt
 
 #### Config properties
 
-https://www.baeldung.com/spring-boot-failure-analyzer
-https://www.javaworld.com/article/2073030/organize-applications--multiple-environment-configurations.html
+    https://www.baeldung.com/spring-boot-failure-analyzer
+    https://www.javaworld.com/article/2073030/organize-applications--multiple-environment-configurations.html
 

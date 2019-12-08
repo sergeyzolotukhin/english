@@ -59,4 +59,7 @@ https://www.baeldung.com/jasypt
 
     https://www.baeldung.com/spring-boot-failure-analyzer
     https://www.javaworld.com/article/2073030/organize-applications--multiple-environment-configurations.html
+    http://www.cfg4j.org/releases/latest/#quick-start
+    https://potocki.io/post/141230472743/configuration-management-for-distributed-systems
+    
 

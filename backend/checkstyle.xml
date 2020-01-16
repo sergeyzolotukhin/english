@@ -13,9 +13,10 @@
     </module>
 
     <module name="TreeWalker">
+        <property name="tabWidth" value="5"/>
         <!-- LENGTH and CODING CHECKS -->
         <module name="LineLength">
-            <property name="max" value="120" default="120" />
+            <property name="max" value="121" default="120" />
             <property name="severity" value="error" />
             <property name="ignorePattern" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.ignorePattern}"
                       default="^(package .*;\s*)|(import .*;\s*)|( *\* *https?://.*)$" />

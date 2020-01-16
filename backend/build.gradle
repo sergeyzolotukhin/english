@@ -9,6 +9,7 @@ buildscript {
 
 plugins {
     id 'java'
+    id 'distribution'
     id 'checkstyle'
 }
 
@@ -31,8 +32,8 @@ repositories {
 }
 
 bootJar {
-    baseName = 'english-learn'
-    version = '0.1.0'
+    baseName('english')
+    version('0.1.0')
     from('../frontend/dist/static') {
         into 'static'
     }
@@ -46,8 +47,28 @@ test {
     useJUnitPlatform()
 }
 
+distributions {
+    //noinspection GroovyAssignabilityCheck
+    main {
+        baseName = 'english'
+        contents {
+            from 'src/cmd'
+            from bootJar
+        }
+    }
+}
+
 bootJar.dependsOn(checkstyleMain)
 bootJar.dependsOn(':frontend:assemble')
+
+task copy2bin(type: Copy) {
+    group = "distribution"
+
+    from file("$buildDir/install/english")
+    into file("$rootDir/.bin")
+}
+
+copy2bin.dependsOn(installDist)
 
 dependencyManagement {
     imports {

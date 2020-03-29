@@ -1,7 +1,7 @@
 grammar Chat;
 
 @header {
-package ua.in.sz.english.antlr;
+package ua.in.sz.english.dict2json.antlr;
 }
 
 // ====================================================================================================================

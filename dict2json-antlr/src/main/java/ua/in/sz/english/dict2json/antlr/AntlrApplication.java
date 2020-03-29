@@ -1,4 +1,4 @@
-package ua.in.sz.english.antlr;
+package ua.in.sz.english.dict2json.antlr;
 
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.CharStreams;

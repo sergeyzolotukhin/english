@@ -12,15 +12,15 @@ public class AntlrApplication {
 			"aard-wolf ['a:d,wulfj] n земляной волк.\n";
 
 	public static void main(String[] args) {
-		ChatLexer lexer = new ChatLexer(CharStreams.fromString(TEXT));
-		ChatParser parser = new ChatParser(new CommonTokenStream(lexer));
+		DictionaryLexer lexer = new DictionaryLexer(CharStreams.fromString(TEXT));
+		DictionaryParser parser = new DictionaryParser(new CommonTokenStream(lexer));
 
-		List<ChatParser.LineContext> lines = parser.word_definition().line();
+		List<DictionaryParser.DefinitionContext> definitions = parser.dictionary().definition();
 
-		for (ChatParser.LineContext line : lines) {
-			String word = line.single_part_of_speech_word().EN_WORD().getText();
-			String partOfSpeech = line.single_part_of_speech_word().PART_OF_SPEECH().getText();
-			String meaning = line.single_part_of_speech_word().MEANING().getText();
+		for (DictionaryParser.DefinitionContext definition : definitions) {
+			String word = definition.word().getText();
+			String partOfSpeech = definition.partOfSpeech().getText();
+			String meaning = definition.meaning().getText();
 
 			log.info("Word [{}] is part of speech [{}] and it have meaning [{}]",
 					word, partOfSpeech, meaning);

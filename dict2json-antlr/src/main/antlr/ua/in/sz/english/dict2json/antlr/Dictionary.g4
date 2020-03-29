@@ -1,4 +1,4 @@
-grammar Chat;
+grammar Dictionary;
 
 @header {
 package ua.in.sz.english.dict2json.antlr;
@@ -8,12 +8,13 @@ package ua.in.sz.english.dict2json.antlr;
 // Parser Rules
 // ====================================================================================================================
 
-word_definition : line+ EOF ;
+dictionary: definition+ EOF ;
+definition: word WHITESPACE transcription WHITESPACE partOfSpeech WHITESPACE meaning END NEWLINE;
 
-line : single_part_of_speech_word NEWLINE ;
-
-single_part_of_speech_word : EN_WORD WHITESPACE TRANSCRIPTION WHITESPACE PART_OF_SPEECH WHITESPACE MEANING END;
-
+word: EN_WORD;
+transcription: TRANSCRIPTION;
+partOfSpeech: PART_OF_SPEECH;
+meaning: MEANING;
 // ====================================================================================================================
 // Lexer Rules
 // ====================================================================================================================

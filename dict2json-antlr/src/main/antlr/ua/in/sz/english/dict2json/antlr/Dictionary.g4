@@ -20,20 +20,21 @@ meaning: MEANING;
 // ====================================================================================================================
 fragment DASH : '-';
 fragment DOT : '.';
-fragment NOUN : ('N' | 'n') ;
-fragment VERB : ('V' | 'v') ;
+fragment NOUN : ('N' | 'n');
+fragment VERB : ('V' | 'v');
 fragment EN_LETTER : [a-zA-Z];
-fragment RU_LETTER : [\u0400-\u04FF];
+fragment RU_LETTER : [\u0400-\u04FF'];
 
-NEWLINE : ('\r'? '\n' | '\r')+ ;
-WHITESPACE : (' ' | '\t')+ ;
+NEWLINE : ('\r'? '\n' | '\r')+;
+WHITESPACE : (' ' | '\t')+;
+COMMA : (',');
 
 PART_OF_SPEECH : ( NOUN | VERB ) ;
 
 EN_WORD : ( EN_LETTER | DASH )+;
 RU_WORD : ( RU_LETTER )+;
 
-MEANING : ( RU_WORD )+ ( WHITESPACE RU_WORD )*;
+MEANING : ( RU_WORD )+ ( (COMMA | WHITESPACE) WHITESPACE* RU_WORD )*;
 
 TRANSCRIPTION : ( '[' ~[\]]+ ']' )+;
 

@@ -8,8 +8,9 @@ import java.util.List;
 
 @Slf4j
 public class AntlrApplication {
-	private static final String TEXT =
-			"aard-wolf ['a:d,wulfj] n земляной волк.\n";
+	private static final String TEXT = "" +
+			"aard-wolf ['a:d,wulfj] n земляной волк.\n" +
+			"abashment [s'beejrmnt] n смуще'ние, замешательство.\n";
 
 	public static void main(String[] args) {
 		DictionaryLexer lexer = new DictionaryLexer(CharStreams.fromString(TEXT));

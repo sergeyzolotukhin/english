@@ -13,8 +13,10 @@ public class AntlrApplication {
 		ChatLexer lexer = new ChatLexer(CharStreams.fromString(TEXT));
 		ChatParser parser = new ChatParser(new CommonTokenStream(lexer));
 
-		ChatParser.LineContext lineCtx = parser.line();
+		ChatParser.LineContext line = parser.line();
 
-		log.info("Parsed");
+		String word = line.single_part_of_speech_word().EN_WORD().getText();
+
+		log.info("Parsed [{}]", word);
 	}
 }

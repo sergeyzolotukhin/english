@@ -32,8 +32,12 @@ frontend/node_modules/
 frontend/dist/
 /backend/build/*
 /backend/out/*
+
+# tools build directory
 /dict2json-regex/build/*
 /dict2json-regex/out/*
+/dict2json-antlr/build/*
+/dict2json-antlr/out/*
 
 /build/*
 /.gtm/

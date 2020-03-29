@@ -16,7 +16,10 @@ public class AntlrApplication {
 		ChatParser.LineContext line = parser.line();
 
 		String word = line.single_part_of_speech_word().EN_WORD().getText();
+		String partOfSpeech = line.single_part_of_speech_word().PART_OF_SPEECH().getText();
+		String meaning = line.single_part_of_speech_word().MEANING().getText();
 
-		log.info("Parsed [{}]", word);
+		log.info("Word [{}] is part of speech [{}] and it have meaning [{}]",
+				word, partOfSpeech, meaning);
 	}
 }

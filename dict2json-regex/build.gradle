@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'distribution'
-    id 'antlr'
 }
 
 version 'unspecified'
@@ -48,10 +47,6 @@ copy2bin.dependsOn(installDist)
 
 dependencies {
     compile 'commons-cli:commons-cli:1.4'
-
-    // parsing
-    antlr "org.antlr:antlr4:4.7.2"
-    compile "org.antlr:antlr4-runtime:4.7.2"
 
     // common utils
     compile 'com.google.guava:guava:28.0-jre'

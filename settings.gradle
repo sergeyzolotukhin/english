@@ -1,4 +1,4 @@
 include 'frontend'
 include 'backend'
-include 'dict2json'
+include 'dict2json-regex'
 

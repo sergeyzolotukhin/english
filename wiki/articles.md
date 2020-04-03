@@ -1,10 +1,20 @@
 #### Rules    
     
-    1. Articles belong in front of all other modifiers preceding a noun. 
+    PLACE
+    -------------------------------------------------------------------------------------------------------------------
+    1. Articles are special modifiers that appear before nouns or noun phrases
+    2. Articles belong in front of all other modifiers preceding a noun. 
         There are other special modifiers called determiners or markers that may appear in front of a noun phrase.
-    2. Do not use an article if you also intend to use any of the following markers directly before the noun: 
+
+    Do USE.
+    -------------------------------------------------------------------------------------------------------------------            
+    1. Rivers, mountain ranges, seas, and oceans should be preceded by the article THE
+        
+    Do NOT use
+    -------------------------------------------------------------------------------------------------------------------
+    1. Do not use an article if you also intend to use any of the following markers directly before the noun: 
         this, that, these, those, my, his, her, your, our, their, its, any, either, each, every, many, few, several, some, all.
-    3. Articles are special modifiers that appear before nouns or noun phrases
+    2. Do not place an article in front of the names of people.
     
     countable:
     -------------------------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ package ua.in.sz.english.dict2json.antlr;
 // ====================================================================================================================
 
 dictionary: definition+ EOF ;
-definition: word WHITESPACE transcription WHITESPACE partOfSpeech WHITESPACE meaning END NEWLINE;
+definition: word transcription partOfSpeech meaning END NEWLINE;
 
 word: EN_WORD;
 transcription: TRANSCRIPTION;
@@ -26,7 +26,7 @@ fragment EN_LETTER : [a-zA-Z];
 fragment RU_LETTER : [\u0400-\u04FF'];
 
 NEWLINE : ('\r'? '\n' | '\r')+;
-WHITESPACE : (' ' | '\t')+;
+WHITESPACE : [ \t]+ -> skip;
 COMMA : (',');
 
 PART_OF_SPEECH : ( NOUN | VERB ) ;

@@ -43,3 +43,7 @@ frontend/dist/
 /.gtm/
 
 *.djvu
+
+# Antlr
+
+dict2json-antlr/src/main/gen/

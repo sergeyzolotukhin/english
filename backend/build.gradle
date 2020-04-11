@@ -16,7 +16,6 @@ plugins {
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-
 group 'ua.in.sz.english'
 version '1.0-SNAPSHOT'
 
@@ -32,8 +31,8 @@ repositories {
 }
 
 bootJar {
-    baseName('english')
-    version('0.1.0')
+    archiveFileName = 'english'
+    archiveVersion = '0.1.0'
     from('../frontend/dist/static') {
         into 'static'
     }
@@ -50,7 +49,7 @@ test {
 distributions {
     //noinspection GroovyAssignabilityCheck
     main {
-        baseName = 'english'
+        distributionBaseName = 'english'
         contents {
             from 'src/cmd'
             from bootJar
@@ -77,30 +76,30 @@ dependencyManagement {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-batch"
-    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
-    compile "com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-batch"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2"
 
     // data processing
-    compile 'com.itextpdf:itextpdf:5.5.13.1'
-    compile 'org.apache.opennlp:opennlp-tools:1.9.1'
+    implementation 'com.itextpdf:itextpdf:5.5.13.1'
+    implementation 'org.apache.opennlp:opennlp-tools:1.9.1'
 
     // data store
-    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
-    compile "org.hsqldb:hsqldb"
-    compile 'org.apache.lucene:lucene-core:8.1.1'
-    compile 'org.apache.lucene:lucene-queryparser:8.1.1'
+    implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
+    implementation "org.hsqldb:hsqldb"
+    implementation 'org.apache.lucene:lucene-core:8.1.1'
+    implementation 'org.apache.lucene:lucene-queryparser:8.1.1'
 
     // common utils
-    compile 'com.google.guava:guava:28.0-jre'
-    compile 'org.apache.commons:commons-text:1.7'
-    compile 'org.apache.commons:commons-lang3:3.9'
-    compile 'commons-io:commons-io:2.6'
+    implementation 'com.google.guava:guava:28.0-jre'
+    implementation 'org.apache.commons:commons-text:1.7'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'commons-io:commons-io:2.6'
 
     // logging
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'org.fusesource.jansi:jansi:1.8'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.fusesource.jansi:jansi:1.8'
 
     // development
     compileOnly 'org.projectlombok:lombok:1.18.8'
@@ -108,8 +107,8 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     // testing
-    testCompile 'com.tngtech.archunit:archunit-junit5-api:0.11.0'
-    testCompile 'org.mockito:mockito-junit-jupiter:2.23.4'
-    testRuntime 'com.tngtech.archunit:archunit-junit5-engine:0.11.0'
-    testCompile 'org.junit.jupiter:junit-jupiter:5.5.1'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:2.23.4'
+    testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
 }

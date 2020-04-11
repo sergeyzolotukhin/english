@@ -26,7 +26,7 @@ import static java.util.Collections.unmodifiableMap;
 @Service
 @ConditionalOnProperty(prefix = "english", name = "wordStoreType", havingValue = "file")
 public class FileDictionaryService implements DictionaryService {
-	private static Pattern WORD_PATTERN = Pattern.compile("^(\\S+)(.*)");
+	private static final Pattern WORD_PATTERN = Pattern.compile("^(\\S+)(.*)");
 
 	@Value("classpath:dictionary.txt")
 	private Resource dictionary;

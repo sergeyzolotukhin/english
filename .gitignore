@@ -19,6 +19,7 @@ hs_err_pid*
 .idea/
 # gradle
 .gradle/
+!gradle/wrapper/gradle-wrapper.jar
 
 # application
 .bin/*

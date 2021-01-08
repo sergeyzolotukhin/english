@@ -40,3 +40,13 @@
 #### URLs
     
     https://advice.writing.utoronto.ca/english-language/articles/
+
+#### Determiner
+
+    articles: a,an,the
+    demonstratives: this, that, these, those
+    possessives: my, your, his, her, its, our, their, whose
+
+    quantifiers: all, few, many, any, much, several and some
+
+    https://www.englishclub.com/grammar/determiners-order.htm

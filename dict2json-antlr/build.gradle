@@ -15,7 +15,7 @@ repositories {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'ua.in.sz.english.dict2json.DictionaryToJson'
+                'Main-Class': 'ua.in.sz.english.dict2json.antlr.AntlrApplication'
         )
     }
 

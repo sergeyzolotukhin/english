@@ -16,7 +16,7 @@ public class AntlrApplication {
 			"abashment [s'beejrmnt] n смушение смуще'ние, замешательство.\n";
 
 	public static void main(String[] args) {
-		log.info("The charset of text [{}] is [{}]", TEXT, Charset.defaultCharset());
+		log.info("The charset of text is [{}]", Charset.defaultCharset());
 
 		DictionaryLexer lexer = new DictionaryLexer(CharStreams.fromString(TEXT));
 		DictionaryParser parser = new DictionaryParser(new CommonTokenStream(lexer));

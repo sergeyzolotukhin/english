@@ -16,11 +16,11 @@ public class AntlrApplication {
 
     public static void main(String[] args) {
         try {
-//            DictionaryLexer lexer = new DictionaryLexer(CharStreams.fromString(TEXT));
-            BailDictionaryLexer lexer = new BailDictionaryLexer(CharStreams.fromString(TEXT));
+            DictionaryLexer lexer = new DictionaryLexer(CharStreams.fromString(TEXT));
+//            BailDictionaryLexer lexer = new BailDictionaryLexer(CharStreams.fromString(TEXT));
             DictionaryParser parser = new DictionaryParser(new CommonTokenStream(lexer));
 //            BailDictionaryLexer parser = new DictionaryLexer(new CommonTokenStream(lexer));
-            parser.setErrorHandler(new BailErrorStrategy());
+//            parser.setErrorHandler(new BailErrorStrategy());
 
             List<DictionaryParser.DefinitionContext> definitions = parser.dictionary().definition();
 

@@ -8,6 +8,8 @@ Adverb - наречие
 Clauses - is a group of words that consists of a subject and a verb
 Phrase  - is a group of words without a subject-verb component, used as a single part of speech.
 
+Conjunctions are words that link other words, phrases, or clauses together.
+
 predicate - ?
 
 opinion - мнение, взгляд

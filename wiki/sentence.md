@@ -15,19 +15,10 @@ A According to the purpose of the utterance
 B According to the structure
     
     // TODO: 
-    
-THE COMPOSITE SENTENCE 
-    A clause is a part of a sentence, which has a subject and a predicate of its own
-    
-1. THE COMPOUND SENTENCE - coordination (a compound)
-        In a compound sentence the clauses may be connected:
-            a) syndetically 
-                (and, or, else, but etc), 
-                (otherwise, however, nevertheless, yet, still, therefore etc)
-            b) asyndetically - without a conjunction or a conjunctive adverb.
-3. THE COMPOUND SENTENCE - subordination (a complex)
 
+=======================================================================================================================
 ##### Basic English sentence structure
+=======================================================================================================================
 
 ### Word Order in Positive Sentences
     Subject–Verb
@@ -45,18 +36,32 @@ THE COMPOSITE SENTENCE
 
 ### Word Order in Subordinate Clauses
 
-### ????
+=======================================================================================================================
+THE COMPOSITE SENTENCE
+=======================================================================================================================
+
+    A clause is a part of a sentence, which has a subject and a predicate of its own
+    
+1. THE COMPOUND SENTENCE - coordination (a compound)
+        In a compound sentence the clauses may be connected:
+            a) syndetically 
+                (and, or, else, but etc), 
+                (otherwise, however, nevertheless, yet, still, therefore etc)
+            b) asyndetically - without a conjunction or a conjunctive adverb.
+3. THE COMPOUND SENTENCE - subordination (a complex)
+
+=======================================================================================================================
+### Questions
+=======================================================================================================================
+
     Subject–Verb–Adjective
     Subject–Verb–Adverb
     Subject–Verb–Noun
 
     subject – predicate – object – place – time
 
+    * What is Phrases?
+    * What is Clauses?
     * What is the predicate?
     * What is the Declarative Sentences?
-
-And as we discussed in chapter 1, 
-you’ll rarely understand the requirements completely or correctly at the start of a project, 
-and requirements and assumptions often change during the life of a project
-
-['ei riAmba'wAn]).
+    * What is the Indirect object and the Direct object?

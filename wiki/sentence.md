@@ -20,7 +20,7 @@ B According to the structure
 ##### Basic English sentence structure
 =======================================================================================================================
 
-### Word Order in Positive Sentences
+### Word Order in Positive Sentences (SVO - SVOMPT)
     Subject–Verb
     Subject–Verb–Object
     Subject-Verb-Object-Manner-[at,on,in,by?]-Place-[at,in,on?,by?]-Time
@@ -33,6 +33,7 @@ B According to the structure
         If the verb phrase does not already contain one of these verbs, then it is necessary to add the supporting auxiliary verb do.
 
 ### Word Order in Questions
+    interrogative-auxiliary verb-subject-other verb(s)-indirect object-direct object-place-time
 
 ### Word Order in Subordinate Clauses
 

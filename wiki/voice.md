@@ -14,10 +14,12 @@ When do I use passive voice?
     5. You want to emphasize the person or thing acted on (emphasize - подчеркнуть, акцентировать, выделять)
     6. You are writing in a scientific genre that traditionally relies on passive voice.
 
+=======================================================================================================================
 How to build a sentence?
 
     Subject + finite form of to be + v3
 
+=======================================================================================================================
 Present
     Indefinite / Simple
         образуется: am/is/are + v3

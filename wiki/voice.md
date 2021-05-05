@@ -52,3 +52,22 @@ v3 - Past Participle
 
 https://englex.ru/passive-voice/
 http://englishfox.ru/aktivnyj-i-passivnyj-zalog-v-anglijskom-yazyke.html
+
+=======================================================================================================================
+TO BE FORMS
+
+Present Tense
+    I am	        We are
+    You are	        You are
+    He/She/It is	They are
+
+Past Tense
+    I was	        We were
+    You were	    You were
+    He/She/It was	They were
+
+Perfect Form (past participle)
+    I have been, etc.
+
+Progressive Form (present participle)
+    I am being, etc.

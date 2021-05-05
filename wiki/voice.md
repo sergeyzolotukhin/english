@@ -16,7 +16,39 @@ When do I use passive voice?
 
 How to build a sentence?
 
-    Subject + finite form of to be + Past Participle
+    Subject + finite form of to be + v3
+
+Present
+    Indefinite / Simple
+        образуется: am/is/are + v3
+    Continuous / Progressive
+        образуется: am/is/are being + v3
+    Perfect
+        образуется: have/has been + v3
+    Perfect Continuous / Progressive
+        образуется: ???
+
+Past
+    Indefinite / Simple
+        образуется: was/were + v3
+    Continuous / Prоgressive
+        образуется: was/were being + v3
+    Perfect
+        образуется: had been + v3
+    Perfect Continuous / Progressive
+        образуется: ???
+
+Future - Будущее
+    Indefinite / Simple
+        образуется: will be + v3
+    Continuous / Progressive
+        образуется: will be being + v3
+    Perfect
+        образуется: will have been + v3
+    Perfect Continuous / Progressive
+        образуется: ???
+
+v3 - Past Participle
 
 https://englex.ru/passive-voice/
 http://englishfox.ru/aktivnyj-i-passivnyj-zalog-v-anglijskom-yazyke.html

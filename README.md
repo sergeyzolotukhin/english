@@ -25,8 +25,9 @@ https://stackoverflow.com/questions/37550560/why-is-react-webpack-production-bui
 https://babeljs.io/docs/en/6.26.3/babel-preset-react
 
 There is the gradle node plugins
-https://github.com/srs/gradle-node-plugin
-https://github.com/node-gradle/gradle-node-plugin
+    https://plugins.gradle.org/search?term=node
+    https://github.com/srs/gradle-node-plugin
+    https://github.com/node-gradle/gradle-node-plugin
 
 js libs: 
 axios - Promise based HTTP client for the browser and node.js

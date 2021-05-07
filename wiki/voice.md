@@ -68,8 +68,8 @@ Past Tense
     You were	    You were
     He/She/It was	They were
 
-Perfect Form (past participle)
-    I have been, etc.
-
 Progressive Form (present participle)
     I am being, etc.
+
+Perfect Form (past participle)
+    I have been, etc.

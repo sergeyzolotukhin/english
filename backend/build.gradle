@@ -40,6 +40,7 @@ bootJar {
 
 bootRun {
     group = APP_BACKEND_TASK_GROUP
+//    jvmArgs = ["--add-opens java.base/java.nio=ALL-UNNAMED"]
 }
 
 test {
@@ -82,7 +83,7 @@ dependencies {
     implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2"
 
     // data processing
-    implementation 'com.itextpdf:itextpdf:5.5.13.1'
+    implementation 'com.itextpdf:itextpdf:5.5.13.2'
     implementation 'org.apache.opennlp:opennlp-tools:1.9.1'
 
     // data store
@@ -102,8 +103,8 @@ dependencies {
     implementation 'org.fusesource.jansi:jansi:1.8'
 
     // development
-    compileOnly 'org.projectlombok:lombok:1.18.8'
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     // testing

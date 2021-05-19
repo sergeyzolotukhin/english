@@ -13,7 +13,9 @@ Conjunctions are words that link other words, phrases, or clauses together.
 predicate - ?
 
 opinion - мнение, взгляд
-Participle - причастие - форма глагола, обозначает признак предмета по действию (как прилогательное)
+
+Participle - are words derived from verbs that can function as ADJECTIVES
+             причастие - форма глагола, обозначает признак предмета по действию (как прилогательное)
 Participle I (v2, Present Participle) - причастие настоящего времени (v + ing)
 Participle II (v3, Past Participle) - Причастие прошедшего времени (v + ed)
 
